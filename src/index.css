@@ -5,9 +5,100 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #EDF1F9;
+  font-family: "Inter", sans-serif;
+  ;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.navbar {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.40799999237060547px;
+  text-align: center;
+
+}
+
+
+.author {
+  font-family: Inter;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: left;
+
+}
+
+.date,
+.metric {
+  font-family: Inter;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: left;
+
+}
+
+.date {
+  color: #898A8D;
+
+}
+
+.metric {
+  color: black
+}
+
+.login-bg {
+  background: #EDE8FC;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif !important;
+  z-index: 0;
+}
+
+.forgot-bg {
+  background: #BFB5DF;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif !important;
+  z-index: 0;
+}
+
+.custom-placeholder::placeholder {
+  color: #abb0ba !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 16px;
+}
+
+.react-tel-input .selected-flag {
+  outline:#898A8D;
+  position: relative;
+  height: 100%;
+  width: 100px !important;
+  padding: 0 11px !important;
+  border-radius: 3px 0 0 3px; 
+
+}
+
+.react-tel-input .flag-dropdown {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-right: 20px !important;
+  border-radius: 3px 0 0 3px;
+}
+
+.react-tel-input .form-control {
+  font-size: 16px;
+  background: #FFFFFF;
+  border: 1px solid #abb0ba;
+  border-radius: 5px;
+  width: 100% !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  outline: none;
+  transition: box-shadowease .25s, border-colorease .25s;
+  color: #495057;
 }
