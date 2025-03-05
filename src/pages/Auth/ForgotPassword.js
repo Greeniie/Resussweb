@@ -623,7 +623,7 @@ const ForgotPassword = () => {
 
           <div className="absolute top-[30px] right-[0px] overflow-hidden w-full">
             <img
-              src={forgot1}
+              src={forgot2}
               className="w-[420px] h-[640px] object-cover object-right max-w-none"
               alt="forgotpassword"
             />
