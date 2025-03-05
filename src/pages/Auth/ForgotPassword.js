@@ -120,7 +120,7 @@ const ForgotPassword = () => {
         </div>
 
         <div className="relative min-h-screen">
-          <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[50px] pt-[50px] overflow-y-auto">
+          <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[40px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[60px]">
               <div className="text-[#4fd6fa] text-[36px] font-semibold leading-[36px] ">
               Forgot Password
@@ -236,7 +236,7 @@ const ForgotPassword = () => {
         </div>
 
         <div className="relative min-h-screen">
-          <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[50px] pt-[50px] overflow-y-auto">
+          <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[40px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[60px]">
               <div className="flex gap-[10px] text-[#4fd6fa] text-[34px] font-semibold leading-[36px] ">
               <MailOutlined /> <span>Check your email</span>
@@ -352,7 +352,7 @@ const ForgotPassword = () => {
         </div>
 
         <div className="relative min-h-screen">
-          <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[50px] pt-[50px] overflow-y-auto">
+          <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[40px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[10px]">
               <div className="text-[#4fd6fa] text-[36px] font-semibold leading-[36px] ">
                 Verify
@@ -500,7 +500,7 @@ const ForgotPassword = () => {
           </div>
 
           <div className="relative min-h-screen">
-            <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[50px] pt-[50px] overflow-y-auto">
+            <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[40px] pt-[50px] overflow-y-auto">
               <div className="pt-[20px] pb-[40px]">
                 <div className="text-[#4fd6fa] text-[34px] font-semibold leading-[36px] ">
                   Set new password
@@ -630,9 +630,9 @@ const ForgotPassword = () => {
           </div>
 
           <div className="relative min-h-screen">
-            <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[50px] pt-[50px] overflow-y-auto">
+            <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[40px] pt-[50px] overflow-y-auto">
               <div className="pt-[20px] pb-[40px]">
-                <div className="flex gap-[10px] text-[34px] font-semibold leading-[36px] ">
+                <div className="flex gap-[10px] text-[30px] font-semibold leading-[36px] ">
                   <CheckCircleFilled style={{ color: "#4AC974" }} />
                   <span className="text-[#4fd6fa]">Reset Successful</span>
                 </div>
