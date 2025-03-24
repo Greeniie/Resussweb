@@ -71,8 +71,8 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
         <div className="px-[40px] pt-[30px] md:px-[50px] md:pt-[35px] md:px-[60px] md:pt-[40px]">
           <NavBar />
         </div>
-        <div className="hidden md:grid md:grid-cols-2 mt-[50px] gap-[140px]">
-          <div className="z-50 bg-white w-[130%] min-h-[480px] rounded-[30px] mx-auto px-[100px] py-[60px]">
+        <div className="hidden md:grid md:grid-cols-3 mt-[50px] gap-[30px] px-[60px]">
+          <div className="col-span-2 z-50 bg-white w-full min-h-[480px] rounded-[30px] mx-auto px-[100px] py-[60px]">
             <div className="text-[#4fd6fa] text-[27px] font-semibold">
               Your Location
             </div>
@@ -115,7 +115,7 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
             <TextArea rows={12} />
           </div>
 
-          <div className="form z-50 bg-white min-h-[480px] w-[80%] mb-[30px] rounded-[40px]  mx-auto px-[40px] py-[50px]">
+          <div className="form z-50 bg-white min-h-[480px] w-[100%] mb-[30px] rounded-[40px]  mx-auto px-[40px] py-[50px]">
             <div className="relative h-[300px] w-[300px] flex justify-center items-center">
               <img
                 src={pro7}
@@ -248,6 +248,31 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 Write your bio
               </div>
               <TextArea rows={12} />
+
+              <h2 className="text-[16px] font-bold text-[#DADADA] my-[20px]">
+                Your selected roles
+              </h2>
+              <div className="flex flex-col gap-[10px]">
+                {formData?.roles.length > 0 ? (
+                  formData?.roles.map((role, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between bg-[#F6E9FF] text-[#545454] px-[15px] py-[10px] rounded-[50px] "
+                    >
+                      <span>{role}</span>
+                      <span className="cursor-pointer">
+                        <div>
+                          <CloseCircleFilled
+                            style={{ fontSize: "20px", color: "#330066" }}
+                          />
+                        </div>
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-[#461378]">No roles selected</p>
+                )}
+              </div>
 
               <button
                 onClick={nextStep}

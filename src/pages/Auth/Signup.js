@@ -29,7 +29,7 @@ const Signup = () => {
     "Equipment",
     "Grip",
     "Hair & Makeup",
-    "location",
+    "Location",
     "Media Company",
     "Producer",
     "Post Production",

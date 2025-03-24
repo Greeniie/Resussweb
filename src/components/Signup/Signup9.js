@@ -183,10 +183,11 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
           <div className="absolute top-[20px] left-0 w-full min-h-[calc(100%-20px)] bg-white z-[999] rounded-t-[58px] px-[30px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[30px]">
               <div className="text-[#4fd6fa] text-[25px] font-semibold leading-snug">
-                Review
+                Confirm your profile
               </div>
               <div className="text-[#898A8D] text-[14px] pb-[20px]">
-                You can review your information
+              Discover the new talent, projects and collorate with talent across
+              Africa
               </div>
               <div className="relative h-[300px] w-[300px] flex justify-center items-center">
                 <img

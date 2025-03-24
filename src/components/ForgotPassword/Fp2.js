@@ -79,7 +79,7 @@ const Fp2 = ({nextStep}) => {
         <div className="relative min-h-screen">
           <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[40px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[60px]">
-              <div className="flex gap-[10px] text-[#4fd6fa] text-[34px] font-semibold leading-[36px] ">
+              <div className="flex gap-[10px] text-[#4fd6fa] text-[25px] font-semibold leading-[36px] ">
                 <MailOutlined /> <span>Check your email</span>
               </div>
               <div className="text-[#898A8D] text-[14px] pt-[30px]">
@@ -87,7 +87,7 @@ const Fp2 = ({nextStep}) => {
 
               </div>
             </div>
-            <button onClick={nextStep} className="bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium">
+            <button onClick={nextStep} className="bg-[#4FD6FA] rounded-[60px] w-full mb-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium">
                 Continue
               </button>
               <div className="text-[#b8b8b8] text-[16px] pt-[10px] pb-[30px]">

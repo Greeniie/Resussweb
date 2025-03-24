@@ -53,7 +53,7 @@ const Rp1 = ({nextStep}) => {
         </div>
 
         <div className="form z-50 bg-white min-h-[400px] w-[500px] rounded-[30px] md:rounded-[35px] md:rounded-[40px] border border-[#abb0ba] mx-auto mt-[100px] px-[40px] md:px-[50px] md:px-[60px] py-[30px] md:py-[35px] md:py-[40px]">
-          <div className="text-[#4fd6fa] text-[27px] font-semibold pb-[10px]">
+          <div className="text-[#4fd6fa] text-[25px] font-semibold pb-[10px]">
             Set new password
           </div>
           <div className="text-[#898A8D] text-[16px]">
@@ -142,7 +142,7 @@ const Rp1 = ({nextStep}) => {
               <div className="text-[#4fd6fa] text-[34px] font-semibold leading-[36px] ">
                 Set new password
               </div>
-              <div className="text-[#898A8D] text-[14px] pt-[15px]">
+              <div className="text-[#898A8D] text-[14px] pt-[5px]">
                 Must be at least 8 characters
               </div>
             </div>

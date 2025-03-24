@@ -33,7 +33,7 @@ const Signup8 = ({ nextStep, prevStep, formData, handleInputChange }) => {
         <div className="px-[40px] pt-[30px] md:px-[50px] md:pt-[35px] md:px-[60px] md:pt-[40px]">
           <NavBar />
         </div>
-        <div className="hidden md:grid md:grid-cols-3 my-[50px] gap-[10px]">
+        <div className="hidden md:grid md:grid-cols-3 my-[50px] gap-[30px] px-[60px]">
           <div className="z-50 col-span-2 bg-white w-full min-h-[400px] rounded-[30px] mx-auto px-[50px] py-[60px]">
             <div className="grid grid-cols-2 gap-[30px]">
               <div>
@@ -225,8 +225,11 @@ const Signup8 = ({ nextStep, prevStep, formData, handleInputChange }) => {
         <div className="relative min-h-screen ">
           <div className="absolute top-[20px] left-0 w-full min-h-[calc(100%-20px)] bg-white z-[999] rounded-t-[58px] px-[30px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[30px]">
-              <div className="text-[#4fd6fa] text-[25px] font-semibold leading-snug pb-[20px]">
+              <div className="text-[#4fd6fa] text-[25px] font-semibold leading-snug">
                 Review
+              </div>
+              <div className="text-[#898A8D] text-[14px] pb-[20px]">
+                You can review your information
               </div>
               <div className="relative h-[300px] w-[300px] flex justify-center items-center">
                 <img

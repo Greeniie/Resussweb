@@ -64,7 +64,7 @@ const Signup5 = ({
         <div className="px-[40px] pt-[30px] md:px-[50px] md:pt-[35px] md:px-[60px] md:pt-[40px]">
           <NavBar />
         </div>
-        <div className="hidden md:grid md:grid-cols-3 mt-[50px] gap-[20px]">
+        <div className="hidden md:grid md:grid-cols-3 mt-[50px] gap-[30px] px-[60px]">
           <div className="col-span-2">
             <div className="form z-50 bg-white min-h-[480px] rounded-[30px] mb-[30px] md:rounded-[35px] md:rounded-[40px]  mx-auto px-[30px] md:px-[50px] py-[30px] md:py-[35px]">
               <div className="flex items-center gap-[10px] text-[#4fd6fa] text-[27px] font-semibold">
