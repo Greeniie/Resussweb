@@ -10,6 +10,8 @@ import AuthRoutes from "./routes/AuthRoutes";
 import NotFoundPage from "./pages/ErrorPages/NotFoundPage";
 import Theme from "./theme";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import ResetPassword from "./pages/Auth/ResetPassword";
+import Home from "./pages/Home";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -39,13 +41,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/create-account" element={<Signup />} />
+          <Route path="/home" element={<Home />} />
 
           {/* Auth routes */}
           <Route path="/" element={<AuthRoutes />}>
             <Route path="/login" element={<Login />} />
-            
+
              <Route path="/forgot-password" element={<ForgotPassword />} />
-            {/* <Route path="/reset-confirmation" element={<ResetPassword />} /> */}
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="*" element={<NotFoundPage />} /> 
           </Route>
 

@@ -66,6 +66,11 @@ code {
   z-index: 0;
 }
 
+.signup-bg {
+  font-family: "Inter", sans-serif !important;
+}
+
+
 .custom-placeholder::placeholder {
   color: #abb0ba !important;
   font-family: "Inter", sans-serif !important;
@@ -73,12 +78,12 @@ code {
 }
 
 .react-tel-input .selected-flag {
-  outline:#898A8D;
+  outline: #898A8D;
   position: relative;
   height: 100%;
   width: 100px !important;
   padding: 0 11px !important;
-  border-radius: 3px 0 0 3px; 
+  border-radius: 3px 0 0 3px;
 
 }
 
@@ -101,4 +106,16 @@ code {
   outline: none;
   transition: box-shadowease .25s, border-colorease .25s;
   color: #495057;
+}
+
+.modal .modal-content {
+  width: 85% !important;
+  height: 450px !important;
+  margin: auto !important
+}
+
+.modalb .modal-content {
+  width: 85% !important;
+  height: 400px !important;
+  margin: auto !important
 }

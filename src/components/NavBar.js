@@ -7,7 +7,7 @@ const NavBar = () => {
       <nav className="navbar">
         <div className="flex justify-between items-center md:hidden">
           <div>
-            <img src={logo} className="h-[50px] w-auto" alt="logo" />
+            <img src={logo} className="h-[30px] w-auto" alt="logo" />
           </div>
          
         </div>

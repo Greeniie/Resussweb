@@ -91,7 +91,7 @@ const Login = () => {
         </div>
 
         {/* Image Container */}
-        <div className="absolute top-[30px] right-[-220px] overflow-hidden w-full">
+        <div className="absolute top-[-100px] right-[-220px] overflow-hidden w-full">
           <img
             src={login1}
             className="w-[420px] h-[640px] object-cover object-right max-w-none"
@@ -101,7 +101,7 @@ const Login = () => {
 
         {/* White Background Section */}
         <div className="relative min-h-screen">
-          <div className="absolute top-[300px] left-0 w-full min-h-[calc(100%-300px)] bg-white z-[999] rounded-t-[58px] px-[50px] pt-[50px] overflow-y-auto">
+          <div className="absolute top-[100px] left-0 w-full min-h-[calc(100%-100px)] bg-white z-[999] rounded-t-[58px] px-[50px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[60px]">
               <div className="text-[#4fd6fa] text-[36px] font-semibold leading-[36px] ">
                 Welcome back to Resuss
@@ -109,7 +109,7 @@ const Login = () => {
               <div className="text-[#898A8D] text-[18px] pt-[10px]">
                 Don't have an account?{" "}
                 <span>
-                  <Link to="/signup" className="no-underline text-[#6633FF]">
+                  <Link to="/create-account" className="no-underline text-[#6633FF]">
                     Click here
                   </Link>
                 </span>
@@ -150,7 +150,7 @@ const Login = () => {
                 </div>
               </Form.Group>
 
-              <button className="bg-[#4FD6FA] rounded-[60px] w-full mt-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium">
+              <button className="bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium">
                 Login
               </button>
             </Form>
