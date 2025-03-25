@@ -50,6 +50,9 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
     "Zamfara",
   ];
 
+  const { TextArea } = Input;
+
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -67,7 +70,6 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
     handleInputChange({ target: { name: "location", value } });
   };
 
-  const { TextArea } = Input;
 
   return (
     <div>
@@ -126,11 +128,7 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 className="object-cover object-center h-[300px] w-auto"
                 alt="profile"
               />
-              {/* File Upload Button */}
-              <label className="absolute bottom-[-20px] bg-[#330066] w-[40px] h-[40px] rounded-full flex justify-center items-center cursor-pointer">
-                <EditFilled className="text-white text-lg" />
-                <input type="file" className="hidden" />
-              </label>
+             
             </div>
 
             <div>
@@ -145,26 +143,26 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 Your selected roles
               </h2>
               <div className="flex flex-col gap-[10px]">
-                {formData?.roles.length > 0 ? (
-                  formData?.roles.map((role, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between bg-[#F6E9FF] text-[#545454] px-[15px] py-[10px] rounded-[50px] "
-                    >
-                      <span>{role}</span>
-                      <span className="cursor-pointer">
-                        <div>
-                          <CloseCircleFilled
-                            style={{ fontSize: "20px", color: "#330066" }}
-                          />
-                        </div>
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-[#461378]">No roles selected</p>
-                )}
-              </div>
+                  {formData?.roles.length > 0 ? (
+                    formData?.roles.map((role, index) => (
+                      <div
+                        key={index}
+                        className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
+                          index === 0
+                            ? "bg-[#461378] text-white"
+                            : "bg-[#F6E9FF] text-[#330066]"
+                        }`}
+                      >
+                        <span>{role}</span>
+                        <span className="cursor-pointer">
+                        
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-[#461378]">No roles selected</p>
+                  )}
+                </div>
 
               <button
                 onClick={nextStep}
@@ -199,11 +197,7 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                   className="object-cover object-center h-[300px] w-auto"
                   alt="profile"
                 />
-                {/* File Upload Button */}
-                <label className="absolute bottom-[-20px] bg-[#330066] w-[40px] h-[40px] rounded-full flex justify-center items-center cursor-pointer">
-                  <EditFilled className="text-white text-lg" />
-                  <input type="file" className="hidden" />
-                </label>
+             
               </div>
 
               <div>
@@ -257,26 +251,26 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 Your selected roles
               </h2>
               <div className="flex flex-col gap-[10px]">
-                {formData?.roles.length > 0 ? (
-                  formData?.roles.map((role, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between bg-[#F6E9FF] text-[#545454] px-[15px] py-[10px] rounded-[50px] "
-                    >
-                      <span>{role}</span>
-                      <span className="cursor-pointer">
-                        <div>
-                          <CloseCircleFilled
-                            style={{ fontSize: "20px", color: "#330066" }}
-                          />
-                        </div>
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-[#461378]">No roles selected</p>
-                )}
-              </div>
+                  {formData?.roles.length > 0 ? (
+                    formData?.roles.map((role, index) => (
+                      <div
+                        key={index}
+                        className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
+                          index === 0
+                            ? "bg-[#461378] text-white"
+                            : "bg-[#F6E9FF] text-[#330066]"
+                        }`}
+                      >
+                        <span>{role}</span>
+                        <span className="cursor-pointer">
+                        
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-[#461378]">No roles selected</p>
+                  )}
+                </div>
 
               <button
                 onClick={nextStep}
