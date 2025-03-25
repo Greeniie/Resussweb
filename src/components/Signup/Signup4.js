@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import {
@@ -11,13 +11,16 @@ import "react-phone-input-2/lib/bootstrap.css";
 import NavBar from "../NavBar";
 
 const Signup4 = ({ nextStep, prevStep }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [phone, setPhone] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [agree, setAgree] = useState(false);
 
   return (
     <div>
-      <div className="relative min-h-screen overflow-hidden login-bg hidden md:block">
+      <div className="relative min-h-screen overflow-y-auto login-bg hidden md:block">
         <div className="px-[40px] pt-[30px] md:px-[50px] md:pt-[35px] md:px-[60px] md:pt-[40px]">
           <NavBar />
         </div>

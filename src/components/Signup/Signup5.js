@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import profile from "../../assets/images/profile.png";
 
 import Form from "react-bootstrap/Form";
@@ -18,6 +18,13 @@ const Signup5 = ({
   formData,
   handleInputChange,
 }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const selectedRolesRef = useRef(null);
+  const [isStatusBoxVisible, setIsStatusBoxVisible] = useState(true);
+
   const [searchValue, setSearchValue] = useState("");
 
   const filteredRoles = roles.filter((role) =>
@@ -57,6 +64,30 @@ const Signup5 = ({
   };
 
   console.log(formData);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsStatusBoxVisible(!entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (selectedRolesRef.current) {
+      observer.observe(selectedRolesRef.current);
+    }
+
+    return () => {
+      if (selectedRolesRef.current) {
+        observer.unobserve(selectedRolesRef.current);
+      }
+    };
+  }, []);
+
+  const scrollToSelectedRoles = () => {
+    selectedRolesRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <div>
@@ -200,7 +231,21 @@ const Signup5 = ({
         <div className="px-[20px] pt-[20px]">
           <NavBar />
         </div>
-        <div className="relative min-h-screen ">
+
+        {/* Fixed Status and Scroll Button - Hidden when at bottom */}
+        {isStatusBoxVisible && (
+          <div className="fixed bottom-[40px] right-[10px] w-[60%] bg-[#330066] text-white px-4 py-2 rounded-full flex items-center justify-between gap-4 shadow-lg z-[1000]">
+            <span>{selectedRoles.length} roles selected</span>
+            <button
+              onClick={scrollToSelectedRoles}
+              className="bg-white text-[#330066] px-3 py-1 rounded-full"
+            >
+              ↓
+            </button>
+          </div>
+        )}
+
+        <div className="relative min-h-screen">
           <div className="absolute top-[20px] left-0 w-full min-h-[calc(100%-20px)] bg-white z-[999] rounded-t-[58px] px-[30px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[30px]">
               <div className="text-[#4fd6fa] text-[25px] font-semibold">
@@ -210,9 +255,9 @@ const Signup5 = ({
                 Select your role, you can select up to three roles that you want
               </div>
 
-              <Form.Group className="relative w-full mt-[20px] ">
+              {/* Search Input */}
+              <Form.Group className="relative w-full mt-[20px]">
                 <Form.Label>What do you do?</Form.Label>
-
                 <div className="absolute bottom-[10px] left-3 flex items-center text-[#abb0ba]">
                   <SearchOutlined style={{ fontSize: "20px" }} />
                 </div>
@@ -235,6 +280,7 @@ const Signup5 = ({
                 />
               </Form.Group>
 
+              {/* Role List */}
               {Object.keys(groupedFilteredRoles).length > 0 ? (
                 <div className="pb-[20px]">
                   {Object.keys(groupedFilteredRoles)
@@ -248,12 +294,11 @@ const Signup5 = ({
                           {groupedFilteredRoles[letter].map((role, index) => (
                             <div
                               key={index}
-                              className={`text-[14px] px-[20px] py-[5px] border rounded-[50px] cursor-pointer transition-all
-                    ${
-                      selectedRoles.includes(role)
-                        ? "bg-[#DFD1E7] text-[#461378] border-[#A388EE]"
-                        : "text-[#545454] border-[#dedede]"
-                    }`}
+                              className={`text-[14px] px-[20px] py-[5px] border rounded-[50px] cursor-pointer transition-all ${
+                                selectedRoles.includes(role)
+                                  ? "bg-[#DFD1E7] text-[#461378] border-[#A388EE]"
+                                  : "text-[#545454] border-[#dedede]"
+                              }`}
                               onClick={() => handleSelectRole(role)}
                             >
                               {role}
@@ -270,8 +315,9 @@ const Signup5 = ({
                 </div>
               )}
 
+              {/* Selected Roles */}
               <div className="border-t">
-                <div className="mt-[20px]">
+                <div className="mt-[20px]" ref={selectedRolesRef}>
                   <h2 className="text-[16px] font-bold text-[#DADADA] mb-[20px]">
                     Your selected roles
                   </h2>
@@ -280,7 +326,7 @@ const Signup5 = ({
                       selectedRoles.map((role, index) => (
                         <div
                           key={index}
-                          className="flex justify-between bg-[#F6E9FF] text-[#545454] px-[15px] py-[10px] rounded-[50px] "
+                          className="flex justify-between bg-[#F6E9FF] text-[#545454] px-[15px] py-[10px] rounded-[50px]"
                         >
                           <span>{role}</span>
                           <span className="cursor-pointer">
@@ -299,18 +345,16 @@ const Signup5 = ({
 
                   <button
                     onClick={nextStep}
-                    className="bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[50px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium"
+                    className="bg-[#4FD6FA] rounded-[50px] mb-[40px] w-full mt-[50px] p-[8px] text-[15px] text-white font-medium"
                   >
                     Continue
                   </button>
                   <div
                     onClick={prevStep}
-                    className=" cursor-pointer flex items-center gap-[10px] text-[#330066] text-[12px] md:text-[15px] md:text-[16px]"
+                    className="cursor-pointer flex items-center gap-[10px] text-[#330066] text-[12px]"
                   >
                     <ArrowLeftOutlined />
-                    <span>
-                      <div className="text-[#330066] text-[12px]">Go back</div>
-                    </span>
+                    <span>Go back</span>
                   </div>
                 </div>
               </div>

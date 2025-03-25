@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import pro7 from "../../assets/images/pro7.png";
 import thumb from "../../assets/images/thumb.png";
 import Form from "react-bootstrap/Form";
@@ -14,6 +14,9 @@ import NavBar from "../NavBar";
 
 const Signup8 = ({ nextStep, prevStep, formData, handleInputChange }) => {
   const info = ["tunde34@gmail.com", "080372233001", "dupefalnaX@flipzone.co"];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [show, setShow] = useState(false);
 
@@ -161,12 +164,6 @@ const Signup8 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                   <div className="text-[#330066] text-[12px]">Go back</div>
                 </span>
               </div>{" "}
-              <div
-                onClick={nextStep}
-                className="text-[#330066] text-[12px] cursor-pointer "
-              >
-                Skip
-              </div>
             </div>
           </div>
           <Modal
@@ -301,8 +298,7 @@ const Signup8 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 </div>
               </div>
               <div className="text-[#4fd6fa] text-[27px] font-semibold pt-[50px]">
-                Invite Talent{" "}
-                <span className="text-[20px] text-[#898A8D]">(optional)</span>
+                Invite Talent
               </div>
               <div className="text-[#898A8D] text-[16px] pt-[10px] pb-[20px]">
                 Invite friends and talents you've worked with and build your
@@ -352,12 +348,6 @@ const Signup8 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                     <div className="text-[#330066] text-[12px]">Go back</div>
                   </span>
                 </div>{" "}
-                <div
-                  onClick={nextStep}
-                  className="text-[#330066] text-[12px] cursor-pointer "
-                >
-                  Next
-                </div>
               </div>
             </div>
           </div>

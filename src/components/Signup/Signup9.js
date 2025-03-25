@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import pro7 from "../../assets/images/pro7.png";
 import finish from "../../assets/images/finish.png";
 
@@ -12,6 +12,9 @@ import Modal from "react-bootstrap/Modal";
 import NavBar from "../NavBar";
 
 const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
@@ -186,8 +189,8 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 Confirm your profile
               </div>
               <div className="text-[#898A8D] text-[14px] pb-[20px]">
-              Discover the new talent, projects and collorate with talent across
-              Africa
+                Discover the new talent, projects and collorate with talent
+                across Africa
               </div>
               <div className="relative h-[300px] w-[300px] flex justify-center items-center">
                 <img

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import signup6 from "../../assets/images/signup6.png";
 import pro6 from "../../assets/images/pro6.png";
 
@@ -10,6 +10,9 @@ import {
 import NavBar from "../NavBar";
 
 const Signup6 = ({ nextStep, prevStep, formData, handleInputChange }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <div className="relative min-h-screen overflow-hidden login-bg hidden md:block">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import pro7 from "../../assets/images/pro7.png";
 import Form from "react-bootstrap/Form";
 import { Select, Input } from "antd";
@@ -50,6 +50,10 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
     "Zamfara",
   ];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const locationOptions = locations.map((location) => ({
     value: location,
     label: location,
@@ -72,11 +76,11 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
           <NavBar />
         </div>
         <div className="hidden md:grid md:grid-cols-3 mt-[50px] gap-[30px] px-[60px]">
-          <div className="col-span-2 z-50 bg-white w-full min-h-[480px] rounded-[30px] mx-auto px-[100px] py-[60px]">
+          <div className="col-span-2 z-50 bg-white w-full min-h-[480px] rounded-[30px] mx-auto px-[100px] pt-[60px] ">
             <div className="text-[#4fd6fa] text-[27px] font-semibold">
               Your Location
             </div>
-            <div className="text-[#898A8D] text-[16px] pt-[10px] pb-[20px]">
+            <div className="text-[#898A8D] text-[16px] pb-[20px]">
               Add your location
             </div>
             <div className="relative w-[80%] mb-[60px]">
@@ -108,7 +112,7 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
             <div className="text-[#4fd6fa] text-[27px] font-semibold">
               Your Bio
             </div>
-            <div className="text-[#898A8D] text-[16px] pt-[10px] pb-[20px]">
+            <div className="text-[#898A8D] text-[16px] pb-[20px]">
               Write your bio
             </div>
 
@@ -208,7 +212,7 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 </div>
                 <div className="text-[#898A8D] text-[16px] pb-[20px]">08037227490</div>
               </div>
-              <div className="text-[#4fd6fa] text-[25px] font-semibold leading-snug pb-[20px]">
+              <div className="text-[#4fd6fa] text-[25px] font-semibold leading-snug">
                 Your Location
               </div>
               <div className="text-[#898A8D] text-[14px] pb-[20px]">
