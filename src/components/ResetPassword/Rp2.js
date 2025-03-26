@@ -35,7 +35,7 @@ const Rp2 = () => {
       <div className="form z-50 bg-white min-h-[300px] w-[500px] rounded-[30px] md:rounded-[35px] md:rounded-[40px] border border-[#abb0ba] mx-auto mt-[100px] px-[40px] md:px-[50px] md:px-[60px] py-[30px] md:py-[35px] md:py-[40px]">
         <div className="flex gap-[10px]  text-[27px] font-semibold pb-[20px]">
           <CheckCircleFilled style={{ color: "#4AC974" }} />
-          <span className="text-[#4fd6fa]">Reset Successful</span>
+          <span className="text-[#4fd6fa] text-[25px] font-semibold">Reset Successful</span>
         </div>
         <div className="text-[#898A8D] text-[16px] pb-[50px]">
           You can now log in to your account using your new password. Keep
@@ -69,9 +69,9 @@ const Rp2 = () => {
           <div className="pt-[20px] pb-[40px]">
             <div className="flex gap-[10px] text-[30px] font-semibold leading-[36px] ">
               <CheckCircleFilled style={{ color: "#4AC974" }} />
-              <span className="text-[#4fd6fa]">Reset Successful</span>
+              <span className="text-[#4fd6fa] text-[25px]">Reset Successful</span>
             </div>
-            <div className="text-[#898A8D] text-[14px] pt-[15px]">
+            <div className="text-[#898A8D] text-[14px] pt-[10px]">
               You can now log in to your account using your new password.
               Keep your account secure and enjoy using our platform.
             </div>

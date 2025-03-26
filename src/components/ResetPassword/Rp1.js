@@ -139,10 +139,10 @@ const Rp1 = ({nextStep}) => {
         <div className="relative min-h-screen">
           <div className="absolute top-[200px] left-0 w-full min-h-[calc(100%-200px)] bg-white z-[999] rounded-t-[58px] px-[40px] pt-[50px] overflow-y-auto">
             <div className="pt-[20px] pb-[40px]">
-              <div className="text-[#4fd6fa] text-[34px] font-semibold leading-[36px] ">
+              <div className="text-[#4fd6fa] text-[25px] font-semibold leading-[36px] ">
                 Set new password
               </div>
-              <div className="text-[#898A8D] text-[14px] pt-[5px]">
+              <div className="text-[#898A8D] text-[14px] pt-[10px]">
                 Must be at least 8 characters
               </div>
             </div>

@@ -82,7 +82,7 @@ const Fp2 = ({nextStep}) => {
               <div className="flex gap-[10px] text-[#4fd6fa] text-[25px] font-semibold leading-[36px] ">
                 <MailOutlined /> <span>Check your email</span>
               </div>
-              <div className="text-[#898A8D] text-[14px] pt-[30px]">
+              <div className="text-[#898A8D] text-[14px] pt-[10px]">
               We have sent password recovery instructions to your email.
 
               </div>

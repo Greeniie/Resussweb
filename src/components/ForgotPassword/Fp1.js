@@ -82,7 +82,7 @@ const Fp1 = ({ nextStep }) => {
               <div className="text-[#4fd6fa] text-[25px] font-semibold leading-[36px] ">
                 Forgot Password
               </div>
-              <div className="text-[#898A8D] text-[14px] pt-[30px]">
+              <div className="text-[#898A8D] text-[14px] pt-[10px]">
                 Please enter your email address, and we will send you
                 instructions about changing your password.
               </div>

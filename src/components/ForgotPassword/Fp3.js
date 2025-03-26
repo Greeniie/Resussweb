@@ -110,7 +110,7 @@ const Fp3 = ({nextStep}) => {
               <div className="text-[#4fd6fa] text-[25px] font-semibold leading-[36px] ">
                 Verify
               </div>
-              <div className="text-[#898A8D] text-[14px] pt-[30px]">
+              <div className="text-[#898A8D] text-[14px] pt-[10px]">
                 Enter OTP code sent to your email address
               </div>
             </div>
