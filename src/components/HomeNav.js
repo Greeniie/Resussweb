@@ -51,41 +51,42 @@ const HomeNav = () => {
   return (
     <nav className="navbar bg-[#fff]">
       <div className="flex justify-between items-center gap-[20px] py-[10px] md:hidden">
-      <div
-      className={`fixed top-0 left-0 w-full bg-white shadow-md transition-transform duration-300 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      }`}
-    >
-      <div className="flex justify-between items-center gap-[20px] py-[10px] md:hidden px-[10px]">
-        {/* Logo */}
-        <img src={mobilelogo} className="h-[30px] w-auto" alt="logo" />
+        <div
+          style={{ zIndex: "99" }}
+          className={`fixed top-0 left-0 w-full bg-white shadow-md transition-transform duration-300 ${
+            isVisible ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
+          <div className="flex justify-between items-center gap-[20px] py-[10px] md:hidden px-[10px]">
+            {/* Logo */}
+            <img src={mobilelogo} className="h-[30px] w-auto" alt="logo" />
 
-        {/* Search Bar */}
-        <Form.Group className="relative w-full">
-          <div className="absolute bottom-[5px] left-3 flex items-center text-[#abb0ba]">
-            <SearchOutlined style={{ fontSize: "20px" }} />
+            {/* Search Bar */}
+            <Form.Group className="relative w-full">
+              <div className="absolute bottom-[5px] left-3 flex items-center text-[#abb0ba]">
+                <SearchOutlined style={{ fontSize: "20px" }} />
+              </div>
+
+              {searchValue && (
+                <button
+                  className="absolute bottom-[5px] right-3 flex items-center cursor-pointer text-[#abb0ba]"
+                  onClick={() => setSearchValue("")}
+                >
+                  <CloseCircleOutlined />
+                </button>
+              )}
+
+              <Form.Control
+                type="text"
+                name="searchValue"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="Search"
+                className="border-[#6633FF] p-1 custom-placeholder ps-5"
+              />
+            </Form.Group>
           </div>
-
-          {searchValue && (
-            <button
-              className="absolute bottom-[5px] right-3 flex items-center cursor-pointer text-[#abb0ba]"
-              onClick={() => setSearchValue("")}
-            >
-              <CloseCircleOutlined />
-            </button>
-          )}
-
-          <Form.Control
-            type="text"
-            name="searchValue"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Search"
-            className="border-[#6633FF] p-1 custom-placeholder ps-5"
-          />
-        </Form.Group>
-      </div>
-    </div>
+        </div>
 
         <div
           style={{ zIndex: "99" }}
