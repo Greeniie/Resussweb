@@ -59,7 +59,7 @@ const Home = () => {
         )}
       </div>
 
-      <div className="bg-[#EDEBF4] h-screen block md:hidden">
+      <div className="bg-[#EDEBF4] min-h-screen overflow-y-auto block md:hidden">
         <HomeNav />
 
         <div className="mt-[30px] w-[90%] mx-auto">
@@ -101,7 +101,7 @@ const Home = () => {
           </div>
         </div>
         {activeTab === "1" && (
-          <div>
+          <div className="pb-[100px]">
             <Carousel />
             <div className="py-[15px] md:py-[30px]">
               <img
