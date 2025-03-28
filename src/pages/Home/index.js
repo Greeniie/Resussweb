@@ -10,6 +10,10 @@ import { Avatar } from "antd";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [activeTab, setActiveTab] = useState("1");
 
   const tabItems = [
