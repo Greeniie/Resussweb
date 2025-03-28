@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import mobilelogo from "../assets/mobilelogo.png";
@@ -26,22 +26,38 @@ const HomeNav = () => {
   const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
 
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
+  const lastScrollY = useRef(0);
+  const scrollTimeout = useRef(null);
 
+  useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > lastScrollY) {
-        // Scrolling down -> Hide the search bar
-        setIsVisible(false);
-      } else {
-        // Scrolling up -> Show the search bar
-        setIsVisible(true);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
       }
-      lastScrollY = window.scrollY;
+
+      requestAnimationFrame(() => {
+        if (window.scrollY > lastScrollY.current) {
+          setIsVisible(false);
+        } else {
+          setIsVisible(true);
+        }
+        lastScrollY.current = window.scrollY;
+      });
+
+      // Prevents flickering when scrolling stops
+      scrollTimeout.current = setTimeout(() => {
+        setIsVisible(true);
+      }, 150);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+    };
   }, []);
 
   const handleClear = () => {
