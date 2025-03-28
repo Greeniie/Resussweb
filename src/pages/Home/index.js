@@ -66,7 +66,7 @@ const Home = () => {
       <div className="bg-[#EDEBF4] min-h-screen overflow-y-auto block md:hidden">
         <HomeNav />
 
-        <div className="mt-[30px] w-[90%] mx-auto">
+        <div className="mt-[70px] w-[90%] mx-auto">
           <div className="flex items-center justify-between gap-[10px]">
             <div>
               <Avatar

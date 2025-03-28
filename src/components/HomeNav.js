@@ -65,19 +65,17 @@ const HomeNav = () => {
   };
 
   return (
-    <nav className="navbar bg-[#fff]">
-      <div className="flex justify-between items-center gap-[20px] py-[10px] md:hidden">
+    <nav className="homenavbar">
+      <div className="md:hidden">
         <div
           style={{ zIndex: "99" }}
-          className={`fixed top-0 left-0 w-full bg-white shadow-md transition-transform duration-300 ${
+          className={`fixed bg-[#fff] top-0 left-0 w-full transition-transform duration-300 ${
             isVisible ? "translate-y-0" : "-translate-y-full"
           }`}
         >
           <div className="flex justify-between items-center gap-[20px] py-[10px] md:hidden px-[10px]">
-            {/* Logo */}
             <img src={mobilelogo} className="h-[30px] w-auto" alt="logo" />
 
-            {/* Search Bar */}
             <Form.Group className="relative w-full">
               <div className="absolute bottom-[5px] left-3 flex items-center text-[#abb0ba]">
                 <SearchOutlined style={{ fontSize: "20px" }} />
@@ -103,7 +101,6 @@ const HomeNav = () => {
             </Form.Group>
           </div>
         </div>
-
         <div
           style={{ zIndex: "99" }}
           className="fixed bottom-0 left-0 w-full bg-white shadow-md py-2 flex justify-center"
@@ -160,7 +157,7 @@ const HomeNav = () => {
         </div>
       </div>
 
-      <div className="hidden md:flex md:justify-between md:items-center w-[90%] mx-auto py-[10px]">
+      <div className="hidden md:flex md:justify-between md:items-center w-full py-[20px] bg-[#fff] px-[50px]">
         <div className="flex gap-[80px] items-center">
           <img
             src={logo}
