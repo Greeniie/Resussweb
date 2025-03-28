@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import forgot1 from "../../assets/images/forgot1.png";
 import forgot2 from "../../assets/images/forgot2.png";
@@ -14,6 +14,9 @@ import {
 
 const Fp3 = ({nextStep}) => {
   const inputRefs = useRef([]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [otp, setOtp] = useState(["", "", "", ""]);
   const handleChange = (index, value) => {

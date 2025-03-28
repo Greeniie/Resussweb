@@ -9,6 +9,7 @@ const NavBar = () => {
           <div>
             <img src={logo} className="h-[30px] w-auto" alt="logo" />
           </div>
+          
          
         </div>
 

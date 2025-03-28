@@ -3,8 +3,6 @@ import { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import DashboardLayout from "../layout/DashboardLayout";
-
 const ProtectedRoutes = ({ ...rest }) => {
   const location = useLocation();
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -18,11 +16,9 @@ const ProtectedRoutes = ({ ...rest }) => {
   };
 
   return isLoggedIn ? (
-    <DashboardLayout>
-      <Suspense fallback={<Loading />}>
-        <Outlet />
-      </Suspense>
-    </DashboardLayout>
+    <Suspense fallback={<Loading />}>
+      <Outlet />
+    </Suspense>
   ) : (
     <Navigate to="/login" replace state={{ from: location }} />
   );

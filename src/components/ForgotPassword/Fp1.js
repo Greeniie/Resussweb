@@ -1,11 +1,68 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import forgot1 from "../../assets/images/forgot1.png";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { sendOTP } from "../../redux/authSlice";
+import { notification } from "antd";
+import { Spinner } from "react-bootstrap";
+
+const initialFormData = {
+  email: "",
+};
 
 const Fp1 = ({ nextStep }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const handleInputChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const clearFormData = () => {
+    setFormData({
+      email: "",
+    });
+  };
+
+  const onFinish = (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: formData.email,
+    };
+
+    setConfirmLoading(true);
+    dispatch(sendOTP(data)).then((response) => {
+      if (response.type === "auth/sendOTP/fulfilled") {
+        localStorage.setItem("email", response?.payload);
+        notification.success({
+          message: "OTP successfully sent to your email",
+        });
+        clearFormData();
+        setConfirmLoading(false);
+        nextStep();
+      } else {
+        notification.error({
+          message: "Error sending OTP, Please try again later",
+        });
+        setConfirmLoading(false);
+      }
+    });
+  };
+
   return (
     <div>
       <div className="relative min-h-screen overflow-hidden forgot-bg hidden md:block">
@@ -42,14 +99,16 @@ const Fp1 = ({ nextStep }) => {
                 name="title"
                 placeholder="Your email address"
                 className="border-[#abb0ba] p-2 custom-placeholder"
+                onChange={(evt) => handleInputChange(evt)}
               />
             </Form.Group>
 
             <button
-              onClick={nextStep}
+              onClick={onFinish}
               className="bg-[#4FD6FA] hover:bg-[#6633FF] rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full my-[40px] px-[10px] py-[12px] text-[16px] text-white font-medium"
             >
-              Reset Password
+              {confirmLoading ? "Please wait..." : "Reset Password"}
+              {confirmLoading ? <Spinner size="sm" /> : ""}
             </button>
           </Form>
           <div className="flex items-center gap-[10px] no-underline text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
@@ -94,15 +153,16 @@ const Fp1 = ({ nextStep }) => {
                   name="title"
                   placeholder="Your email address"
                   className="border-[#abb0ba] p-2 custom-placeholder"
-                  // onChange={(evt) => handleInputChange(evt)}
+                  onChange={(evt) => handleInputChange(evt)}
                 />
               </Form.Group>
 
               <button
-                onClick={nextStep}
+                onClick={onFinish}
                 className="bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium"
               >
-                Reset Password
+                {confirmLoading ? "Please wait..." : "Reset Password"}
+                {confirmLoading ? <Spinner size="sm" /> : ""}
               </button>
             </Form>
 

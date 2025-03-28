@@ -3,7 +3,7 @@ import ApiInstance from './apiInstance'
 import AutInstance from './authInstance'
 
 const signup = async (data) => {
-  const response = await ApiInstance.post('/admin/auth/signup', data)
+  const response = await ApiInstance.post('/user/auth/signup', data)
   if (response.data) {
     ExpirySession.set('user', response.data)
   }
@@ -11,7 +11,7 @@ const signup = async (data) => {
 }
 
 const login = async (data) => {
-  const response = await ApiInstance.post('/admin/auth/login', data)
+  const response = await ApiInstance.post('/user/auth/login', data)
   if (response?.data) {
     ExpirySession.set('user', response.data)
   }
@@ -27,12 +27,12 @@ const loginAsUser = async (data) => {
 }
 
 const resetPassword = async (data) => {
-  const response = await ApiInstance.post('/admin/auth/reset-password', data)
+  const response = await ApiInstance.post('/user/auth/reset-password', data)
   return response.data
 }
 
 const sendOTP = async (data) => {
-  const response = await ApiInstance.post('/admin/auth/send-password-resetotp', data)
+  const response = await ApiInstance.post('/user/auth/send-password-resetotp', data)
   return response.data
 }
 
@@ -43,7 +43,7 @@ const logout = () => {
 }
 
 const changePassword = async (data) => {
-  const response = await AutInstance.post(`/admin/change/password`, data)
+  const response = await AutInstance.post(`/user/change/password`, data)
   return response.data
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import forgot1 from "../../assets/images/forgot1.png";
 import forgot2 from "../../assets/images/forgot2.png";
@@ -17,6 +17,9 @@ import {
 const Rp1 = ({nextStep}) => {
 
     const inputRefs = useRef([]);
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");

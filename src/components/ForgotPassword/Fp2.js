@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import forgot1 from "../../assets/images/forgot1.png";
 
@@ -10,6 +10,10 @@ import {
 } from "@ant-design/icons";
 
 const Fp2 = ({nextStep}) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div>
       <div className="relative min-h-screen overflow-hidden forgot-bg hidden md:block">

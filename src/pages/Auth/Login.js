@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import login1 from "../../assets/images/login1.png";
 import login2 from "../../assets/images/login2.png";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/authSlice";
@@ -15,7 +15,12 @@ const Login = () => {
     password: "",
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -54,6 +59,7 @@ const Login = () => {
         if (response.type === "auth/login/fulfilled") {
           clearFormData();
           console.log("response act", response);
+          navigate("/home");
         } else if (response.type === "auth/login/rejected") {
           console.log("response act", response);
           setError({ error: true, message: response?.payload?.message });
@@ -61,7 +67,7 @@ const Login = () => {
       })
       .catch((error) => {
         setConfirmLoading(false);
-        console.log("error notification", "Error logging in, please try again");
+        console.log(error);
       });
   };
 
@@ -148,8 +154,13 @@ const Login = () => {
             </Form.Group>
 
             <button
+              disabled={!formData.email || !formData.password}
               onClick={userLogin}
-              className="flex justify-center items-center bg-[#4FD6FA] hover:bg-[#6633FF] rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full mt-[40px] py-[12px] px-[10px] text-[16px] text-white font-medium"
+              className={`flex justify-center items-center bg-[#4FD6FA] hover:brightness-90 rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full mt-[40px] py-[12px] px-[10px] text-[16px] text-white font-medium ${
+                !formData.email || !formData.password
+                  ? "cursor-default bg-[#ABB0BA] text-white hover:bg-[#ABB0BA]"
+                  : "cursor-pointer"
+              }`}
             >
               {confirmLoading ? "Signing in..." : "Login"}
               {confirmLoading ? <Spinner size="sm" /> : ""}
@@ -234,8 +245,13 @@ const Login = () => {
               </Form.Group>
 
               <button
+                disabled={!formData.email || !formData.password}
                 onClick={userLogin}
-                className="flex justify-center items-center bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium"
+                className={`flex justify-center items-center bg-[#4FD6FA] hover:brightness-90 rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium ${
+                  !formData.email || !formData.password
+                    ? "cursor-default bg-[#ABB0BA] text-white hover:bg-[#ABB0BA]"
+                    : "cursor-pointer"
+                }`}
               >
                 {confirmLoading ? "Signing in..." : "Login"}
                 {confirmLoading ? <Spinner size="sm" /> : ""}
