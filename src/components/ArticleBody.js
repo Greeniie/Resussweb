@@ -7,13 +7,13 @@ const ArticleBody = ({ goBack, singleData }) => {
   console.log(singleData);
 
   return (
-    <div className="bg-[#fff] mx-auto w-[90%] rounded-lg px-[20px] md:px-[50px] py-[20px] my-[100px] md:mt-0">
+    <div className="bg-[#fff] mx-auto w-[90%] rounded-lg px-[20px] md:px-[50px] py-[20px] md:py-[40px] my-[100px] md:mt-0">
       <div className="block md:grid md:grid-cols-3 gap-[50px] md:gap-[100px] pt-0 md:pt-[20px]">
         <div className="col-span-2">
         <button onClick={goBack} className="block md:hidden mb-[20px]">
               <ArrowLeftOutlined style={{ fontSize: "20px" }} />
             </button>
-          <div className="flex gap-[20px] items-start">
+          <div className="flex gap-[20px] items-start ">
             <button onClick={goBack} className="hidden md:block">
               <ArrowLeftOutlined style={{ fontSize: "50px" }} />
             </button>
@@ -115,7 +115,7 @@ const ArticleBody = ({ goBack, singleData }) => {
           </div>
         </div>
         <div className="col-span-1">
-          <div className="hidden md:block mt-[180px]">
+          <div className="hidden md:block mt-[120px]">
             <div className="text-[#330066] text-[18px] font-bold">Recent Jobs</div>
           </div>
         </div>
