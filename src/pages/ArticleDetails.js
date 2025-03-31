@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import HomeNav from "../components/HomeNav";
-import moment from "moment";
 import { getOneArticle } from "../redux/articleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ArticleBody from "../components/ArticleBody";
@@ -28,7 +27,7 @@ const ArticleDetails = () => {
   };
 
   return (
-    <div className="bg-[#EDEBF4] min-h-screen">
+    <div className="bg-[#EDEBF4] min-h-screen overflow-hidden">
       <HomeNav />
       <div className="py-[30px] hidden md:block">
         <img
@@ -37,20 +36,19 @@ const ArticleDetails = () => {
           className="h-[150px] w-auto mx-auto object-center object-cover"
         />
       </div>
-
-      <div className="border border-[red]">
-        {loading ? (
-          <div className="flex justify-center items-center py-10">
-            <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
-          </div>
-        ) : (
-          <div>
-            <ArticleBody goBack={goBack} singleData={singleData} />
-          </div>
-        )}
-      </div>
+  
+      {loading ? (
+        <div className="flex justify-center items-center h-screen">
+          <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+        </div>
+      ) : (
+        <div>
+          <ArticleBody goBack={goBack} singleData={singleData} />
+        </div>
+      )}
     </div>
   );
+  
 };
 
 export default ArticleDetails;

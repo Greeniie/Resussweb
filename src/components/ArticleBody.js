@@ -10,10 +10,14 @@ const ArticleBody = ({ goBack, singleData }) => {
     <div className="bg-[#fff] mx-auto w-[90%] rounded-lg px-[20px] md:px-[50px] py-[20px] my-[100px] md:mt-0">
       <div className="block md:grid md:grid-cols-3 gap-[50px] md:gap-[100px] pt-0 md:pt-[20px]">
         <div className="col-span-2">
+        <button onClick={goBack} className="block md:hidden mb-[20px]">
+              <ArrowLeftOutlined style={{ fontSize: "20px" }} />
+            </button>
           <div className="flex gap-[20px] items-start">
             <button onClick={goBack} className="hidden md:block">
               <ArrowLeftOutlined style={{ fontSize: "50px" }} />
             </button>
+           
             <div className="header text-[20px] md:text-[50px] font-bold leading-6 tracking-tight font-inter md:font-semibold md:leading-[63px] md:tracking-tighter text-left">
               {singleData.title}
             </div>
