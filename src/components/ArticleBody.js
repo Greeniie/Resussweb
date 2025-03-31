@@ -1,29 +1,37 @@
 import React from "react";
-import chat from "../assets/images/chat.svg.png";
-import like from "../assets/images/like.svg.png";
-import img2 from "../assets/images/img2.png";
-import img3 from "../assets/images/img3.png";
-import bimg from "../assets/images/bimg.svg.png";
+import moment from "moment";
+import parse from "html-react-parser";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
-const ArticleBody = () => {
+const ArticleBody = ({ goBack, singleData }) => {
+  console.log(singleData);
+
   return (
-    <div className="bg-[#fff] mx-[20px] rounded-lg px-[20px] md:px-[50px] py-[20px] my-[20px] md:my-0">
+    <div className="bg-[#fff] mx-auto w-[90%] rounded-lg px-[20px] md:px-[50px] py-[20px] my-[100px] md:mt-0">
       <div className="block md:grid md:grid-cols-3 gap-[50px] md:gap-[100px] pt-0 md:pt-[20px]">
         <div className="col-span-2">
-          <div className="header text-[20px] md:text-[50px] text-lg font-bold leading-6 tracking-tight  font-inter md:font-semibold md:leading-[63px] md:tracking-tighter text-left">
-            The Perils and Journey of a Creative in Nigeria: Nollywood's Wild
-            Ride
+          <div className="flex gap-[20px] items-start">
+            <button onClick={goBack} className="hidden md:block">
+              <ArrowLeftOutlined style={{ fontSize: "50px" }} />
+            </button>
+            <div className="header text-[20px] md:text-[50px] font-bold leading-6 tracking-tight font-inter md:font-semibold md:leading-[63px] md:tracking-tighter text-left">
+              {singleData.title}
+            </div>
           </div>
-          <div className="flex justify-between items-center py-[30px]">
-            <div className="block md:flex md:items-center gap-[20px]">
-              <div className="author text-[10px] md:text-[16px]">
-                Tunde Bandejo
-              </div>
-              <div className="date text-[10px] md:text-[16px]">
-                March 4, 2024 
+
+          <div className="ml-0 md:ml-[80px] flex justify-between items-center pt-[5px] py-[30px]">
+            <div className="">
+              {/* <div className="author text-[10px] pb-[5px] md:text-[16px]">
+                by Tunde Bandejo
+              </div> */}
+              <div className="text-[10px] md:text-[16px] text-[#ABB0BA]">
+                Updated{" "}
+                {moment(singleData.created_at).format(
+                  "h:mm A [GMT+1], ddd MMMM D, YYYY"
+                ) || ""}
               </div>
             </div>
-            <div className="flex gap-[10px] md:gap-[20px]">
+            {/* <div className="flex gap-[10px] md:gap-[20px]">
               <div className="flex items-center gap-[5px] md:gap-[10px]">
                 <div>
                   <img src={chat} alt="chat" className="h-[10px] md:h-[30px]" />
@@ -36,41 +44,76 @@ const ArticleBody = () => {
                 </div>
                 <div className="text-[11px] md:text-[16px]">14k</div>
               </div>
-            </div>
+            </div> */}
           </div>
-          <div>
+          <div className="ml-0 md:ml-[80px]">
             <div>
-              <img src={img2} alt="pic2" />
+              <img
+                src={singleData?.image_path}
+                alt="pic2"
+                className="rounded-lg"
+              />
             </div>
-            <div className="py-[20px] md:py-[50px] body text-[14px] md:text-[24px] font-inter text-base font-normal leading-5 text-left md:text-2xl md:font-normal md:leading-[44px] md:tracking-tight">
-              In the chaotic, vibrant world of Nigeria's creative scene, every
-              aspiring artist, filmmaker, and storyteller embarks on a
-              rollercoaster journey fraught with excitement, challenges, and the
-              occasional absurdity that only Nollywood can offer. Welcome to the
-              wild west of creativity, where the line between dreams and reality
-              blurs, and every setback is just another twist in the plot. Of
-            </div>
+
+            {singleData?.content ? (
+              <div className="py-[20px] body text-[14px]  font-inter text-base font-normal leading-3 text-left md:text-[18px] md:font-normal md:leading-[35px] md:tracking-tight">
+                {singleData?.content}
+              </div>
+            ) : (
+              <div>
+                {singleData?.article_content?.map((article) => (
+                  <div>
+                    <div className="py-[20px] body text-[14px]  font-inter text-base font-normal leading-3 text-left md:text-[18px] md:font-normal leading-[25px] md:leading-[35px] md:tracking-tight">
+                      {parse(article?.content_body, {
+                        replace: (domNode) => {
+                          if (
+                            domNode.name === "a" &&
+                            domNode.attribs &&
+                            domNode.attribs.href
+                          ) {
+                            // Ensure that external links are properly formatted
+                            if (!domNode.attribs.href.startsWith("http")) {
+                              domNode.attribs.href = `http://${domNode.attribs.href}`;
+                            }
+                          }
+                          return domNode;
+                        },
+                      })}
+                    </div>
+                    <div className="flex justify-start">
+                      {article?.content_image_url && (
+                        <img
+                          className=" h-[400px] w-[400px] object-contain mb-3"
+                          src={article?.content_image_url}
+                          alt="article image"
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <div>
-              <img src={img3} alt="pic3" />
-            </div>
-            <div className="py-[20px] md:py-[50px] body text-[14px] md:text-[24px] font-inter text-base font-normal leading-5 text-left md:text-2xl md:font-normal md:leading-[44px] md:tracking-tight">
-              There are many young creatives, armed with nothing but a dream and
-              a smartphone. They set out to conquer the Nigerian creative space,
-              fueled by passion and a relentless drive to express themselves in
-              ways that resonate with the masses. But as they dive headfirst
-              into the fray, they quickly realize that navigating the tumultuous
-              waters of the Nigerian creative scene is no easy feat. The reality
-              sets in. The myths and stories of politics and games they have
-              always heard and read about in the creative industry begin to play
-              out before their very eyes.
+              {singleData?.video_link && (
+                <div style={{ marginTop: "50px" }}>
+                  <iframe
+                    width="560"
+                    height="315"
+                    src={singleData?.video_link?.replace("watch?v=", "embed/")}
+                    // frameBorder="0"
+                    allowFullScreen
+                    title={`YouTube Video ${singleData?.id}`}
+                  ></iframe>
+                </div>
+              )}
             </div>
           </div>
         </div>
         <div className="col-span-1">
-          <button className="hidden bg-[#461378] text-[#fff] rounded px-[20px] py-[10px] md:flex md:items-center md:gap-[8px]">
-            <div>Go to App</div>
-            <img src={bimg} className="h-[20px] w-auto" alt="bimg" />{" "}
-          </button>
+          <div className="hidden md:block mt-[180px]">
+            <div className="text-[#330066] text-[18px] font-bold">Recent Jobs</div>
+          </div>
         </div>
       </div>
     </div>

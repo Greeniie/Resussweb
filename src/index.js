@@ -7,13 +7,14 @@ import { Provider } from 'react-redux'
 import { Suspense, lazy } from 'react'
 import { Spin } from 'antd'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Spinner from './utils/Spinner'
 
 const App = lazy(() => import('./App'))
 
 const Loading = () => {
   return (
-    <div className='spin'>
-      <Spin />
+    <div>
+      <Spinner />
     </div>
   )
 }

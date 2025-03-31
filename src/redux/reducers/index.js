@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import auth from "../authSlice";
 import app from "../appSlice";
-import clients from "../clientSlice";
+import users from "../clientSlice";
 import transactions from "../transactionSlice";
 import profile from "../profileSlice";
 import articles from "../articleSlice";
@@ -21,7 +21,7 @@ import referrals from "../referralSlice";
 const rootReducer = combineReducers({
   auth,
   app,
-  clients,
+  users,
   transactions,
   profile,
   articles,

@@ -118,3 +118,13 @@ code {
   height: 400px !important;
   margin: auto !important
 }
+
+.range-slider .range-slider__thumb,
+.range-slider .range-slider__range {
+
+  background: #9900FF !important;
+}
+
+.body p {
+  margin-bottom: 0 !important;
+}

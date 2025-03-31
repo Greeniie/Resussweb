@@ -1,12 +1,12 @@
 import AuthAPI from "./authInstance";
 
 const getAll = async (data) => {
-  const response = await AuthAPI.get(`/admin/client/list`);
+  const response = await AuthAPI.get(`/user/talent/all`);
   return response.data;
 };
 
 const getOne = async (data) => {
-  const response = await AuthAPI.get(`/admin/client/show/${data}`);
+  const response = await AuthAPI.get(`/user/talent/get-one/${data}`);
   return response.data;
 };
 

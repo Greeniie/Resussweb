@@ -3,11 +3,11 @@ import { clientService } from '../services/clients.service'
 
 
 export const getAllClients = createAsyncThunk(
-  'clients/getAll',
+  'talents/getAll',
   async (_, { rejectWithValue }) => {
     try {
       const response = await clientService.getAll()
-      return response.data
+      return response
     } catch (error) {
       return rejectWithValue(error?.response?.data)
     }
@@ -15,7 +15,7 @@ export const getAllClients = createAsyncThunk(
 )
 
 export const getOneClient = createAsyncThunk(
-  'clients/getOne',
+  'talents/getOne',
   async (data, { rejectWithValue }) => {
     try {
       const response = await clientService.getOne(data)
@@ -48,7 +48,7 @@ const initialState = {
 }
 
 const slice = createSlice({
-  name: 'clients',
+  name: 'users',
   initialState,
   reducers: {
     checkAll: (state) => {
@@ -107,5 +107,5 @@ const slice = createSlice({
   },
 })
 
-export const { resetSelectedPhysician } = slice.actions
+export const { resetSingleData } = slice.actions
 export default slice.reducer

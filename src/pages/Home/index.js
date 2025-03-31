@@ -5,11 +5,27 @@ import ad from "../../assets/testimgs/ad.png";
 import messages from "../../assets/menu-icons/messages.png";
 import Articles from "../../components/Articles";
 import TalentSpotlight from "../../components/TalentSpotlight";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { Link } from "react-router-dom";
+import TalentFilters from "../../components/TalentFilters";
+import TalentList from "../../components/TalentList";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllClients } from "../../redux/clientSlice";
+import { getAllArticles } from "../../redux/articleSlice";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { articles, users } = useSelector((state) => state);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isTalentsLoading, setIsTalentsLoading] = useState(true);
+
+  useEffect(() => {
+    dispatch(getAllArticles()).finally(() => setIsLoading(false));
+    dispatch(getAllClients()).finally(() => setIsTalentsLoading(false));
+  }, [dispatch]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -24,7 +40,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="bg-[#EDEBF4] hidden md:block">
+      <div className="bg-[#EDEBF4] min-h-screen hidden md:block">
         <HomeNav />
 
         <div className="mt-[30px] w-fit mx-auto flex gap-[20px] items-center bg-white p-[3px] rounded-lg">
@@ -52,13 +68,54 @@ const Home = () => {
             <div className="grid grid-cols-3 gap-[50px] w-[90%] mx-auto">
               <div className="col-span-2">
                 <div className="text-[#4FD6FA] text-[16px] ">Spotlight</div>
-                <Articles />
+                {isLoading ? (
+                  <div className="flex justify-center items-center py-10">
+                    <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+                  </div>
+                ) : (
+                  <Articles articles={articles?.data?.Articles || []} />
+                )}
               </div>
               <div>
                 <div className="text-[#AF98BF] text-[16px] ">Spotlight</div>
                 <TalentSpotlight />
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === "2" && (
+          <div className="grid grid-cols-4 min-h-screen w-[90%] gap-[20px] mx-auto mt-[50px]">
+            <div>
+              {isTalentsLoading ? (
+                <div className="flex justify-center items-center py-10">
+                  <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+                </div>
+              ) : (
+                <TalentFilters />
+              )}
+            </div>
+            <div className="col-span-3">
+              {isTalentsLoading ? (
+                <div className="flex justify-center items-center py-10">
+                  <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+                </div>
+              ) : (
+                <TalentList talents={users?.data?.users || []} />
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "3" && (
+          <div className="flex flex-col items-center justify-center min-h-[80vh] text-center text-gray-800 px-4">
+            {/* Heading */}
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              🚀 Coming Soon
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-lg">
+              We're working on something amazing. Stay tuned!
+            </p>
           </div>
         )}
       </div>
@@ -119,9 +176,41 @@ const Home = () => {
                 <div className="text-[#4FD6FA] text-[16px] mb-3 md:mb-0">
                   Spotlight
                 </div>
-                <Articles />
+                {isLoading ? (
+                  <div className="flex justify-center items-center py-10">
+                    <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+                  </div>
+                ) : (
+                  <Articles articles={articles?.data?.Articles || []} />
+                )}
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === "2" && (
+          <div className="">
+            <div>
+              {isTalentsLoading ? (
+                <div className="flex justify-center items-center py-10">
+                  <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+                </div>
+              ) : (
+                <TalentList talents={users?.data?.users || []} />
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "3" && (
+          <div className="flex flex-col items-center justify-center min-h-[80vh] text-center text-gray-800 px-4">
+            {/* Heading */}
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              🚀 Coming Soon
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-lg">
+              We're working on something amazing. Stay tuned!
+            </p>
           </div>
         )}
       </div>

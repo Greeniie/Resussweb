@@ -1,38 +1,31 @@
 import "antd/dist/antd.variable.min.css";
 import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
-import { Spin } from "antd";
 
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import AuthRoutes from "./routes/AuthRoutes";
 
 import NotFoundPage from "./pages/ErrorPages/NotFoundPage";
-import Theme from "./theme";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import Home from "./pages/Home";
 import Resources from "./pages/Resources";
+import Spinner from "./utils/Spinner";
+import ArticleDetails from "./pages/ArticleDetails";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
 
 const Loading = () => {
   return (
-    <div className="spin">
-      <Spin />
+    <div>
+      <Spinner />
     </div>
   );
 };
 
 function App() {
   return (
-    // <div className="App">
-    //   <NavBar />
-    //   <div className="hidden py-[30px] md:flex md:justify-center">
-    //     <img src={banner} alt="ad banner" />
-    //   </div>
-    //  <ArticleBody/>
-    // </div>
 
     <Suspense fallback={<Loading />}>
       <BrowserRouter>
@@ -52,6 +45,7 @@ function App() {
           <Route path="/" element={<ProtectedRoutes />}>
             <Route path="/home" element={<Home />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/article/details/:id" element={<ArticleDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>
