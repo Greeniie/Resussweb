@@ -25,9 +25,7 @@ const ArticleBody = ({ goBack, singleData }) => {
 
           <div className="ml-0 md:ml-[80px] flex justify-between items-center pt-[5px] py-[30px]">
             <div className="">
-              {/* <div className="author text-[10px] pb-[5px] md:text-[16px]">
-                by Tunde Bandejo
-              </div> */}
+             
               <div className="text-[10px] md:text-[16px] text-[#ABB0BA]">
                 Updated{" "}
                 {moment(singleData.created_at).format(

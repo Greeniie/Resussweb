@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import ExpirySession from "../utils/expirySession";
 
 import { useSelector } from "react-redux";
+import Spinner from "../utils/Spinner";
 
 const AuthRoutes = ({ ...rest }) => {
   const navigate = useNavigate();
@@ -16,16 +17,16 @@ const AuthRoutes = ({ ...rest }) => {
 
   const Loading = () => {
     return (
-      <div className="section-spin">
-        <Spin />
+      <div>
+        <Spinner />
       </div>
     );
   };
 
   return (
-      <Suspense fallback={<Loading />}>
-        <Outlet />
-      </Suspense>
+    <Suspense fallback={<Loading />}>
+      <Outlet />
+    </Suspense>
   );
 };
 

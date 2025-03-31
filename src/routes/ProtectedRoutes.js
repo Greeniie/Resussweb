@@ -2,6 +2,7 @@ import { Spin } from "antd";
 import { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import Spinner from "../utils/Spinner";
 
 const ProtectedRoutes = ({ ...rest }) => {
   const location = useLocation();
@@ -9,9 +10,9 @@ const ProtectedRoutes = ({ ...rest }) => {
 
   const Loading = () => {
     return (
-      <div className="section-spin">
-        <Spin />
-      </div>
+      <div>
+      <Spinner />
+    </div>
     );
   };
 
