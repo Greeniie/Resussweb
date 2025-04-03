@@ -37,10 +37,10 @@ const ArticleDetails = () => {
         <img
           src={articlead}
           alt="ad"
-          className="h-[150px] w-auto mx-auto object-center object-cover"
+          className="h-auto w-[90%] mx-auto object-center object-cover"
         />
       </div>
-  
+
       {loading ? (
         <div className="flex justify-center items-center h-screen">
           <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
@@ -52,7 +52,6 @@ const ArticleDetails = () => {
       )}
     </div>
   );
-  
 };
 
 export default ArticleDetails;

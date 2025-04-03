@@ -29,9 +29,7 @@ const Articles = ({ articles }) => {
   });
 
   const truncatedText = truncateString(rawText);
-  {
-    parse(truncatedText);
-  }
+  const parsedContent = parse(truncatedText);
 
   return (
     <div className="max-w-6xl mx-auto md:py-4">
@@ -52,7 +50,7 @@ const Articles = ({ articles }) => {
               {sortedArticles[0].title}
             </h2>
             <p className="text-gray-300 pb-[50px] text-justify">
-              {parse(truncatedText)}
+              {parsedContent}
             </p>
           </div>
         </div>

@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import Resources from "./pages/Resources";
 import Spinner from "./utils/Spinner";
 import ArticleDetails from "./pages/ArticleDetails";
+import Events from "./pages/Events";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -46,6 +47,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/article/details/:id" element={<ArticleDetails />} />
+            <Route path="/events" element={<Events />} />
           </Route>
         </Routes>
       </BrowserRouter>

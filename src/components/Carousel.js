@@ -4,16 +4,17 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import testimg1 from "../assets/testimgs/testimg1.png";
 import testimg2 from "../assets/testimgs/testimg2.png";
 import testimg3 from "../assets/testimgs/testimg3.png";
+import { Link } from "react-router-dom";
 
 const allImages = [
-  { src: testimg1, tag: "Sponsored job posts" },
-  { src: testimg2, tag: "Trending" },
-  { src: testimg3, tag: "Events" },
+  { src: testimg1, tag: "Sponsored job posts", link: '/job-posts' },
+  { src: testimg2, tag: "Trending", link: '/trending' },
+  { src: testimg3, tag: "Events", link: '/events' },
 ];
 
 const smallScreenImages = [
-  { src: testimg2, tag: "Trending" },
-  { src: testimg3, tag: "Events" },
+  { src: testimg2, tag: "Trending", link: '/trending' },
+  { src: testimg3, tag: "Events", link: '/events' },
 ];
 
 const Carousel = () => {
@@ -49,14 +50,14 @@ const Carousel = () => {
           style={{ display: "flex", whiteSpace: "nowrap" }}
         >
           {extendedImages.map((image, i) => (
-            <div key={i} className="relative flex-shrink-0 w-[45%] mx-2">
+            <Link to={image.link} key={i} className="relative flex-shrink-0 w-[45%] mx-2">
               <div className="text-[#6633FF] py-1 text-sm">{image.tag}</div>
               <img
                 src={image.src}
                 alt={`slide-${i}`}
                 className="w-full h-[100px] md:h-[300px] object-cover rounded-xl"
               />
-            </div>
+            </Link>
           ))}
         </motion.div>
       </div>
@@ -83,14 +84,14 @@ const Carousel = () => {
 
       {/* Extra Image for Small Screens */}
       {isSmallScreen && (
-        <div className="my-4 w-[90%] mx-auto">
+        <Link to={allImages[0].link} className="my-4 w-[90%] mx-auto">
           <div className="text-[#6633FF] py-1 text-sm">{allImages[0].tag}</div>
           <img
             src={allImages[0].src}
             alt="extra-img"
             className="w-full h-[230px] object-cover object-center rounded-xl"
           />
-        </div>
+        </Link>
       )}
     </div>
   );

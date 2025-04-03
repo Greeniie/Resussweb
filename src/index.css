@@ -128,3 +128,9 @@ code {
 .body p {
   margin-bottom: 0 !important;
 }
+
+.custom-check, .form-check-input:checked{
+  background-color: #9900FF !important;
+  border-color: #9900FF !important;
+  accent-color: #9900FF !important;
+}

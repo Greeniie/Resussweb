@@ -23,6 +23,7 @@ import messagesactive from "../assets/menu-icons/messagesactive.png";
 
 const HomeNav = () => {
   const [searchValue, setSearchValue] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
 
@@ -73,33 +74,40 @@ const HomeNav = () => {
             isVisible ? "translate-y-0" : "-translate-y-full"
           }`}
         >
-          <div className="flex justify-between items-center gap-[20px] py-[10px] md:hidden px-[10px]">
-            <img src={mobilelogo} className="h-[30px] w-auto" alt="logo" />
+         <div className="flex justify-between items-center gap-[20px] py-[10px] md:hidden px-[10px]">
+      <img src={logo} className="h-[30px] w-auto" alt="logo" />
 
-            <Form.Group className="relative w-full">
-              <div className="absolute bottom-[5px] left-3 flex items-center text-[#abb0ba]">
-                <SearchOutlined style={{ fontSize: "20px" }} />
-              </div>
-
-              {searchValue && (
-                <button
-                  className="absolute bottom-[5px] right-3 flex items-center cursor-pointer text-[#abb0ba]"
-                  onClick={() => setSearchValue("")}
-                >
-                  <CloseCircleOutlined />
-                </button>
-              )}
-
-              <Form.Control
-                type="text"
-                name="searchValue"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search"
-                className="border-[#6633FF] p-1 custom-placeholder ps-5"
-              />
-            </Form.Group>
+      {/* Search Button */}
+      {!showSearch ? (
+        <button onClick={() => setShowSearch(true)} className="text-[#abb0ba]">
+          <SearchOutlined style={{ fontSize: "22px" }} />
+        </button>
+      ) : (
+        <Form.Group className="relative w-full transition-all duration-300">
+          <div className="absolute bottom-[5px] left-3 flex items-center text-[#abb0ba]">
+            <SearchOutlined style={{ fontSize: "20px" }} />
           </div>
+
+          {searchValue && (
+            <button
+              className="absolute bottom-[5px] right-3 flex items-center cursor-pointer text-[#abb0ba]"
+              onClick={() => setSearchValue("")}
+            >
+              <CloseCircleOutlined />
+            </button>
+          )}
+
+          <Form.Control
+            type="text"
+            name="searchValue"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="Search"
+            className="border-[#6633FF] p-1 custom-placeholder ps-5"
+          />
+        </Form.Group>
+      )}
+    </div>
         </div>
         <div
           style={{ zIndex: "99" }}
@@ -158,13 +166,15 @@ const HomeNav = () => {
       </div>
 
       <div className="hidden md:flex md:justify-between md:items-center w-full py-[20px] bg-[#fff] px-[50px]">
-        <div className="flex gap-[80px] items-center">
+        <div className="flex items-center gap-x-6 flex-nowrap">
           <img
             src={logo}
-            className="h-[40px] w-auto object-center object-contain"
+            className="h-[40px] w-auto object-center object-contain flex-shrink-0"
             alt="logo"
           />
-          <Form.Group className="relative min-w-full">
+
+          {/* Search Input */}
+          <Form.Group className="relative w-[300px] lg:w-[400px] flex-shrink">
             <div className="absolute bottom-[10px] left-3 flex items-center text-[#abb0ba]">
               <SearchOutlined style={{ fontSize: "20px" }} />
             </div>
@@ -177,84 +187,79 @@ const HomeNav = () => {
                 <CloseCircleOutlined />
               </button>
             )}
+
             <Form.Control
               type="text"
               name="searchValue"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search"
-              className="border-[#6633FF] p-2 custom-placeholder ps-5"
+              className="border-[#6633FF] p-2 custom-placeholder ps-5 w-full"
             />
           </Form.Group>
         </div>
 
-        <div className="flex gap-[50px] items-center">
-          <div className="flex gap-[20px] items-center">
-            {/* Menu Items */}
-            {[
-              {
-                name: "Home",
-                path: "/home",
-                icon: home,
-                activeIcon: homeactive,
-              },
-              {
-                name: "Resources",
-                path: "/resources",
-                icon: resuss,
-                activeIcon: resussactive,
-              },
-              {
-                name: "Applications",
-                path: "/applications",
-                icon: app,
-                activeIcon: appactive,
-              },
-              {
-                name: "Your Projects",
-                path: "/projects",
-                icon: projects,
-                activeIcon: projectsactive,
-              },
-              {
-                name: "Messages",
-                path: "/messages",
-                icon: messages,
-                activeIcon: messagesactive,
-              },
-            ].map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex flex-col items-center w-[60px] hover:text-[#9900FF] ${
-                  location.pathname === item.path
-                    ? "text-[#9900FF]"
-                    : "text-[#ABB0BA]"
-                }`}
-              >
-                <img
-                  src={
-                    location.pathname === item.path
-                      ? item.activeIcon
-                      : item.icon
-                  }
-                  alt={item.name}
-                  className="h-[20px] w-auto object-cover object-center"
-                />
-                <div className="text-[10px]">{item.name}</div>
-              </Link>
-            ))}
-          </div>
+        {/* Icons Section */}
 
-          <div className="flex items-center">
-            <Avatar
-              style={{ backgroundColor: "#3f8bcaa1" }}
-              icon={<UserOutlined />}
-              size={40}
-            />
-            <CaretDownOutlined />
-          </div>
+        <div className="flex items-center gap-[20px]">
+        <div className="flex items-center gap-x-4 flex-shrink-0">
+          {[
+            { name: "Home", path: "/home", icon: home, activeIcon: homeactive },
+            {
+              name: "Resources",
+              path: "/resources",
+              icon: resuss,
+              activeIcon: resussactive,
+            },
+            {
+              name: "Applications",
+              path: "/applications",
+              icon: app,
+              activeIcon: appactive,
+            },
+            {
+              name: "Projects",
+              path: "/projects",
+              icon: projects,
+              activeIcon: projectsactive,
+            },
+            {
+              name: "Messages",
+              path: "/messages",
+              icon: messages,
+              activeIcon: messagesactive,
+            },
+          ].map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`flex flex-col items-center w-[60px] hover:text-[#9900FF] ${
+                location.pathname === item.path
+                  ? "text-[#9900FF]"
+                  : "text-[#ABB0BA]"
+              }`}
+            >
+              <img
+                src={
+                  location.pathname === item.path ? item.activeIcon : item.icon
+                }
+                alt={item.name}
+                className="h-[20px] w-auto object-cover object-center"
+              />
+              <div className="text-[10px]">{item.name}</div>
+            </Link>
+          ))}
         </div>
+        <div className="flex items-center">
+          <Avatar
+            style={{ backgroundColor: "#3f8bcaa1" }}
+            icon={<UserOutlined />}
+            size={40}
+          />
+          <CaretDownOutlined />
+        </div>
+        </div>
+      
       </div>
     </nav>
   );

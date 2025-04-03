@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import star from "../assets/images/star.png";
+import event from "../assets/images/event.png";
 import bookmark from "../assets/images/bookmark.png";
 import start from "../assets/images/start.png";
 import filters from "../assets/images/filters.png";
@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 
-const TalentFilters = () => {
+const EventFilters = () => {
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedGenders, setSelectedGenders] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
@@ -18,26 +18,18 @@ const TalentFilters = () => {
 
   const [showGeneral, setShowGeneral] = useState(true);
   const [showGender, setShowGender] = useState(true);
-  const [showAge, setShowAge] = useState(true);
+  const [showCost, setshowCost] = useState(true);
   const [showTalents, setShowTalents] = useState(true);
 
-  const filterCategories = [
-    "My Location",
-    "Active",
-    "Popular",
-    "Leads",
-    "Support",
-    "Recommended",
-  ];
+  const filterCategories = ["My Location", "My role"];
 
   const roles = [
-    "Actors",
-    "Voiceovers",
-    "Content Creators",
-    "Production Crew",
-    "Influencers",
-    "Models",
-    "Developers [IM]",
+    "Movie Premiere",
+    "Theatre",
+    "Workshop",
+    "Art Exhibition",
+    "Brand Event",
+    "Industry Party",
   ];
 
   const handleFilterClick = (filter) => {
@@ -49,14 +41,6 @@ const TalentFilters = () => {
     );
   };
 
-  const handleGenderChange = (gender) => {
-    if (selectedGenders.includes(gender)) {
-      setSelectedGenders(selectedGenders.filter((g) => g !== gender));
-    } else {
-      setSelectedGenders([...selectedGenders, gender]);
-    }
-  };
-
   const handleRoleChange = (role) => {
     if (selectedRoles.includes(role)) {
       setSelectedRoles(selectedRoles.filter((r) => r !== role)); // Remove if already selected
@@ -65,8 +49,7 @@ const TalentFilters = () => {
     }
   };
 
-  const [value, setValue] = useState([10, 55]);
-
+  const [value, setValue] = useState([17, 82]);
   const handleValueChange = (newValue) => {
     setValue(newValue);
   };
@@ -75,11 +58,11 @@ const TalentFilters = () => {
     <div className="bg-white min-h-[480px] rounded-[30px] mb-[30px] md:rounded-[35px] md:rounded-[40px] mr-auto px-[30px] py-[30px] md:py-[35px]">
       <div className="flex gap-[10px] items-center pb-[10px] border-b">
         <img
-          src={star}
-          alt="talentmgt"
+          src={event}
+          alt="event"
           className="h-[16px] w-auto object-cover object-center"
         />
-        <div className="text-[#4FD6FA] text-[14px]">Talent Management</div>
+        <div className="text-[#4FD6FA] text-[14px]">Event Calendar</div>
       </div>
 
       <div className="flex gap-[10px] items-center pb-[10px] pt-[20px]">
@@ -151,7 +134,7 @@ const TalentFilters = () => {
                     </div>
                   ))}
                 </div>
-                <div className="flex justify-end my-[10px]">
+                {/* <div className="flex justify-end my-[10px]">
                   <button>
                     <img
                       src={settings}
@@ -159,52 +142,16 @@ const TalentFilters = () => {
                       className="h-[16px] w-auto object-cover object-center"
                     />
                   </button>
-                </div>
+                </div> */}
               </div>
-            )}
-          </div>
-          {/* Gender Section */}
-          <div className="border-b">
-            <div className="flex justify-between items-center py-[10px]">
-              <div className="text-[#ABB0BA] text-[14px]">Gender</div>
-              <button onClick={() => setShowGender(!showGender)}>
-                {showGender ? (
-                  <CaretUpOutlined
-                    style={{ fontSize: "14px", color: "#ABB0BA" }}
-                  />
-                ) : (
-                  <CaretDownOutlined
-                    style={{ fontSize: "14px", color: "#ABB0BA" }}
-                  />
-                )}
-              </button>
-            </div>
-            {showGender && (
-              <Form.Group className="flex flex-col gap-3 pb-[20px]">
-                {["All", "Male", "Female"].map((gender) => (
-                  <div key={gender} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      id={gender}
-                      className="custom-check w-5 h-5 border-gray-300 text-[#ABB0BA] rounded cursor-pointer"
-                    />
-                    <label
-                      htmlFor={gender}
-                      className="text-gray-600 text-sm text-[#ABB0BA]"
-                    >
-                      {gender}
-                    </label>
-                  </div>
-                ))}
-              </Form.Group>
             )}
           </div>
           {/* Age Section */}
           <div className="border-b">
             <div className="flex justify-between items-center py-[10px]">
-              <div className="text-[#ABB0BA] text-[14px]">Age</div>
-              <button onClick={() => setShowAge(!showAge)}>
-                {showAge ? (
+              <div className="text-[#ABB0BA] text-[14px]">Cost</div>
+              <button onClick={() => setshowCost(!showCost)}>
+                {showCost ? (
                   <CaretUpOutlined
                     style={{ fontSize: "14px", color: "#ABB0BA" }}
                   />
@@ -215,10 +162,10 @@ const TalentFilters = () => {
                 )}
               </button>
             </div>
-            {showAge && (
+            {showCost && (
               <>
                 <div className="flex justify-end my-[10px] text-[#9900ff] text-[12px] font-bold">
-                {value[0]}-{value[1]} yrs
+                  ₦{value[0]}k - ₦{value[1]}k
                 </div>
                 <RangeSlider
                   min={0}
@@ -238,8 +185,8 @@ const TalentFilters = () => {
                     fontSize: "10px",
                   }}
                 >
-                  <span className="text-[#696969]">10yrs</span>
-                  <span className="text-[#696969]">55yrs+</span>
+                  <span className="text-[#696969]">Free</span>
+                  <span className="text-[#696969]">100k</span>
                 </div>
               </>
             )}
@@ -291,4 +238,4 @@ const TalentFilters = () => {
   );
 };
 
-export default TalentFilters;
+export default EventFilters;

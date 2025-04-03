@@ -4,7 +4,6 @@ import parse from "html-react-parser";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const ArticleBody = ({ goBack, singleData }) => {
-  console.log(singleData);
 
   return (
     <div className="bg-[#fff] mx-auto w-[90%] rounded-lg px-[20px] md:px-[50px] py-[20px] md:py-[40px] my-[100px] md:mt-0">
