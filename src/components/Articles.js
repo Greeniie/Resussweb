@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { EllipsisOutlined } from "@ant-design/icons";
 import parse from "html-react-parser";
 import { convert } from "html-to-text";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import adsmallscreens from "../assets/testimgs/adsmallscreens.png";
 
 const Articles = ({ articles }) => {
   const [visibleCount, setVisibleCount] = useState(9);
@@ -28,7 +29,6 @@ const Articles = ({ articles }) => {
   });
 
   const truncatedText = truncateString(rawText);
-
   {
     parse(truncatedText);
   }
@@ -78,23 +78,35 @@ const Articles = ({ articles }) => {
       {/* Article Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {sortedArticles.slice(1, visibleCount).map((article, index) => (
-          <Link to={`/article/details/${article.id}`} key={index}>
-            <div
-              className="relative min-h-[200px] md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
-              style={{ backgroundImage: `url(${article.image_path})` }}
-            >
-              <button className="absolute right-[30px] mt-[10px] mb-[30px]">
-                <EllipsisOutlined
-                  style={{ fontSize: "32px", color: "white" }}
+          <>
+            {index === 2 && ( // Display the ad after the third article
+              <div key="ad" className="block md:hidden w-full my-4">
+                <img
+                  src={adsmallscreens}
+                  alt="ad"
+                  className="block md:hidden rounded-tl-[36px] rounded-tr-[36px]"
                 />
-              </button>
-              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-3">
-                <h3 className="text-lg text-white font-semibold">
-                  {article.title}
-                </h3>
               </div>
-            </div>
-          </Link>
+            )}
+
+            <Link to={`/article/details/${article.id}`} key={article.id}>
+              <div
+                className="relative min-h-[200px] md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
+                style={{ backgroundImage: `url(${article.image_path})` }}
+              >
+                <button className="absolute right-[30px] mt-[10px] mb-[30px]">
+                  <EllipsisOutlined
+                    style={{ fontSize: "32px", color: "white" }}
+                  />
+                </button>
+                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-3">
+                  <h3 className="text-lg text-white font-semibold">
+                    {article.title}
+                  </h3>
+                </div>
+              </div>
+            </Link>
+          </>
         ))}
       </div>
 
@@ -103,7 +115,7 @@ const Articles = ({ articles }) => {
         <div className="flex justify-center mt-6">
           <button
             onClick={loadMoreArticles}
-            className="bg-[#6633FF] hover:bg-[#4d26cc] text-white font-semibold px-6 py-2 rounded-lg shadow-lg transition duration-300"
+            className="bg-[#CECCD6] hover:bg-[#330066] hover:text-[#fff] text-[#330066] font-semibold px-6 py-2 rounded-[50px] shadow-lg transition duration-300"
           >
             Load More
           </button>

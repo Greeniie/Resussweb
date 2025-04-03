@@ -164,7 +164,7 @@ const HomeNav = () => {
             className="h-[40px] w-auto object-center object-contain"
             alt="logo"
           />
-          <Form.Group className="relative min-w-[450px]">
+          <Form.Group className="relative min-w-full">
             <div className="absolute bottom-[10px] left-3 flex items-center text-[#abb0ba]">
               <SearchOutlined style={{ fontSize: "20px" }} />
             </div>

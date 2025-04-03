@@ -164,13 +164,7 @@ const Home = () => {
         {activeTab === "1" && (
           <div className="pb-[100px]">
             <Carousel />
-            <div className="py-[15px] md:py-[30px]">
-              <img
-                src={ad}
-                alt="ad"
-                className="h-[100px] w-[90%] md:w-auto mx-auto object-center object-contain"
-              />
-            </div>
+
             <div className="w-[90%] mx-auto">
               <div>
                 <div className="text-[#4FD6FA] text-[16px] mb-3 md:mb-0">

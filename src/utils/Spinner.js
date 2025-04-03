@@ -5,8 +5,8 @@ const Spinner = () => {
     <div className="flex items-center justify-center h-screen w-full">
       <svg
         className="animate-spin"
-        height="100"
-        width="100"
+        height="80"
+        width="80"
         viewBox="0 0 100 100"
       >
         <circle
