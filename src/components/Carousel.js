@@ -112,15 +112,32 @@ const Carousel = () => {
       </button>
 
       {/* Indicator */}
-      <div className="mt-4 flex space-x-2">
-        {allImages.map((_, i) => (
-          <div
-            key={i}
-            className={`w-2 h-2 rounded-full ${
-              i === index ? "bg-[#461378]" : "bg-[#d9d9d9]"
-            }`}
-          ></div>
-        ))}
+      <div>
+        {isSmallScreen ? (
+          <div className="mt-4 flex space-x-2">
+            {" "}
+            {smallScreenImages.map((_, i) => (
+              <div
+                key={i}
+                className={`w-2 h-2 rounded-full ${
+                  i === index ? "bg-[#461378]" : "bg-[#d9d9d9]"
+                }`}
+              ></div>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-4 flex space-x-2">
+            {" "}
+            {allImages.map((_, i) => (
+              <div
+                key={i}
+                className={`w-2 h-2 rounded-full ${
+                  i === index ? "bg-[#461378]" : "bg-[#d9d9d9]"
+                }`}
+              ></div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Extra Image for Small Screens */}
@@ -133,14 +150,14 @@ const Carousel = () => {
             className="w-full h-[230px] object-cover object-center rounded-xl"
           />
           <button className="absolute top-2 p-2 right-[20px] mt-[20px] z-10">
-                <EllipsisOutlined
-                  style={{
-                    fontSize: "32px",
-                    color: "white",
-                    fontWeigh: "bold",
-                  }}
-                />
-              </button>
+            <EllipsisOutlined
+              style={{
+                fontSize: "32px",
+                color: "white",
+                fontWeigh: "bold",
+              }}
+            />
+          </button>
         </Link>
       )}
     </div>
