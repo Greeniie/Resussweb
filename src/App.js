@@ -39,7 +39,6 @@ function App() {
 
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="*" element={<NotFoundPage />} />
           </Route>
 
           {/* Private routes  */}
@@ -49,6 +48,8 @@ function App() {
             <Route path="/article/details/:id" element={<ArticleDetails />} />
             <Route path="/events" element={<Events />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
+
         </Routes>
       </BrowserRouter>
     </Suspense>

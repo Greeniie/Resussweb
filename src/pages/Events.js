@@ -25,7 +25,7 @@ const Events = () => {
       </div>
       <div className="w-[90%] mx-auto">
         <button onClick={() => navigate(-1)} className="hidden md:block">
-          <ArrowLeftOutlined style={{ fontSize: "50px" }} />
+          <ArrowLeftOutlined style={{ fontSize: "30px" }} />
         </button>
       </div>
 

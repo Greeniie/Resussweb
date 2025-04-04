@@ -21,42 +21,42 @@ const EventList = () => {
   const events = [
     {
       date: "2025-04-08",
-      img: event1,
+      img: event6,
       event_name: "Lagos food and drink by GTB",
       event_info:
         "The country is going bankrupt,” Musk said last week in an interview with Fox News in reference to the growing national debt. ",
     },
     {
       date: "2025-05-09",
-      img: event2,
+      img: event1,
       event_name: "Lagos mainland Festival",
       event_info:
         "The country is going bankrupt,” Musk said last week in an interview with Fox News in reference to the growing national debt. ",
     },
     {
       date: "2025-06-20",
-      img: event3,
+      img: event4,
       event_name: "The Future of Film Festivals in a Digital World",
       event_info:
         "The country is going bankrupt,” Musk said last week in an interview with Fox News in reference to the growing national debt. ",
     },
     {
       date: "2025-07-05",
-      img: event4,
+      img: event3,
       event_name: "Turn up Abuja",
       event_info:
         "The country is going bankrupt,” Musk said last week in an interview with Fox News in reference to the growing national debt. ",
     },
     {
       date: "2025-08-12",
-      img: event5,
+      img: event2,
       event_name: "The human angle play by Bimbo Lawson",
       event_info:
         "The country is going bankrupt,” Musk said last week in an interview with Fox News in reference to the growing national debt. ",
     },
     {
       date: "2025-09-25",
-      img: event6,
+      img: event5,
       event_name: "A vivid Story Art Exhibition",
       event_info:
         "The country is going bankrupt,” Musk said last week in an interview with Fox News in reference to the growing national debt. ",
@@ -125,8 +125,8 @@ const EventList = () => {
               </div>
 
               {/* Event Details */}
-              <div className="col-span-3 flex flex-col justify-between">
-                <div className="text-[#000] text-[25px] font-bold">
+              <div className="col-span-3 flex flex-col gap-[10px]">
+                <div className="text-[#000] text-[25px] font-bold leading-[25px]">
                   {event.event_name}
                 </div>
                 <div className="text-[#000] text-[16px] w-[90%]">
@@ -156,7 +156,7 @@ const EventList = () => {
       </div>
       <div className="block md:hidden bg-white min-h-[480px] mt-[80px] p-[20px] rounded-[30px] ">
         <button onClick={() => navigate(-1)} className="block md:hidden">
-          <ArrowLeftOutlined style={{ fontSize: "20px" }} />
+          <ArrowLeftOutlined style={{ fontSize: "14px" }} />
         </button>
         <div>
           {events.map((event, index) => {
@@ -178,7 +178,7 @@ const EventList = () => {
                 key={index}
                 className="flex flex-col gap-[20px] border-b my-4"
               >
-                <div className="flex gap-[20px] items-center">
+                <div className="flex gap-[20px] justify-between items-center">
                   {" "}
                   {/* Event Image */}
                   <div>
@@ -213,7 +213,7 @@ const EventList = () => {
                   </div>
                 </div>
 
-                <div className="flex gap-[20px] items-center pb-4">
+                <div className="flex gap-[20px] justify-between items-center pb-4">
                   {/* Event Details */}
                   <div className="col-span-3 flex flex-col justify-between">
                     <div className="text-[#000] text-[25px] font-bold pb-[10px] leading-[24px]">

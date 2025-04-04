@@ -65,8 +65,8 @@ const Home = () => {
             <div className="py-[30px]">
               <img src={ad} alt="ad" className="h-[100px] w-auto mx-auto" />
             </div>
-            <div className="grid grid-cols-3 gap-[50px] w-[90%] mx-auto">
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-[90%] mx-auto">
+              <div className="md:col-span-2">
                 <div className="text-[#4FD6FA] text-[16px] ">Spotlight</div>
                 {isLoading ? (
                   <div className="flex justify-center items-center py-10">
@@ -130,6 +130,7 @@ const Home = () => {
                 style={{ backgroundColor: "#3f8bcaa1" }}
                 icon={<UserOutlined />}
                 size={30}
+                shape="square"
               />
             </div>
             <div className="flex gap-[20px] items-center bg-white p-[3px] rounded-lg w-[90%] mx-auto">

@@ -98,7 +98,7 @@ const Articles = ({ articles }) => {
                   />
                 </button>
                 <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-3">
-                  <h3 className="text-lg text-white font-semibold">
+                  <h3 className="text-lg text-white font-semibold leading-[23px]">
                     {article.title}
                   </h3>
                 </div>

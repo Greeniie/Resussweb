@@ -219,10 +219,10 @@ const Login = () => {
                 />
               </Form.Group>
 
-              <div className="flex justify-end text-[18px]">
+              <div className="flex justify-end text-[14px]">
                 <Link
                   to="/forgot-password"
-                  className="no-underline text-[#6633FF] pb-[10px] text-[18px]"
+                  className="no-underline text-[#6633FF] pb-[10px] text-[14px]"
                 >
                   Forgot your password?
                 </Link>

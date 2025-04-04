@@ -193,7 +193,7 @@ const EventFilters = () => {
           </div>
           {/* Talents Section */}
           <div className="flex justify-between items-center py-[10px]">
-            <div className="text-[#ABB0BA] text-[14px]">Talents</div>
+            <div className="text-[#ABB0BA] text-[14px]">Event Type</div>
             <button onClick={() => setShowTalents(!showTalents)}>
               {showTalents ? (
                 <CaretUpOutlined
@@ -208,7 +208,7 @@ const EventFilters = () => {
           </div>
           {showTalents && (
             <Form.Group className="flex flex-col gap-3 pb-[20px]">
-              {(showAll ? roles : roles.slice(0, 6)).map((role) => (
+              {(showAll ? roles : roles.slice(0, 5)).map((role) => (
                 <div key={role} className="flex items-center gap-2">
                   <input
                     type="checkbox"
@@ -222,7 +222,7 @@ const EventFilters = () => {
                   </label>
                 </div>
               ))}
-              {roles.length > 6 && (
+              {roles.length > 5 && (
                 <button
                   className="text-[#ABB0BA] text-sm font-semibold mt-2 w-fit"
                   onClick={() => setShowAll(!showAll)}
