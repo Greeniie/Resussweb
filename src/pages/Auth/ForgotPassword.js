@@ -20,7 +20,7 @@ const navigate = useNavigate()
     <div>
       {step === 1 && <Fp1 nextStep={nextStep} />}
       {step === 2 && <Fp2 nextStep={nextStep} />}
-      {step === 3 && <Fp3 nextStep={nextStep} />}
+      {step === 3 && <Fp3 />}
     </div>
   );
 };

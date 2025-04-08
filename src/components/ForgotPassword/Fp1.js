@@ -96,7 +96,7 @@ const Fp1 = ({ nextStep }) => {
             <Form.Group className="mb-3">
               <Form.Control
                 type="text"
-                name="title"
+                name="email"
                 placeholder="Your email address"
                 className="border-[#abb0ba] p-2 custom-placeholder"
                 onChange={(evt) => handleInputChange(evt)}
@@ -104,8 +104,13 @@ const Fp1 = ({ nextStep }) => {
             </Form.Group>
 
             <button
+              disabled={!formData.email}
               onClick={onFinish}
-              className="bg-[#4FD6FA] hover:bg-[#6633FF] rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full my-[40px] px-[10px] py-[12px] text-[16px] text-white font-medium"
+              className={`${
+                !formData.email
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+              } bg-[#4FD6FA] rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full my-[40px] px-[10px] py-[12px] text-[16px] text-white font-medium`}
             >
               {confirmLoading ? "Please wait..." : "Reset Password"}
               {confirmLoading ? <Spinner size="sm" /> : ""}
@@ -159,7 +164,11 @@ const Fp1 = ({ nextStep }) => {
 
               <button
                 onClick={onFinish}
-                className="bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium"
+                className={` ${
+                  !formData.email
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-[#4FD6FA]"
+                } bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium`}
               >
                 {confirmLoading ? "Please wait..." : "Reset Password"}
                 {confirmLoading ? <Spinner size="sm" /> : ""}

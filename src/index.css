@@ -6,7 +6,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #EDF1F9;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
+  overflow-x: hidden !important
   ;
 }
 
@@ -129,8 +130,14 @@ code {
   margin-bottom: 0 !important;
 }
 
-.custom-check, .form-check-input:checked{
+.custom-check,
+.form-check-input:checked {
   background-color: #9900FF !important;
   border-color: #9900FF !important;
   accent-color: #9900FF !important;
+}
+
+.footer {
+  font-family: "Roboto" !important;
+
 }

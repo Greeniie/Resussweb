@@ -32,7 +32,12 @@ const resetPassword = async (data) => {
 }
 
 const sendOTP = async (data) => {
-  const response = await ApiInstance.post('/user/auth/send-password-resetotp', data)
+  const response = await ApiInstance.post('/user/auth/send-password-reset-otp', data)
+  return response.data
+}
+
+const verifyOTP = async (data) => {
+  const response = await ApiInstance.post('/user/auth/verify-otp', data)
   return response.data
 }
 
@@ -52,6 +57,7 @@ export const authService = {
   login,
   resetPassword,
   sendOTP,
+  verifyOTP,
   loginAsUser,
   logout,
   changePassword,

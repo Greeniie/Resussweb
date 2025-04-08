@@ -1,7 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import forgot1 from "../../assets/images/forgot1.png";
-import forgot2 from "../../assets/images/forgot2.png";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { resetPassword } from "../../redux/authSlice";
+import { notification } from "antd";
+import { Spinner } from "react-bootstrap";
 
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
@@ -12,31 +16,58 @@ import {
   CheckCircleFilled,
 } from "@ant-design/icons";
 
+const Rp1 = ({ nextStep }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
+  const location = useLocation();
+  const formData = location.state?.formData;
+  const dispatch = useDispatch();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [error, setError] = useState("");
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
-const Rp1 = ({nextStep}) => {
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    if (password !== e.target.value) {
+      setError("Passwords do not match");
+    } else {
+      setError("");
+    }
+  };
 
-    const inputRefs = useRef([]);
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  const onFinish = (e) => {
+    e.preventDefault();
 
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-    const [error, setError] = useState("");
-  
-    const handleConfirmPasswordChange = (e) => {
-      setConfirmPassword(e.target.value);
-      if (password !== e.target.value) {
-        setError("Passwords do not match");
-      } else {
-        setError("");
-      }
+    const data = {
+      otp: Number(formData.otp),
+      password,
+      password_confirmation: confirmPassword,
     };
+
+    setConfirmLoading(true);
+    dispatch(resetPassword(data)).then((response) => {
+      if (response.type === "auth/resetPassword/fulfilled") {
+        notification.success({ message: "Password reset successfully" });
+        nextStep();
+      } else if (response.type === "auth/resetPassword/rejected") {
+        setError(response?.payload?.message);
+        setConfirmLoading(false);
+      } else {
+        notification.error({
+          message: "Error resetting password, please try again later",
+        });
+        setConfirmLoading(false);
+      }
+    });
+  };
+
   return (
-<div>
+    <div>
       <div className="relative min-h-screen overflow-hidden forgot-bg hidden md:block">
         <div className="px-[40px] pt-[30px] md:px-[50px] md:pt-[35px] md:px-[60px] md:pt-[40px]">
           <NavBar />
@@ -107,12 +138,23 @@ const Rp1 = ({nextStep}) => {
                 </div>
               </div>
               <div className="min-h-[20px]">
-                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {error && (
+                  <p className="text-red-500 text-sm pt-[5px]">{error}</p>
+                )}
               </div>
             </Form.Group>
 
-            <button onClick={nextStep} className="bg-[#4FD6FA] hover:bg-[#6633FF] rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full mb-[50px] px-[10px] py-[12px] text-[16px] text-white font-medium">
-              Reset Password
+            <button
+              disabled={password.length < 8 || password !== confirmPassword}
+              onClick={onFinish}
+              className={`${
+                password.length < 8 || password !== confirmPassword
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+              } rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full mb-[50px] px-[10px] py-[12px] text-[16px] text-white font-medium`}
+            >
+              {confirmLoading ? "Please wait" : "Reset Password"}
+              {confirmLoading ? <Spinner size="sm" /> : ""}
             </button>
           </Form>
           <div className="flex items-center gap-[10px] no-underline text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
@@ -197,11 +239,22 @@ const Rp1 = ({nextStep}) => {
                   </div>
                 </div>
                 <div className="min-h-[20px]">
-                  {error && <p className="text-red-500 text-sm">{error}</p>}
+                  {error && (
+                    <p className="text-red-500 text-sm pt-[5px]">{error}</p>
+                  )}
                 </div>
               </Form.Group>
-              <button onClick={nextStep} className="bg-[#4FD6FA] rounded-[60px] w-full mt-[10px] mb-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium">
-                Reset Password
+              <button
+                disabled={password.length < 8 || password !== confirmPassword}
+                onClick={onFinish}
+                className={`${
+                  password.length < 8 || password !== confirmPassword
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-[#4FD6FA]"
+                } rounded-[60px] w-full mt-[10px] mb-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium`}
+              >
+                {confirmLoading ? "Please wait" : "Reset Password"}
+                {confirmLoading ? <Spinner size="sm" /> : ""}
               </button>
             </Form>
 
@@ -216,7 +269,8 @@ const Rp1 = ({nextStep}) => {
           </div>
         </div>
       </div>
-    </div>  )
-}
+    </div>
+  );
+};
 
-export default Rp1
+export default Rp1;

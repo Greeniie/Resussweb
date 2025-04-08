@@ -13,6 +13,7 @@ import Resources from "./pages/Resources";
 import Spinner from "./utils/Spinner";
 import ArticleDetails from "./pages/ArticleDetails";
 import Events from "./pages/Events";
+import LandingPage from "./pages/LandingPage";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -27,19 +28,18 @@ const Loading = () => {
 
 function App() {
   return (
-
     <Suspense fallback={<Loading />}>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
+
           <Route path="/create-account" element={<Signup />} />
 
           {/* Auth routes */}
-          <Route path="/" element={<AuthRoutes />}>
-            <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
 
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-          </Route>
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Private routes  */}
           <Route path="/" element={<ProtectedRoutes />}>
@@ -49,7 +49,6 @@ function App() {
             <Route path="/events" element={<Events />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
-
         </Routes>
       </BrowserRouter>
     </Suspense>

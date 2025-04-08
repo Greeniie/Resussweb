@@ -1,18 +1,40 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import forgot1 from "../../assets/images/forgot1.png";
+import { useDispatch } from "react-redux";
+import { sendOTP } from "../../redux/authSlice";
 
-import Form from "react-bootstrap/Form";
+import { notification } from "antd";
 import { Link } from "react-router-dom";
-import {
- MailOutlined,
-  ArrowLeftOutlined,
-} from "@ant-design/icons";
+import { MailOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 
-const Fp2 = ({nextStep}) => {
+const Fp2 = ({ nextStep }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
+  const resendOTP = (e) => {
+    e.preventDefault();
+    const email = localStorage.getItem("email");
+    const values = { email: email };
+    setLoading(true);
+    dispatch(sendOTP(values)).then((response) => {
+      if (response.type === "auth/sendOTP/fulfilled") {
+        notification.success({
+          message: "We have sent another OTP to your email",
+        });
+        setLoading(false);
+      } else {
+        notification.error({
+          message: "Error sending OTP, Please try again later",
+        });
+        setLoading(false);
+      }
+    });
+  };
 
   return (
     <div>
@@ -42,20 +64,20 @@ const Fp2 = ({nextStep}) => {
             We have sent password recovery instructions to your email.
           </div>
 
-          <button onClick={nextStep} className="bg-[#4FD6FA] hover:bg-[#6633FF] rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full mt-[40px] mb-[5px] px-[10px] py-[12px] text-[16px] text-white font-medium">
-              Continue
-            </button>
-            <div className="text-[#b8b8b8] text-[16px] pt-[10px] pb-[60px]">
-              Didn't receive an email?
-              <span className="pl-[5px]">
-                <Link
-                  to="/forgot-password"
-                  className="no-underline text-[#6633FF]"
-                >
-                  Click to resend
-                </Link>
-              </span>
-            </div>
+          <button
+            onClick={nextStep}
+            className="bg-[#4FD6FA] hover:bg-[#6633FF] rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full mt-[40px] mb-[5px] px-[10px] py-[12px] text-[16px] text-white font-medium"
+          >
+            Continue
+          </button>
+          <div className="flex text-[#b8b8b8] text-[16px] pt-[10px] pb-[60px]">
+            Didn't receive an email?
+            <span className="pl-[5px]">
+              <div onClick={resendOTP} className="no-underline text-[#6633FF] cursor-pointer">
+                Click to resend
+              </div>
+            </span>
+          </div>
           <div className="flex items-center gap-[10px] no-underline text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
             <ArrowLeftOutlined />
             <span>
@@ -87,24 +109,26 @@ const Fp2 = ({nextStep}) => {
                 <MailOutlined /> <span>Check your email</span>
               </div>
               <div className="text-[#898A8D] text-[14px] pt-[10px]">
-              We have sent password recovery instructions to your email.
-
+                We have sent password recovery instructions to your email.
               </div>
             </div>
-            <button onClick={nextStep} className="bg-[#4FD6FA] rounded-[60px] w-full mb-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium">
-                Continue
-              </button>
-              <div className="text-[#b8b8b8] text-[16px] pt-[10px] pb-[30px]">
-                Didn't receive an email?
-                <span className="pl-[5px]">
-                  <Link
-                    to="/forgot-password"
-                    className="no-underline text-[#6633FF]"
-                  >
-                    Click to resend
-                  </Link>
-                </span>
-              </div>
+            <button
+              onClick={nextStep}
+              className="bg-[#4FD6FA] rounded-[60px] w-full mb-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium"
+            >
+              Continue
+            </button>
+            <div className="flex text-[#b8b8b8] text-[16px] pt-[10px] pb-[30px]">
+              Didn't receive an email?
+              <span className="pl-[5px]">
+                <div
+                  onClick={resendOTP}
+                  className="no-underline text-[#6633FF] cursor-pointer"
+                >
+                  Click to resend
+                </div>
+              </span>
+            </div>
 
             <div className="flex items-center gap-[10px] no-underline text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
               <ArrowLeftOutlined />

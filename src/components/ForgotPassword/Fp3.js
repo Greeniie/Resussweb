@@ -1,40 +1,58 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import forgot1 from "../../assets/images/forgot1.png";
 import forgot2 from "../../assets/images/forgot2.png";
-
-import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { verifyOTP } from "../../redux/authSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { notification } from "antd";
+import { Spinner } from "react-bootstrap";
 import {
   EyeOutlined,
   EyeInvisibleOutlined,
   ArrowLeftOutlined,
   CheckCircleFilled,
 } from "@ant-design/icons";
+import OtpInput from "../OtpInput";
 
-const Fp3 = ({nextStep}) => {
-  const inputRefs = useRef([]);
+const Fp3 = () => {
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const [formData, setFormData] = useState({ otp: "" });
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [otp, setOtp] = useState(["", "", "", ""]);
-  const handleChange = (index, value) => {
-    if (!isNaN(value) && value.length <= 1) {
-      const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
 
-      if (value && index < otp.length - 1) {
-        inputRefs.current[index + 1].focus();
+      // Update formData when otp changes
+      useEffect(() => {
+        setFormData({ otp: otp.join("") });
+      }, [otp]);
+
+
+  const onFinish = (e) => {
+    e.preventDefault();
+    setConfirmLoading(true);
+
+    dispatch(verifyOTP(formData)).then((response) => {
+      if (response.type === "auth/verifyOTP/fulfilled") {
+        notification.success({ message: "OTP verified successfully" });
+        setConfirmLoading(false);
+        navigate("/reset-password", { state: { formData } });
+      } else if (response.type === "auth/verifyOTP/rejected") {
+        setConfirmLoading(false);
+        setError(response?.payload?.message || "An unknown error occurred"); // Handle error message correctly
+      } else {
+        setConfirmLoading(false);
+        notification.error({
+          message: "Error verifying otp, please try again",
+        });
       }
-    }
-  };
-
-  const handleKeyDown = (index, e) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
-    }
+    });
   };
 
   return (
@@ -65,24 +83,25 @@ const Fp3 = ({nextStep}) => {
             Enter OTP code sent to your email address
           </div>
 
-          <div className="flex justify-start gap-3 mt-[30px]">
-            {otp.map((digit, index) => (
-              <input
-                key={index}
-                type="text"
-                maxLength="1"
-                value={digit}
-                ref={(el) => (inputRefs.current[index] = el)}
-                onChange={(e) => handleChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-12 border border-gray-300 text-center text-lg rounded-md focus:outline-none focus:ring-2 focus:ring-[#4FD6FA]"
-              />
-            ))}
+          <OtpInput otp={otp} setOtp={setOtp}/>
+
+          <div className="min-h-[20px]">
+            {error && <p className="text-red-500 text-sm pt-[5px]">{error}</p>}
           </div>
 
-          <button onClick={nextStep} className="bg-[#4FD6FA] hover:bg-[#6633FF] rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full my-[40px] px-[10px] py-[12px] text-[16px] text-white font-medium">
-            Continue
+          <button
+            disabled={otp.some((digit) => digit === "")}
+            onClick={onFinish}
+            className={`${
+              otp.some((digit) => digit === "")
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+            } rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full my-[40px] px-[10px] py-[12px] text-[16px] text-white font-medium`}
+          >
+            {confirmLoading ? "Verifying" : "Continue"}
+            {confirmLoading ? <Spinner size="sm" /> : ""}
           </button>
+
           <div className="flex items-center gap-[10px] no-underline text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
             <ArrowLeftOutlined />
             <span>
@@ -117,22 +136,24 @@ const Fp3 = ({nextStep}) => {
                 Enter OTP code sent to your email address
               </div>
             </div>
-            <div className="flex justify-start gap-3 mt-[30px]">
-              {otp.map((digit, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  maxLength="1"
-                  value={digit}
-                  ref={(el) => (inputRefs.current[index] = el)}
-                  onChange={(e) => handleChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(index, e)}
-                  className="w-12 h-12 border border-gray-300 text-center text-lg rounded-md focus:outline-none focus:ring-2 focus:ring-[#4FD6FA]"
-                />
-              ))}
+            <OtpInput otp={otp} setOtp={setOtp}/>
+            <div className="min-h-[20px]">
+              {error && (
+                <p className="text-red-500 text-sm pt-[5px]">{error}</p>
+              )}
             </div>
-            <button onClick={nextStep} className="bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium">
-              Continue
+
+            <button
+              disabled={otp.some((digit) => digit === "")}
+              onClick={onFinish}
+              className={`${
+                otp.some((digit) => digit === "")
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+              } rounded-[50px] md:rounded-[55px] md:rounded-[60px] w-full my-[40px] px-[10px] py-[12px] text-[16px] text-white font-medium`}
+            >
+              {confirmLoading ? "Verifying" : "Continue"}
+              {confirmLoading ? <Spinner size="sm" /> : ""}
             </button>
 
             <div className="flex items-center gap-[10px] no-underline text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
