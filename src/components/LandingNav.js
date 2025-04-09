@@ -62,7 +62,7 @@ const LandingNav = () => {
         {/* Mobile Menu Overlay */}
         {/* Mobile Menu Overlay */}
         <div
-          style={{ zIndex: "999" }}
+          style={{ zIndex: "9999" }}
           className={`fixed top-0 right-0 h-full w-full bg-white flex flex-col px-6 py-10 shadow-2xl transition-transform duration-500 ease-in-out ${
             mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}

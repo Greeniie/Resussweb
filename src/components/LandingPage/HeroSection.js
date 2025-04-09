@@ -6,24 +6,23 @@ import StoreButtons1 from "../StoreButtons1";
 const HeroSection = () => {
   return (
     <div>
-      <div
-        style={{ zIndex: "9" }}
-        className="absolute top-[-120px] right-[-75px] block md:hidden relative"
-      >
-        <img
-          src={login1}
-          alt="hero"
-          className="w-auto h-[400px] object-center object-cover absolute top-[50px] right-[-57px]"
-        />
-      </div>
-      
-      <div className="block md:grid md:grid-cols-3 w-[90%] md:w-[80%] mx-auto relative">
-        <div className="w-[90%] mx-auto md:mr-auto relative col-span-2 ">
+      <div className="block md:grid md:grid-cols-3 w-full md:w-[80%] mx-auto relative overflow-x-hidden">
+        <div className="w-full md:w-[90%] mx-auto md:mr-auto relative col-span-2 ">
+          <div
+            style={{ zIndex: "9" }}
+            className="overflow-x-hidden block md:hidden"
+          >
+            <img
+              src={login1}
+              alt="hero"
+              className="w-auto h-[400px] object-center object-cover absolute top-[-80px] right-[-130px]"
+            />
+          </div>
           <div className="hidden md:block pb-[10px] font-semibold text-[45px] text-[#461378] pt-[90px] leading-tight w-full">
             Find your next job and <br /> elevate your media career
           </div>
-          <div className="block md:hidden text-left pb-[10px] font-semibold text-[35px] pt-[150px] text-[#461378] pt-[90px] leading-tight w-full">
-            Find your next <br /> job and elevate your career
+          <div className="block w-[85%] mx-auto md:hidden text-left font-semibold text-[35px] pt-[150px] text-[#461378] leading-tight w-full">
+            Find your next <br /> job and elevate <br/> your career
           </div>
           <div className="pb-[40px] text-[20px] text-[#461378] pt-[10px] font-normal hidden md:block">
             Discover and be discovered. Unlock earning <br /> opportunities,
@@ -31,7 +30,7 @@ const HeroSection = () => {
             skills
           </div>
 
-          <div className="pb-[40px] text-[14px] text-left text-[#461378] pt-[10px] font-normal block md:hidden">
+          <div className="pb-[40px] text-[14px] text-left text-[#461378] pt-[10px] font-normal block md:hidden w-[85%] mx-auto">
             Discover and be discovered. Unlock earning opportunities, create
             projects, find talent, and showcase your exceptional skills
           </div>
