@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { EllipsisOutlined } from "@ant-design/icons";
 import parse from "html-react-parser";
 import { convert } from "html-to-text";
 import { Link } from "react-router-dom";
 import adsmallscreens from "../assets/testimgs/adsmallscreens.png";
+import share from "../assets/menu-icons/shareblack.png";
+import { Tooltip } from "antd";
 
 const Articles = ({ articles }) => {
   const [visibleCount, setVisibleCount] = useState(9);
@@ -24,7 +25,7 @@ const Articles = ({ articles }) => {
     return trimmedStr.slice(0, lastSpaceIndex) + "...";
   };
 
-  const rawText = convert(sortedArticles[0].article_content[0].content_body, {
+  const rawText = convert(sortedArticles[0]?.article_content[0]?.content_body, {
     wordwrap: false,
   });
 
@@ -35,39 +36,59 @@ const Articles = ({ articles }) => {
     <div className="max-w-6xl mx-auto md:py-4">
       {/* Featured Article (Most Recent) */}
 
-      <Link to={`/article/details/${sortedArticles[0].id}`}>
-        <div className="hidden md:flex text-white rounded-lg overflow-hidden mb-6">
-          <img
-            src={sortedArticles[0].image_path}
-            alt={sortedArticles[0].title}
-            className="w-full md:w-1/2 min-h-80 rounded-bl-[25px] rounded-tl-[25px] object-cover"
-          />
-          <div className="flex flex-col pt-[10px] px-[30px] w-full md:w-1/2 rounded-br-[25px] rounded-tr-[25px] bg-black">
-            <button className="flex justify-end mb-[30px]">
-              <EllipsisOutlined style={{ fontSize: "32px" }} />
-            </button>
-            <h2 className="text-2xl text-[#fff] font-bold mb-[30px]">
-              {sortedArticles[0].title}
-            </h2>
-            <p className="text-gray-300 pb-[50px] text-justify">
-              {parsedContent}
-            </p>
+      {sortedArticles[0] && (
+        <Link to={`/article/details/${sortedArticles[0]?.id}`}>
+          <div className="hidden md:flex text-white rounded-lg overflow-hidden mb-6">
+            <img
+              src={sortedArticles[0]?.image_path}
+              alt={sortedArticles[0]?.title}
+              className="w-full md:w-1/2 min-h-80 rounded-bl-[25px] rounded-tl-[25px] object-cover"
+            />
+            <div className="flex flex-col pt-[10px] px-[30px] w-full md:w-1/2 rounded-br-[25px] rounded-tr-[25px] bg-black">
+              <div className="flex justify-end mb-[30px]">
+                <Tooltip placement="left" title={"share"}>
+                  <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
+                    <img
+                      src={share}
+                      alt="share"
+                      className="h-[15px] md:h-[18px] w-auto object-center object-cover"
+                    />
+                  </button>{" "}
+                </Tooltip>
+              </div>
+
+              <h2 className="text-2xl text-[#fff] font-bold mb-[30px]">
+                {sortedArticles[0]?.title}
+              </h2>
+              <p className="text-gray-300 pb-[50px] text-justify">
+                {parsedContent}
+              </p>
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      )}
 
       {/* Mobile Featured Article */}
-      <Link to={`/article/details/${sortedArticles[0].id}`}>
+      <Link to={`/article/details/${sortedArticles[0]?.id}`}>
         <div
           className="block md:hidden relative min-h-[250px] mb-4 md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
-          style={{ backgroundImage: `url(${sortedArticles[0].image_path})` }}
+          style={{ backgroundImage: `url(${sortedArticles[0]?.image_path})` }}
         >
-          <button className="absolute right-[30px] mt-[10px] mb-[30px]">
-            <EllipsisOutlined style={{ fontSize: "32px", color: "white" }} />
-          </button>
+          <div className="absolute right-[30px] mt-[10px] mb-[30px]">
+            <Tooltip placement="left" title={"share"}>
+              <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
+                <img
+                  src={share}
+                  alt="share"
+                  className="h-[15px] md:h-[18px] w-auto object-center object-cover"
+                />
+              </button>
+            </Tooltip>
+          </div>
+
           <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-3">
             <h3 className="text-lg text-white font-semibold">
-              {sortedArticles[0].title}
+              {sortedArticles[0]?.title}
             </h3>
           </div>
         </div>
@@ -75,10 +96,10 @@ const Articles = ({ articles }) => {
 
       {/* Article Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {sortedArticles.slice(1, visibleCount).map((article, index) => (
+        {sortedArticles?.slice(1, visibleCount).map((article, index) => (
           <>
             {index === 2 && ( // Display the ad after the third article
-              <div key="ad" className="block md:hidden w-full my-4">
+              <div key={index} className="block md:hidden w-full my-4">
                 <img
                   src={adsmallscreens}
                   alt="ad"
@@ -87,19 +108,27 @@ const Articles = ({ articles }) => {
               </div>
             )}
 
-            <Link to={`/article/details/${article.id}`} key={article.id}>
+            <Link to={`/article/details/${article?.id}`} key={article?.id}>
               <div
+                key={index}
                 className="relative min-h-[200px] md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
-                style={{ backgroundImage: `url(${article.image_path})` }}
+                style={{ backgroundImage: `url(${article?.image_path})` }}
               >
-                <button className="absolute right-[30px] mt-[10px] mb-[30px]">
-                  <EllipsisOutlined
-                    style={{ fontSize: "32px", color: "white" }}
-                  />
-                </button>
+                <div className="absolute right-[30px] mt-[10px] mb-[30px]">
+                  <Tooltip placement="left" title={"share"}>
+                    <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
+                      <img
+                        src={share}
+                        alt="share"
+                        className="h-[15px] md:h-[18px] w-auto object-center object-cover"
+                      />
+                    </button>
+                  </Tooltip>
+                </div>
+
                 <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-3">
                   <h3 className="text-lg text-white font-semibold leading-[23px]">
-                    {article.title}
+                    {article?.title}
                   </h3>
                 </div>
               </div>
@@ -109,7 +138,7 @@ const Articles = ({ articles }) => {
       </div>
 
       {/* Load More Button */}
-      {visibleCount < sortedArticles.length && (
+      {visibleCount < sortedArticles?.length && (
         <div className="flex justify-center mt-6">
           <button
             onClick={loadMoreArticles}

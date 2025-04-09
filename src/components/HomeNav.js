@@ -9,6 +9,7 @@ import {
   UserOutlined,
   CaretDownOutlined,
 } from "@ant-design/icons";
+import { RightOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import Form from "react-bootstrap/Form";
 import home from "../assets/menu-icons/home.png";
@@ -21,6 +22,14 @@ import resussactive from "../assets/menu-icons/resussactive.png";
 import appactive from "../assets/menu-icons/appactive.png";
 import projectsactive from "../assets/menu-icons/projectsactive.png";
 import messagesactive from "../assets/menu-icons/messagesactive.png";
+import user from "../assets/menu-icons/user.png";
+import support from "../assets/menu-icons/support.png";
+import bookmark from "../assets/menu-icons/bookmark.png";
+import share from "../assets/menu-icons/share.png";
+import view from "../assets/menu-icons/user.png";
+import setting from "../assets/menu-icons/setting.png";
+
+import { Dropdown } from "antd";
 
 const HomeNav = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -88,6 +97,95 @@ const HomeNav = () => {
       }
     };
   }, []);
+
+  const items = [
+    {
+      label: (
+        <div className="flex items-center justify-between text-base px-4 py-2">
+          <div className="flex gap-3 items-center">
+            <img src={user} alt="Profile" className="w-4 h-4" />
+            <span className="text-[12px]">Your profile</span>
+          </div>
+
+          <RightOutlined style={{ fontStyle: "5px" }} />
+        </div>
+      ),
+      key: "0",
+    },
+    {
+      label: (
+        <div className="flex items-center justify-between text-base px-4 py-2">
+          <div className="flex gap-3 items-center">
+            <img src={view} alt="view" className="w-4 h-4" />
+            <span className="text-[12px]">View my account</span>
+          </div>
+          <RightOutlined style={{ fontStyle: "5px" }} />
+        </div>
+      ),
+      key: "1",
+    },
+    {
+      label: (
+        <div className="flex items-center justify-between text-base px-4 py-2">
+          <div className="flex gap-3 items-center">
+            <img src={share} alt="share" className="w-4 h-4" />
+            <span className="text-[12px]">Share your profile</span>
+          </div>
+        </div>
+      ),
+      key: "2",
+    },
+
+    {
+      type: "divider",
+    },
+    {
+      label: (
+        <div className="flex items-center justify-between text-base px-4 py-2">
+          <div className="flex gap-3 items-center">
+            <img src={bookmark} alt="bookmark" className="w-4 h-4" />
+            <span className="text-[12px]">Bookmarks</span>
+          </div>
+          <RightOutlined style={{ fontStyle: "5px" }} />
+        </div>
+      ),
+      key: "3",
+    },
+    {
+      label: (
+        <div className="flex items-center justify-between text-base px-4 py-2">
+          <div className="flex gap-3 items-center">
+            <img src={setting} alt="Settings" className="w-4 h-4" />
+            <span className="text-[12px]">Settings</span>
+          </div>
+
+          <RightOutlined style={{ fontStyle: "5px" }} />
+        </div>
+      ),
+      key: "4",
+    },
+    {
+      label: (
+        <div className="flex items-center justify-between text-base px-4 py-2">
+          <div className="flex gap-3 items-center">
+            <img src={support} alt="support" className="w-4 h-4" />
+            <span className="text-[12px]">Support</span>
+          </div>
+
+          <RightOutlined style={{ fontStyle: "5px" }} />
+        </div>
+      ),
+      key: "5",
+    },
+    {
+      label: (
+        <div className="flex items-center gap-3 text-base px-4 py-2 text-[#9900FF]">
+          <span className="text-[12px]">Sign out</span>
+        </div>
+      ),
+      key: "3",
+    },
+  ];
 
   const handleClear = () => {
     setSearchValue("");
@@ -305,22 +403,30 @@ const HomeNav = () => {
           </div>
 
           {/* Avatar */}
-          <div className="flex items-center ml-auto">
-            <Avatar
-              style={{ backgroundColor: "#3f8bcaa1" }}
-              icon={<UserOutlined />}
-              size={40}
-              shape="square"
-            />
-            <CaretDownOutlined />
-          </div>
+
+          <Dropdown
+            menu={{
+              items,
+            }}
+            trigger={["click"]}
+          >
+            <div
+              className="flex items-center ml-auto cursor-pointer"
+              onClick={(e) => e.preventDefault()}
+            >
+              <Avatar
+                style={{ backgroundColor: "#3f8bcaa1" }}
+                icon={<UserOutlined />}
+                size={40}
+                shape="square"
+              />
+              <CaretDownOutlined />
+            </div>
+          </Dropdown>
         </div>
 
         {/* Search Modal (Like LinkedIn) */}
-        <Modal
-          show={showSearchModal}
-          onHide={() => setShowSearchModal(false)}
-        >
+        <Modal show={showSearchModal} onHide={() => setShowSearchModal(false)}>
           <Modal.Header closeButton>
             <Form.Control
               autoFocus

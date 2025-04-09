@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { EnvironmentFilled, EllipsisOutlined } from "@ant-design/icons";
 import pro6 from "../assets/images/pro6.png";
 import filters from "../assets/images/filtersmobile.png";
+import share from "../assets/menu-icons/shareblack.png";
+import bookmark from "../assets/menu-icons/bookmarkblack.png";
+
+import { Tooltip } from "antd"
 
 const TalentList = ({ talents }) => {
   const [showAll, setShowAll] = useState(false);
@@ -34,9 +38,26 @@ const TalentList = ({ talents }) => {
             key={index}
             className="relative border border-[#DEDEDE] h-[300px] w-full rounded-[25px] overflow-hidden bg-gray-200"
           >
-            <button className="absolute right-[10px]">
-              <EllipsisOutlined style={{ fontSize: "32px", color: "white" }} />
-            </button>
+            <div className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]">
+            <Tooltip placement="left" title={"share"}>
+              <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
+                <img
+                  src={share}
+                  alt="share"
+                  className="h-[11px] md:h-[15px] w-auto object-center object-cover"
+                />
+              </button>
+            </Tooltip>
+            <Tooltip placement="left" title={"bookmark"}>
+              <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
+                <img
+                  src={bookmark}
+                  alt="bookmark"
+                  className="h-[11px] md:h-[15px] w-auto object-center object-cover"
+                />
+              </button>
+            </Tooltip>
+          </div>
             <img
               src={talent.profile_photo_url ? talent.profile_photo_url : pro6}
               alt={`${talent.first_name} ${talent.last_name}`}

@@ -23,7 +23,7 @@ const Features2 = () => {
             <img
               src={login2}
               alt=""
-              className="h-[550px] w-auto object-center object-cover scale-x-[-1] absolute top-[-85px] right-[100px]"
+              className="h-[550px] w-auto object-center object-cover scale-x-[-1] absolute top-[-85px] right-[200px]"
             />
           </div>
           <div className="md:hidden block">

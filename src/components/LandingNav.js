@@ -37,7 +37,7 @@ const LandingNav = () => {
     { name: "Features", path: "/features" },
     { name: "FAQ", path: "/faq" },
     { name: "About", path: "/about" },
-    { name: "Join now", path: "/sign-in" },
+    { name: "Join now", path: "/create-account" },
   ];
 
   return (
