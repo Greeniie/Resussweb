@@ -6,7 +6,7 @@ import StoreButtons1 from "../StoreButtons1";
 const HeroSection = () => {
   return (
     <div>
-      <div className="block md:grid md:grid-cols-3 w-full md:w-[80%] mx-auto relative overflow-x-hidden">
+      <div className="block md:grid md:grid-cols-3 w-full md:w-[80%] mx-auto relative overflow-x-hidden overflow-y-hidden md:min-h-[700px]">
         <div className="w-full md:w-[90%] mx-auto md:mr-auto relative col-span-2 ">
           <div
             style={{ zIndex: "9" }}
@@ -59,28 +59,16 @@ const HeroSection = () => {
 
         <div
           style={{ zIndex: "9" }}
-          className="absolute top-[-120px] right-[-75px] hidden md:block"
+          className="absolute top-[-80px] right-[-75px] hidden md:block"
         >
           <img
             src={login1}
             alt="hero"
-            className="w-auto h-[720px] object-center object-cover"
+            className="w-auto h-[650px] object-center object-contain"
           />
         </div>
       </div>
 
-      {/* <div
-        className="overflow-x-hidden relative block md:hidden"
-        style={{ zIndex: "9" }}
-      >
-        <div>
-          <img
-            src={login1}
-            alt=""
-            className="w-[550px] h-auto object-center object-cover absolute top-[-70px] right-[-130px]"
-          />
-        </div>
-      </div> */}
     </div>
   );
 };
