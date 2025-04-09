@@ -15,7 +15,7 @@ const Features = () => {
           </div>
           <div className="w-[80%] col-span-2 ml-auto">
             <div className="pt-[80px]">
-              <div className="text-[40px] text-[#461378] font-semibold pb-[10px]">
+              <div className="text-[35px] text-[#461378] font-semibold pb-[10px]">
                 The new industry standard
               </div>
               <div className="text-[20px] text-[#898A8D] pb-[30px]">

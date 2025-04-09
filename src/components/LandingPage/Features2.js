@@ -9,7 +9,7 @@ const Features2 = () => {
         <div className="block md:grid md:grid-cols-3">
           <div className="w-full md:w-[80%] col-span-2 mr-auto">
             <div>
-              <div className="text-[25px] md:text-[40px] text-[#4FD6FA] md:text-[#461378] font-semibold leading-[30px] md:leading-[40px] pb-[10px]">
+              <div className="text-[25px] md:text-[35px] text-[#4FD6FA] md:text-[#461378] font-semibold leading-[30px] md:leading-[40px] pb-[10px]">
                 Creators find and match talent to projects
               </div>
               <div className="hidden md:block text-[20px] text-[#898A8D] pb-[30px]">

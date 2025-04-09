@@ -47,7 +47,7 @@ const FAQ = () => {
         />
       </div>
       <div className="max-w-3xl mx-auto px-8 py-8">
-        <div className="text-[30px] md:text-[40px] text-[#461378] font-medium leading-[30px] md:leading-[40px] pt-[40px] text-left md:text-center">
+        <div className="text-[30px] md:text-[35px] text-[#461378] font-medium leading-[30px] md:leading-[40px] pt-[40px] text-left md:text-center">
           Frequently Asked Questions
         </div>
         <div className="space-y-4 mt-[50px] mb-[130px] md:mb-[0]">

@@ -68,7 +68,7 @@ const About = () => {
   return (
     <div className="pt-[50px] md:pt-[150px] w-[85%] mx-auto">
       <div className="text-center">
-        <div className="text-[30px] md:text-[40px] text-[#461378] font-medium leading-[30px] pb-[10px]">
+        <div className="text-[30px] md:text-[35px] text-[#461378] font-medium leading-[30px] pb-[10px]">
           Everything you need to grow{" "}
           <span className="text-[#4FD6FA]">your career</span>
         </div>

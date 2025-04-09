@@ -45,7 +45,7 @@ const Features3 = () => {
         <div className="block md:grid md:grid-cols-2">
           <div className="w-full">
             <div className="pt-[20px] md:pt-[80px] w-[85%] mx-auto">
-              <div className="text-[30px] md:text-[40px] text-[#461378] font-semibold leading-[30px] md:leading-[40px] pb-[80px] md:pb-[10px] mt-[50px] md:mt-[200px]">
+              <div className="text-[30px] md:text-[35px] text-[#461378] font-semibold leading-[30px] md:leading-[40px] pb-[80px] md:pb-[10px] mt-[50px] md:mt-[200px]">
                 Creators find and match talent to projects
               </div>
               <div className="hidden md:block text-[20px] text-[#898A8D] pb-[30px]">
