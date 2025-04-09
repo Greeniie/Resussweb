@@ -33,7 +33,7 @@ const CTA = () => {
           {" "}
           <Link
             to="/create-account"
-            className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-28 py-3 md:py-2 rounded-[60px] font-medium text-[18px]"
+            className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-5 md:px-28 py-3 md:py-2 rounded-[60px] font-medium text-[18px]"
           >
             Get Started
           </Link>
