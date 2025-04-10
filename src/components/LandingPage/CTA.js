@@ -34,8 +34,8 @@ const CTA = () => {
       </div>
 
       {/* Text and button section */}
-      <div className="max-w-3xl mx-auto px-4 py-8 text-center">
-        <div className="pt-[430px] pb-[80px] md:pb-[0] md:pt-[90px] ">
+      <div className="max-w-3xl mx-auto px-4 py-3 md:py-8 text-center">
+        <div className="pt-[260px] pb-[0] md:pt-[90px] ">
           <Link
             to="/create-account"
             className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-5 md:px-28 py-3 md:py-2 rounded-[60px] font-medium text-[18px]"
