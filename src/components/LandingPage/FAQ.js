@@ -37,15 +37,18 @@ const FAQ = () => {
   const toggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
   return (
     <div className="relative bg-[#EDE8FC] min-h-[730px] mt-[40px]">
-      <div className="hidden md:block">
+      {/* Image for larger screens (desktop) */}
+      <div className="hidden lg:block">
         <img
           src={faqimg}
-          alt=""
-          className="h-[400px] w-auto object-center object-cover absolute left-[210px] top-[-35px]"
+          alt="FAQ Image"
+          className="h-[400px] w-auto object-center object-cover absolute left-[210px] top-[-35px] lg:left-[50px] lg:top-[-40px]"
         />
       </div>
+
       <div className="max-w-3xl mx-auto px-8 py-8">
         <div className="text-[30px] md:text-[35px] text-[#461378] font-medium leading-[30px] md:leading-[40px] pt-[40px] text-left md:text-center">
           Frequently Asked Questions

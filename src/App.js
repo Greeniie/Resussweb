@@ -14,6 +14,7 @@ import Spinner from "./utils/Spinner";
 import ArticleDetails from "./pages/ArticleDetails";
 import Events from "./pages/Events";
 import LandingPage from "./pages/LandingPage";
+import Profile from "./pages/Profile";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -46,6 +47,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/article/details/:id" element={<ArticleDetails />} />
+            <Route path="/:fullname" element={<Profile />} />
             <Route path="/events" element={<Events />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />

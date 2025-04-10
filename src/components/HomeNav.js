@@ -7,7 +7,8 @@ import {
   SearchOutlined,
   CloseCircleOutlined,
   UserOutlined,
-  CaretDownOutlined, RightOutlined
+  CaretDownOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
 import { Avatar } from "antd";
 import Form from "react-bootstrap/Form";
@@ -24,8 +25,8 @@ import messagesactive from "../assets/menu-icons/messagesactive.png";
 import user from "../assets/menu-icons/user.png";
 import support from "../assets/menu-icons/support.png";
 import bookmark from "../assets/menu-icons/bookmark.png";
-import share from "../assets/menu-icons/share.png";
 import view from "../assets/menu-icons/user.png";
+import share from "../assets/menu-icons/share.png";
 import setting from "../assets/menu-icons/setting.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../redux/profileSlice";
@@ -39,7 +40,6 @@ const HomeNav = () => {
   useEffect(() => {
     dispatch(getProfile());
   }, []);
-
 
   const [searchValue, setSearchValue] = useState("");
   const [showSearch, setShowSearch] = useState(false);
@@ -107,17 +107,24 @@ const HomeNav = () => {
     };
   }, []);
 
+  const fullName = `${profile?.singleData?.user?.first_name || ""}${
+    profile?.singleData?.user?.last_name || ""
+  }`.toLowerCase();
+
   const items = [
     {
       label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
+        <Link
+          to={`/${fullName}`}
+          className="flex items-center justify-between text-base px-4 py-2"
+        >
           <div className="flex gap-3 items-center">
             <img src={user} alt="Profile" className="w-4 h-4" />
             <span className="text-[12px]">Your profile</span>
           </div>
 
           <RightOutlined style={{ fontStyle: "5px" }} />
-        </div>
+        </Link>
       ),
       key: "0",
     },

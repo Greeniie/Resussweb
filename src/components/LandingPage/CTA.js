@@ -6,31 +6,36 @@ import { Link } from "react-router-dom";
 const CTA = () => {
   return (
     <div className="relative bg-[#B6F0FF] min-h-[450px]">
-      <div className="hidden md:block">
+      {/* Image for larger screens (desktop) */}
+      <div className="hidden lg:block">
         <img
           src={ctaimg}
           alt=""
           className="h-[500px] w-auto object-center object-cover absolute left-[150px] top-[-70px]"
         />
       </div>
-      <div className="relative block md:hidden">
+
+      {/* Image for medium and smaller screens (tablet and mobile) */}
+      <div className="md:hidden block">
         <img
           src={ctaimg}
           alt=""
-          className="h-[500px] w-auto object-center object-cover absolute left-1/2 top-[-70px] transform -translate-x-1/2"
+          className="h-[300px] w-auto object-center object-cover absolute left-1/2 top-[-50px] transform -translate-x-1/2"
         />
       </div>
 
-      <div className="hidden md:block">
+      {/* Second image for desktop */}
+      <div className="hidden lg:block">
         <img
           src={cta2}
           alt=""
           className="h-[250px] w-auto object-center object-cover absolute right-[270px] top-[120px]"
         />
       </div>
+
+      {/* Text and button section */}
       <div className="max-w-3xl mx-auto px-4 py-8 text-center">
         <div className="pt-[430px] pb-[80px] md:pb-[0] md:pt-[90px] ">
-          {" "}
           <Link
             to="/create-account"
             className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-5 md:px-28 py-3 md:py-2 rounded-[60px] font-medium text-[18px]"

@@ -80,94 +80,6 @@ const Home = () => {
     { key: "3", label: "Jobs" },
   ];
 
-  const items = [
-    {
-      label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
-          <div className="flex gap-3 items-center">
-            <img src={user} alt="Profile" className="w-4 h-4" />
-            <span className="text-[12px]">Your profile</span>
-          </div>
-
-          <RightOutlined style={{ fontStyle: "5px" }} />
-        </div>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
-          <div className="flex gap-3 items-center">
-            <img src={view} alt="view" className="w-4 h-4" />
-            <span className="text-[12px]">View my account</span>
-          </div>
-          <RightOutlined style={{ fontStyle: "5px" }} />
-        </div>
-      ),
-      key: "1",
-    },
-    {
-      label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
-          <div className="flex gap-3 items-center">
-            <img src={share} alt="share" className="w-4 h-4" />
-            <span className="text-[12px]">Share your profile</span>
-          </div>
-        </div>
-      ),
-      key: "2",
-    },
-
-    {
-      type: "divider",
-    },
-    {
-      label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
-          <div className="flex gap-3 items-center">
-            <img src={bookmark} alt="bookmark" className="w-4 h-4" />
-            <span className="text-[12px]">Bookmarks</span>
-          </div>
-          <RightOutlined style={{ fontStyle: "5px" }} />
-        </div>
-      ),
-      key: "3",
-    },
-    {
-      label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
-          <div className="flex gap-3 items-center">
-            <img src={setting} alt="Settings" className="w-4 h-4" />
-            <span className="text-[12px]">Settings</span>
-          </div>
-
-          <RightOutlined style={{ fontStyle: "5px" }} />
-        </div>
-      ),
-      key: "4",
-    },
-    {
-      label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
-          <div className="flex gap-3 items-center">
-            <img src={support} alt="support" className="w-4 h-4" />
-            <span className="text-[12px]">Support</span>
-          </div>
-
-          <RightOutlined style={{ fontStyle: "5px" }} />
-        </div>
-      ),
-      key: "5",
-    },
-    {
-      label: (
-        <div className="flex items-center gap-3 text-base px-4 py-2 text-[#9900FF]">
-          <span className="text-[12px]">Sign out</span>
-        </div>
-      ),
-      key: "3",
-    },
-  ];
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const sidebarRef = useRef(null);
@@ -390,7 +302,7 @@ const Home = () => {
               {/* Sidebar */}
               <div
                 ref={sidebarRef} // Attach the ref to the sidebar
-                className={`fixed top-0 left-0 h-full bg-white bg-opacity-70 w-[80%] z-50 transform transition-transform ease-in-out duration-300 ${
+                className={`fixed top-0 left-0 h-full bg-white bg-opacity-70 w-[80%] z-[9999] transform transition-transform ease-in-out duration-300 ${
                   sidebarVisible ? "translate-x-0" : "-translate-x-full"
                 }`}
               >

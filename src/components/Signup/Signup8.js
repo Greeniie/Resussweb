@@ -6,8 +6,6 @@ import Modal from "react-bootstrap/Modal";
 
 import {
   ArrowLeftOutlined,
-  CloseCircleFilled,
-  EditFilled,
   EnvironmentFilled,
 } from "@ant-design/icons";
 import NavBar from "../NavBar";

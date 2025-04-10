@@ -7,18 +7,25 @@ import view from "../assets/menu-icons/user.png";
 import setting from "../assets/menu-icons/setting.png";
 import verified from "../assets/menu-icons/verified.png";
 import { RightOutlined, EnvironmentFilled, CloseOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const MobileSidebar = ({ profile, toggleSidebar }) => {
+
+console.log(profile)
+const fullName = `${profile?.first_name || ""}${
+    profile?.last_name || ""
+  }`.toLowerCase();
+
   const items = [
     {
       label: (
-        <div className="flex items-center justify-between text-base pb-2">
+        <Link to={`/${fullName}`} className="flex text-[#000] items-center justify-between text-base pb-2">
           <div className="flex gap-3 items-center">
             <img src={user} alt="Profile" className="w-4 h-4" />
             <span className="text-[12px]">Your profile</span>
           </div>
           <RightOutlined style={{ fontSize: "14px" }} />
-        </div>
+        </Link>
       ),
     },
     {
@@ -87,23 +94,24 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
     },
   ];
 
+
   return (
-    <div className="py-3 px-4 overflow-x-hidden h-[90vh] overflow-y-scroll">
-      <div className="relative h-[300px] w-[300px] flex items-center">
+    <div className="pt-5 pb-3 px-4 overflow-x-hidden h-[95vh] overflow-y-scroll">
+      <div className="relative">
         <img
           src={verified}
           alt="verified"
-          className="h-[30px] w-auto object-center object-cover absolute right-[105px] top-[88px]"
+          className="h-[30px] w-auto object-center object-cover absolute right-[60px] top-[10px]"
         />
         <img
           src={profile?.profile_photo_url}
-          className="object-cover object-center h-[200px] w-[200px] mt-[50px]"
+          className="object-cover object-center h-[200px] w-[200px] rounded-[20px]"
           alt="profile"
         />
       </div>
       <div>
         <div>
-          <div className="text-[#545454] text-[22px] font-bold">
+          <div className="text-[#545454] text-[22px] font-bold pt-[20px]">
             {profile?.first_name} {profile?.last_name}
           </div>
           <div>
@@ -114,8 +122,8 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
                 paddingRight: "10px",
               }}
             />
-            <span className="text-[14px] text-[#70E1FF] uppercase font-bold">
-              BENIN
+            <span className="text-[14px] text-[#70E1FF] font-bold">
+              {profile?.location || "no location added"}
             </span>
           </div>
         </div>
