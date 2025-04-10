@@ -189,9 +189,20 @@ const Home = () => {
   }, []);
 
   const toggleSidebar = (event) => {
-    event.stopPropagation(); // Prevent the event from propagating to the document
-    setSidebarVisible((prev) => !prev);
+    event.stopPropagation();
+    setSidebarVisible((prev) => {
+      const newSidebarState = !prev;
+      if (newSidebarState) {
+        // Disable body scrolling when the sidebar is open
+        document.body.style.overflow = 'hidden';
+      } else {
+        // Enable body scrolling when the sidebar is closed
+        document.body.style.overflow = 'auto';
+      }
+      return newSidebarState;
+    });
   };
+  
 
   return (
     <div>

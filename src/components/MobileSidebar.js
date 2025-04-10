@@ -88,7 +88,7 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
   ];
 
   return (
-    <div className="py-3 px-4 overflow-x-hidden">
+    <div className="py-3 px-4 overflow-x-hidden h-[90vh] overflow-y-scroll">
       <div className="relative h-[300px] w-[300px] flex items-center">
         <img
           src={verified}
