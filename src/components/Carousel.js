@@ -39,7 +39,7 @@ const Carousel = () => {
   const extendedImages = [...images, ...images]; // Duplicate for infinite effect
 
   // Dynamically shrink the size of images based on screen size
-  const imageWidth = isSmallScreen ? "w-[80%]" : "w-[45%]"; // Shrink the width for mobile
+  const imageWidth = isSmallScreen ? "w-[80%]" : "w-[35%]"; // Shrink the width for mobile
   const stepSize = 100 / (isSmallScreen ? 2 : 2.5); // Step size for infinite scrolling
 
   const nextSlide = () => {
@@ -73,7 +73,7 @@ const Carousel = () => {
               <img
                 src={image.src}
                 alt={`slide-${i}`}
-                className="w-full h-[100px] md:h-[300px] object-cover rounded-xl"
+                className="w-full h-[100px] md:h-[250px] object-cover rounded-xl"
               />
 
               {/* Ellipsis button inside the image */}

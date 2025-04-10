@@ -1,17 +1,17 @@
 import AuthAPI from './authInstance'
 
 const getProfile = async (data) => {
-  const response = await AuthAPI.get(`/admin/profile`)
+  const response = await AuthAPI.get(`/user/profile`)
   return response.data
 }
 
 const editProfile = async (data) => {
-  const response = await AuthAPI.post(`/admin/update-profile`, data)
+  const response = await AuthAPI.post(`/user/update-profile`, data)
   return response.data
 }
 
 const editProfilePicture = async (data) => {
-  const response = await AuthAPI.post('/admin/update-profile/picture', data)
+  const response = await AuthAPI.post('/user/update-profile/picture', data)
   return response.data
 }
 

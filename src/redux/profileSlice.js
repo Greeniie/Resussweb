@@ -30,7 +30,7 @@ export const getProfile = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await profileService.getProfile();
-      return response.data;
+      return response;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
     }
@@ -38,7 +38,6 @@ export const getProfile = createAsyncThunk(
 );
 
 const initialState = {
-  data: [],
   singleData: {},
   loading: false,
   error: false,
@@ -46,7 +45,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name: "subscription",
+  name: "profile",
   initialState,
   reducers: {
     checkAll: (state) => {

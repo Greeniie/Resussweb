@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import HomeNav from "../../components/HomeNav";
 import Carousel from "../../components/Carousel";
 import ad from "../../assets/testimgs/ad.png";
 import messages from "../../assets/menu-icons/messages.png";
 import Articles from "../../components/Articles";
 import TalentSpotlight from "../../components/TalentSpotlight";
-import { UserOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  LoadingOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import { Avatar } from "antd";
 import { Link } from "react-router-dom";
 import TalentFilters from "../../components/TalentFilters";
@@ -13,18 +17,19 @@ import TalentList from "../../components/TalentList";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllClients } from "../../redux/clientSlice";
 import { getAllArticles } from "../../redux/articleSlice";
-import { Dropdown} from "antd";
+import { Dropdown } from "antd";
 import user from "../../assets/menu-icons/user.png";
 import support from "../../assets/menu-icons/support.png";
 import bookmark from "../../assets/menu-icons/bookmark.png";
 import share from "../../assets/menu-icons/share.png";
 import view from "../../assets/menu-icons/user.png";
 import setting from "../../assets/menu-icons/setting.png";
-
+import { getProfile } from "../../redux/profileSlice";
+import MobileSidebar from "../../components/MobileSidebar";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { articles, users } = useSelector((state) => state);
+  const { articles, users, profile } = useSelector((state) => state);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isTalentsLoading, setIsTalentsLoading] = useState(true);
@@ -32,6 +37,8 @@ const Home = () => {
   const [clientsError, setClientsError] = useState(null);
 
   useEffect(() => {
+    dispatch(getProfile());
+
     dispatch(getAllArticles())
       .catch((err) => {
         console.error("Failed to fetch articles:", err);
@@ -54,6 +61,16 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [expandedList, setExpandedList] = useState(null); // 'actors', 'crew', 'creative' or null
+
+  const actors = users?.data?.users?.filter(
+    (user) => user.services?.[0]?.name === "Actor"
+  );
+
+  const others = users?.data?.users?.filter(
+    (user) => user.services?.[0]?.name !== "Actor"
+  );
 
   const [activeTab, setActiveTab] = useState("1");
 
@@ -152,6 +169,30 @@ const Home = () => {
     },
   ];
 
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const sidebarRef = useRef(null);
+
+  // Close the sidebar when a click outside occurs
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setSidebarVisible(false); // Close sidebar if clicked outside
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    // Clean up the event listener when component unmounts
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const toggleSidebar = (event) => {
+    event.stopPropagation(); // Prevent the event from propagating to the document
+    setSidebarVisible((prev) => !prev);
+  };
+
   return (
     <div>
       <div className="bg-[#EDEBF4] min-h-screen hidden md:block">
@@ -241,7 +282,47 @@ const Home = () => {
                   {clientsError}
                 </div>
               ) : (
-                <TalentList talents={users?.data?.users || []} />
+                <div>
+                  {(expandedList === null || expandedList === "actors") && (
+                    <TalentList
+                      id="actors"
+                      talents={actors || []}
+                      title="Performing Talent"
+                      isExpanded={expandedList === "actors"}
+                      toggleExpanded={() =>
+                        setExpandedList(
+                          expandedList === "actors" ? null : "actors"
+                        )
+                      }
+                    />
+                  )}
+
+                  {(expandedList === null || expandedList === "crew") && (
+                    <TalentList
+                      id="crew"
+                      talents={others}
+                      title="Crew"
+                      isExpanded={expandedList === "crew"}
+                      toggleExpanded={() =>
+                        setExpandedList(expandedList === "crew" ? null : "crew")
+                      }
+                    />
+                  )}
+
+                  {(expandedList === null || expandedList === "creative") && (
+                    <TalentList
+                      id="creative"
+                      talents={others}
+                      title="Creative Management"
+                      isExpanded={expandedList === "creative"}
+                      toggleExpanded={() =>
+                        setExpandedList(
+                          expandedList === "creative" ? null : "creative"
+                        )
+                      }
+                    />
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -266,26 +347,47 @@ const Home = () => {
         <div className="mt-[70px] w-[90%] mx-auto">
           <div className="flex items-center justify-between gap-[10px]">
             <div>
-              <Dropdown
-              placement="topLeft"
-                menu={{
-                  items,
-                }}
-                trigger={["click"]}
+              <div
+                className="flex items-center ml-auto cursor-pointer"
+                onClick={toggleSidebar}
               >
-                <div
-                  className="flex items-center ml-auto cursor-pointer"
-                  onClick={(e) => e.preventDefault()}
-                >
+                {profile?.singleData?.user?.profile_photo_url ? (
+                  <img
+                    src={profile?.singleData?.user?.profile_photo_url}
+                    alt="profile-picture"
+                    className="w-auto h-[30px] object-cover"
+                  />
+                ) : (
                   <Avatar
                     style={{ backgroundColor: "#3f8bcaa1" }}
                     icon={<UserOutlined />}
                     size={30}
                     shape="square"
                   />
-                </div>
-              </Dropdown>
+                )}
+              </div>
+
+              {/* Dark background overlay */}
+              <div
+                className={`fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 ${
+                  sidebarVisible
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                }`}
+              ></div>
+
+              {/* Sidebar */}
+              <div
+                ref={sidebarRef} // Attach the ref to the sidebar
+                className={`fixed top-0 left-0 h-full bg-white bg-opacity-70 w-[80%] z-50 transform transition-transform ease-in-out duration-300 ${
+                  sidebarVisible ? "translate-x-0" : "-translate-x-full"
+                }`}
+              >
+                <MobileSidebar profile={profile?.singleData?.user} toggleSidebar={toggleSidebar} />
+              </div>
             </div>
+
+            {/* Tab Navigation */}
             <div className="flex gap-[20px] items-center bg-white p-[3px] rounded-lg w-[90%] mx-auto">
               {tabItems.map((tab) => (
                 <div
@@ -301,6 +403,8 @@ const Home = () => {
                 </div>
               ))}
             </div>
+
+            {/* Message Link */}
             <div>
               <Link
                 to="/messages"
@@ -315,6 +419,8 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/* Tab Content */}
         {activeTab === "1" && (
           <div className="pb-[100px]">
             <Carousel />
@@ -353,7 +459,47 @@ const Home = () => {
                   {clientsError}
                 </div>
               ) : (
-                <TalentList talents={users?.data?.users || []} />
+                <div>
+                  {(expandedList === null || expandedList === "actors") && (
+                    <TalentList
+                      id="actors"
+                      talents={actors || []}
+                      title="Performing Talent"
+                      isExpanded={expandedList === "actors"}
+                      toggleExpanded={() =>
+                        setExpandedList(
+                          expandedList === "actors" ? null : "actors"
+                        )
+                      }
+                    />
+                  )}
+
+                  {(expandedList === null || expandedList === "crew") && (
+                    <TalentList
+                      id="crew"
+                      talents={others}
+                      title="Crew"
+                      isExpanded={expandedList === "crew"}
+                      toggleExpanded={() =>
+                        setExpandedList(expandedList === "crew" ? null : "crew")
+                      }
+                    />
+                  )}
+
+                  {(expandedList === null || expandedList === "creative") && (
+                    <TalentList
+                      id="creative"
+                      talents={others}
+                      title="Creative Management"
+                      isExpanded={expandedList === "creative"}
+                      toggleExpanded={() =>
+                        setExpandedList(
+                          expandedList === "creative" ? null : "creative"
+                        )
+                      }
+                    />
+                  )}
+                </div>
               )}
             </div>
           </div>

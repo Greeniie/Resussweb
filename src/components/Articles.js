@@ -34,8 +34,6 @@ const Articles = ({ articles }) => {
 
   return (
     <div className="max-w-6xl mx-auto md:py-4">
-      {/* Featured Article (Most Recent) */}
-
       {sortedArticles[0] && (
         <Link to={`/article/details/${sortedArticles[0]?.id}`}>
           <div className="hidden md:flex text-white rounded-lg overflow-hidden mb-6">
@@ -97,9 +95,11 @@ const Articles = ({ articles }) => {
       {/* Article Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {sortedArticles?.slice(1, visibleCount).map((article, index) => (
-          <>
+          <React.Fragment key={article?.id}>
+            {" "}
+            {/* Add key to the fragment */}
             {index === 2 && ( // Display the ad after the third article
-              <div key={index} className="block md:hidden w-full my-4">
+              <div key={`ad-${index}`} className="block md:hidden w-full my-4">
                 <img
                   src={adsmallscreens}
                   alt="ad"
@@ -107,10 +107,9 @@ const Articles = ({ articles }) => {
                 />
               </div>
             )}
-
-            <Link to={`/article/details/${article?.id}`} key={article?.id}>
+            <Link to={`/article/details/${article?.id}`}>
               <div
-                key={index}
+                key={article?.id}
                 className="relative min-h-[200px] md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
                 style={{ backgroundImage: `url(${article?.image_path})` }}
               >
@@ -133,7 +132,7 @@ const Articles = ({ articles }) => {
                 </div>
               </div>
             </Link>
-          </>
+          </React.Fragment>
         ))}
       </div>
 

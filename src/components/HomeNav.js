@@ -7,9 +7,8 @@ import {
   SearchOutlined,
   CloseCircleOutlined,
   UserOutlined,
-  CaretDownOutlined,
+  CaretDownOutlined, RightOutlined
 } from "@ant-design/icons";
-import { RightOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import Form from "react-bootstrap/Form";
 import home from "../assets/menu-icons/home.png";
@@ -28,10 +27,20 @@ import bookmark from "../assets/menu-icons/bookmark.png";
 import share from "../assets/menu-icons/share.png";
 import view from "../assets/menu-icons/user.png";
 import setting from "../assets/menu-icons/setting.png";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile } from "../redux/profileSlice";
 
 import { Dropdown } from "antd";
 
 const HomeNav = () => {
+  const { profile } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
+
+
   const [searchValue, setSearchValue] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -183,7 +192,7 @@ const HomeNav = () => {
           <span className="text-[12px]">Sign out</span>
         </div>
       ),
-      key: "3",
+      key: "6",
     },
   ];
 
@@ -414,12 +423,21 @@ const HomeNav = () => {
               className="flex items-center ml-auto cursor-pointer"
               onClick={(e) => e.preventDefault()}
             >
-              <Avatar
-                style={{ backgroundColor: "#3f8bcaa1" }}
-                icon={<UserOutlined />}
-                size={40}
-                shape="square"
-              />
+              {profile?.singleData?.user?.profile_photo_url ? (
+                <img
+                  src={profile?.singleData?.user?.profile_photo_url}
+                  alt="profile-picture"
+                  className="w-auto h-[40px] object-cover"
+                />
+              ) : (
+                <Avatar
+                  style={{ backgroundColor: "#3f8bcaa1" }}
+                  icon={<UserOutlined />}
+                  size={40}
+                  shape="square"
+                />
+              )}
+
               <CaretDownOutlined />
             </div>
           </Dropdown>
