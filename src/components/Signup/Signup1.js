@@ -119,7 +119,7 @@ const Signup1 = ({ nextStep }) => {
               onClick={nextStep}
               className="bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium"
             >
-              Login
+              Submit
             </button>
           </div>
         </div>
