@@ -101,7 +101,7 @@ const fullName = `${profile?.first_name || ""}${
         <img
           src={verified}
           alt="verified"
-          className="h-[30px] w-auto object-center object-cover absolute right-[60px] top-[10px]"
+          className="h-[30px] w-auto object-center object-cover absolute right-[70px] top-[10px]"
         />
         <img
           src={profile?.profile_photo_url}
