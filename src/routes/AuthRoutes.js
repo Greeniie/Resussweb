@@ -1,27 +1,27 @@
-import { Spin } from "antd";
 import { Suspense, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import ExpirySession from "../utils/expirySession";
-
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Spinner from "../utils/Spinner";
 
-const AuthRoutes = ({ ...rest }) => {
+const AuthRoutes = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isLoggedIn } = useSelector((state) => state?.auth);
 
   useEffect(() => {
-    isLoggedIn && navigate("/home");
-    !isLoggedIn && navigate("/login");
-  }, []);
+    const currentPath = location.pathname;
 
-  const Loading = () => {
-    return (
-      <div>
-        <Spinner />
-      </div>
-    );
-  };
+    // Prevent logged-in users from accessing /login
+    if (isLoggedIn && currentPath === "/login") {
+      navigate("/home", { replace: true });
+    }
+  }, [isLoggedIn, location.pathname, navigate]);
+
+  const Loading = () => (
+    <div>
+      <Spinner />
+    </div>
+  );
 
   return (
     <Suspense fallback={<Loading />}>

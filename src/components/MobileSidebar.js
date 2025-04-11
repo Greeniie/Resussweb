@@ -6,20 +6,29 @@ import share from "../assets/menu-icons/share.png";
 import view from "../assets/menu-icons/user.png";
 import setting from "../assets/menu-icons/setting.png";
 import verified from "../assets/menu-icons/verified.png";
-import { RightOutlined, EnvironmentFilled, CloseOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  EnvironmentFilled,
+  CloseOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { logout } from "../redux/authSlice";
+import { useDispatch } from "react-redux";
 
 const MobileSidebar = ({ profile, toggleSidebar }) => {
+  const dispatch = useDispatch();
 
-console.log(profile)
-const fullName = `${profile?.first_name || ""}${
+  const fullName = `${profile?.first_name || ""}${
     profile?.last_name || ""
   }`.toLowerCase();
 
   const items = [
     {
       label: (
-        <Link to={`/${fullName}`} className="flex text-[#000] items-center justify-between text-base pb-2">
+        <Link
+          to={`/${fullName}`}
+          className="flex text-[#000] items-center justify-between text-base pb-2"
+        >
           <div className="flex gap-3 items-center">
             <img src={user} alt="Profile" className="w-4 h-4" />
             <span className="text-[12px]">Your profile</span>
@@ -87,13 +96,15 @@ const fullName = `${profile?.first_name || ""}${
     },
     {
       label: (
-        <div className="flex items-center gap-3 text-base  py-2 text-[#9900FF]">
+        <div
+          className="flex items-center gap-3 text-base  py-2 text-[#9900FF]"
+          onClick={() => dispatch(logout())}
+        >
           <span className="text-[12px]">Sign out</span>
         </div>
       ),
     },
   ];
-
 
   return (
     <div className="pt-5 pb-3 px-4 overflow-x-hidden h-[95vh] overflow-y-scroll">

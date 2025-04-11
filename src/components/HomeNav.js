@@ -30,6 +30,7 @@ import share from "../assets/menu-icons/share.png";
 import setting from "../assets/menu-icons/setting.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../redux/profileSlice";
+import { logout } from "../redux/authSlice";
 
 import { Dropdown } from "antd";
 
@@ -195,7 +196,10 @@ const HomeNav = () => {
     },
     {
       label: (
-        <div className="flex items-center gap-3 text-base px-4 py-2 text-[#9900FF]">
+        <div
+          className="flex items-center gap-3 text-base px-4 py-2 text-[#9900FF]"
+          onClick={() => dispatch(logout())}
+        >
           <span className="text-[12px]">Sign out</span>
         </div>
       ),

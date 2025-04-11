@@ -31,27 +31,29 @@ function App() {
   return (
     <Suspense fallback={<Loading />}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
+      <Routes>
+  <Route path="/" element={<LandingPage />} />
 
-          <Route path="/create-account" element={<Signup />} />
+  {/* Auth routes wrapped in AuthRoutes */}
+  <Route element={<AuthRoutes />}>
+    <Route path="/login" element={<Login />} />
+    <Route path="/create-account" element={<Signup />} />
+    <Route path="/forgot-password" element={<ForgotPassword />} />
+    <Route path="/reset-password" element={<ResetPassword />} />
+  </Route>
 
-          {/* Auth routes */}
-          <Route path="/login" element={<Login />} />
+  {/* Private routes */}
+  <Route path="/" element={<ProtectedRoutes />}>
+    <Route path="/home" element={<Home />} />
+    <Route path="/resources" element={<Resources />} />
+    <Route path="/article/details/:id" element={<ArticleDetails />} />
+    <Route path="/:fullname" element={<Profile />} />
+    <Route path="/events" element={<Events />} />
+  </Route>
 
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+  <Route path="*" element={<NotFoundPage />} />
+</Routes>
 
-          {/* Private routes  */}
-          <Route path="/" element={<ProtectedRoutes />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/article/details/:id" element={<ArticleDetails />} />
-            <Route path="/:fullname" element={<Profile />} />
-            <Route path="/events" element={<Events />} />
-          </Route>
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
       </BrowserRouter>
     </Suspense>
   );

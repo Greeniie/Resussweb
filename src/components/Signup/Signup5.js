@@ -102,7 +102,11 @@ const Signup5 = ({
                 Complete Role
               </div>
               <div className="text-[#898A8D] text-[16px] pb-[40px]">
-                Select your role, you can select up to three roles that you want
+                Select your role, you can select up to three roles that you
+                want.{" "}
+                <span className="font-bold">
+                  Note that the first selected role is your main role
+                </span>
               </div>
               <Form.Group className="mb-3 relative w-[50%] ">
                 <Form.Label>What do you do?</Form.Label>
@@ -197,10 +201,7 @@ const Signup5 = ({
                       >
                         <span>{role}</span>
                         <span className="cursor-pointer">
-                          <div
-                            onClick={() => handleSelectRole(role)}
-                           
-                          >
+                          <div onClick={() => handleSelectRole(role)}>
                             <CloseCircleFilled style={{ fontSize: "20px" }} />
                           </div>
                         </span>
@@ -257,7 +258,11 @@ const Signup5 = ({
                 Complete Role
               </div>
               <div className="text-[#898A8D] text-[14px]">
-                Select your role, you can select up to three roles that you want
+                Select your role, you can select up to three roles that you
+                want.{" "}
+                <span className="font-bold">
+                  Note that the first selected role is your main role
+                </span>
               </div>
 
               {/* Search Input */}
@@ -327,31 +332,28 @@ const Signup5 = ({
                     Your selected roles
                   </h2>
                   <div className="flex flex-col gap-[10px]">
-                  {selectedRoles.length > 0 ? (
-                    selectedRoles.map((role, index) => (
-                      <div
-                        key={index}
-                        className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
-                          index === 0
-                            ? "bg-[#461378] text-white"
-                            : "bg-[#F6E9FF] text-[#330066]"
-                        }`}
-                      >
-                        <span>{role}</span>
-                        <span className="cursor-pointer">
-                          <div
-                            onClick={() => handleSelectRole(role)}
-                           
-                          >
-                            <CloseCircleFilled style={{ fontSize: "20px" }} />
-                          </div>
-                        </span>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-[#461378]">No roles selected</p>
-                  )}
-                </div>
+                    {selectedRoles.length > 0 ? (
+                      selectedRoles.map((role, index) => (
+                        <div
+                          key={index}
+                          className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
+                            index === 0
+                              ? "bg-[#461378] text-white"
+                              : "bg-[#F6E9FF] text-[#330066]"
+                          }`}
+                        >
+                          <span>{role}</span>
+                          <span className="cursor-pointer">
+                            <div onClick={() => handleSelectRole(role)}>
+                              <CloseCircleFilled style={{ fontSize: "20px" }} />
+                            </div>
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-[#461378]">No roles selected</p>
+                    )}
+                  </div>
 
                   <button
                     onClick={nextStep}
