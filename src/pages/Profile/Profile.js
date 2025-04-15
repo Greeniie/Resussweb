@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getProfile } from "../redux/profileSlice";
+import { getProfile } from "../../redux/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingOutlined, ArrowLeftOutlined } from "@ant-design/icons";
-import logo from "../assets/logo.png";
-import share from "../assets/menu-icons/share.png";
-import UserInfo from "../components/UserInfo";
+import logo from "../../assets/logo.png";
+import share from "../../assets/menu-icons/share.png";
+import UserInfo from "../../components/UserInfo";
 
 const Profile = () => {
   const navigate = useNavigate();

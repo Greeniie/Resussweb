@@ -28,7 +28,7 @@ const TalentSpotlight = () => {
           className="relative h-[310px] w-[50%] bg-contain bg-no-repeat rounded-[25px] overflow-hidden"
           style={{ backgroundImage: `url(${talent.image})` }}
         >
-         <div className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]">
+          <div className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]">
             <Tooltip placement="left" title={"share"}>
               <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
                 <img

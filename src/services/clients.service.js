@@ -7,7 +7,7 @@ const getAll = async (data) => {
 
 const getOne = async (data) => {
   const response = await AuthAPI.get(`/user/talent/get-one/${data}`);
-  return response.data;
+  return response;
 };
 
 const toggleVerify = async (data) => {

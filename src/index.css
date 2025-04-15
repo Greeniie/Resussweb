@@ -148,5 +148,20 @@ code {
   width: 300px !important;
 }
 
+.custom-modal {
+  max-width: 90vw;
+}
+
+.custom-modal .modal-content {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-modal .modal-body {
+  flex: 1 1 auto;
+  overflow: hidden;  /* Prevent Bootstrap's default scrolling */
+  padding: 0;
+}
 
 

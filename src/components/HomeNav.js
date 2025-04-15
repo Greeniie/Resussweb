@@ -131,13 +131,13 @@ const HomeNav = () => {
     },
     {
       label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
+        <Link to={`/user/${profile?.singleData?.user?.id}`} className="flex items-center justify-between text-base px-4 py-2">
           <div className="flex gap-3 items-center">
             <img src={view} alt="view" className="w-4 h-4" />
             <span className="text-[12px]">View my account</span>
           </div>
           <RightOutlined style={{ fontStyle: "5px" }} />
-        </div>
+        </Link>
       ),
       key: "1",
     },

@@ -14,6 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import { logout } from "../redux/authSlice";
 import { useDispatch } from "react-redux";
+import { Tooltip } from "antd";
 
 const MobileSidebar = ({ profile, toggleSidebar }) => {
   const dispatch = useDispatch();
@@ -39,13 +40,16 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
     },
     {
       label: (
-        <div className="flex items-center justify-between text-base py-2">
+        <Link
+          to={`/user ${profile?.id}`}
+          className="flex items-center justify-between text-base py-2"
+        >
           <div className="flex gap-3 items-center">
             <img src={view} alt="view" className="w-4 h-4" />
             <span className="text-[12px]">View my account</span>
           </div>
           <RightOutlined style={{ fontSize: "14px" }} />
-        </div>
+        </Link>
       ),
     },
     {
@@ -108,18 +112,23 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
 
   return (
     <div className="pt-5 pb-3 px-4 overflow-x-hidden h-[95vh] overflow-y-scroll">
-      <div className="relative">
-        <img
-          src={verified}
-          alt="verified"
-          className="h-[30px] w-auto object-center object-cover absolute right-[70px] top-[10px]"
-        />
-        <img
-          src={profile?.profile_photo_url}
-          className="object-cover object-center h-[200px] w-[200px] rounded-[20px]"
-          alt="profile"
-        />
+      <div
+        className="relative h-[200px] w-full bg-cover rounded-[25px] overflow-hidden"
+        style={{ backgroundImage: `url(${profile?.profile_photo_url})` }}
+      >
+        <div className="absolute right-[20px] mt-[10px]">
+          <Tooltip placement="left" title={"bookmark"}>
+            <button className="flex items-center justify-center p-2 rounded-[7px]">
+              <img
+                src={verified}
+                alt="bookmark"
+                className="h-[30px] w-auto object-center object-cover"
+              />
+            </button>
+          </Tooltip>
+        </div>
       </div>
+
       <div>
         <div>
           <div className="text-[#545454] text-[22px] font-bold pt-[20px]">

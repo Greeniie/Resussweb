@@ -14,7 +14,8 @@ import Spinner from "./utils/Spinner";
 import ArticleDetails from "./pages/ArticleDetails";
 import Events from "./pages/Events";
 import LandingPage from "./pages/LandingPage";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
+import SharedProfile from "./pages/Profile/SharedProfile";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -31,29 +32,29 @@ function App() {
   return (
     <Suspense fallback={<Loading />}>
       <BrowserRouter>
-      <Routes>
-  <Route path="/" element={<LandingPage />} />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/user/:id" element={<SharedProfile />} />
 
-  {/* Auth routes wrapped in AuthRoutes */}
-  <Route element={<AuthRoutes />}>
-    <Route path="/login" element={<Login />} />
-    <Route path="/create-account" element={<Signup />} />
-    <Route path="/forgot-password" element={<ForgotPassword />} />
-    <Route path="/reset-password" element={<ResetPassword />} />
-  </Route>
+          {/* Auth routes wrapped in AuthRoutes */}
+          <Route element={<AuthRoutes />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/create-account" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+          </Route>
 
-  {/* Private routes */}
-  <Route path="/" element={<ProtectedRoutes />}>
-    <Route path="/home" element={<Home />} />
-    <Route path="/resources" element={<Resources />} />
-    <Route path="/article/details/:id" element={<ArticleDetails />} />
-    <Route path="/:fullname" element={<Profile />} />
-    <Route path="/events" element={<Events />} />
-  </Route>
+          {/* Private routes */}
+          <Route path="/" element={<ProtectedRoutes />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/resources" element={<Resources />} />
+            <Route path="/article/details/:id" element={<ArticleDetails />} />
+            <Route path="/:fullname" element={<Profile />} />
+            <Route path="/events" element={<Events />} />
+          </Route>
 
-  <Route path="*" element={<NotFoundPage />} />
-</Routes>
-
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </BrowserRouter>
     </Suspense>
   );
