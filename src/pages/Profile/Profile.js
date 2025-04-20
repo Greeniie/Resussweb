@@ -4,8 +4,8 @@ import { getProfile } from "../../redux/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import logo from "../../assets/logo.png";
-import share from "../../assets/menu-icons/share.png";
 import UserInfo from "../../components/UserInfo";
+import ShareButton from "../../components/ShareButton";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -49,10 +49,7 @@ const Profile = () => {
             My Profile
           </div>
         </div>
-        <div className="flex gap-3 items-center">
-          <img src={share} alt="share" className="w-5 h-5" />
-          <span className="text-[14px] text-[#161616]">Share your profile</span>
-        </div>
+      <ShareButton user={thisUser?.id}/>
       </div>
       {loading ? (
         <div className="flex justify-center items-center h-screen">
