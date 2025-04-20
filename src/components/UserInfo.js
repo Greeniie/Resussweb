@@ -117,7 +117,7 @@ const UserInfo = ({ user }) => {
               {user?.bio ||
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries."}
             </div>
-            <button className="absolute top-[35px] md:top-[0] right-[0] md:right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex justify-center">
+            <button className="absolute top-[35px] md:top-[0] right-[0] md:right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
               <EditFilled className="text-white text-lg" />
             </button>
           </div>
@@ -166,7 +166,7 @@ const UserInfo = ({ user }) => {
                   alt="pics"
                   className="h-[35px] w-auto object-cover object-center"
                 />
-                <button className="absolute top-[10px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex justify-center">
+                <button className="absolute top-[10px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
                   <EditFilled className="text-white text-lg" />
                 </button>
                 <div className="pt-[10px] font-medium text-[14px] text-[#898A8D]">
@@ -179,7 +179,7 @@ const UserInfo = ({ user }) => {
                   alt="pics"
                   className="h-[35px] w-auto object-cover object-center"
                 />
-                <button className="absolute top-[10px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex justify-center">
+                <button className="absolute top-[10px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
                   <EditFilled className="text-white text-lg" />
                 </button>
                 <div className="pt-[10px] font-medium text-[14px] text-[#898A8D]">
@@ -193,7 +193,7 @@ const UserInfo = ({ user }) => {
                 alt=""
                 className="w-full h-[150px] rounded-[14px] object-cover object-center"
               />
-              <button className="absolute top-[30px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex justify-center">
+              <button className="absolute top-[30px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
                 <EditFilled className="text-white text-lg" />
               </button>
               <button className="absolute bottom-[30px] left-[10px] text-[14px] text-[#fff]">
@@ -215,7 +215,7 @@ const UserInfo = ({ user }) => {
               <span className="text-[12px] text-[#ABB0BA]">
                 {allProjects.length} Projects
               </span>
-              <button className="bg-[#898A8D] h-[30px] w-[30px] rounded-full flex justify-center">
+              <button className="bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
                 <EditFilled className="text-white text-lg" />
               </button>
             </div>
