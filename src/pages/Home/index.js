@@ -2,12 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import HomeNav from "../../components/HomeNav";
 import Carousel from "../../components/Carousel";
 import ad from "../../assets/testimgs/ad.png";
+import adjobpage from "../../assets/testimgs/adjobpage.png";
+import testimg3 from "../../assets/testimgs/testimg3.png";
 import messages from "../../assets/menu-icons/messages.png";
 import Articles from "../../components/Articles";
 import TalentSpotlight from "../../components/TalentSpotlight";
 import {
   UserOutlined,
   LoadingOutlined,
+  EnvironmentOutlined,
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { Link, useLocation } from "react-router-dom";
@@ -16,18 +20,23 @@ import TalentList from "../../components/TalentList";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllClients } from "../../redux/clientSlice";
 import { getAllArticles } from "../../redux/articleSlice";
+import { getAllJobs } from "../../redux/jobSlice";
 import { getProfile } from "../../redux/profileSlice";
 import MobileSidebar from "../../components/MobileSidebar";
+import JobList from "../../components/JobList";
+import JobFilters from "../../components/JobFilters";
 
 const Home = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { articles, users, profile } = useSelector((state) => state);
+  const { articles, users, profile, jobs } = useSelector((state) => state);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isTalentsLoading, setIsTalentsLoading] = useState(true);
+  const [isJobsLoading, setIsJobsLoading] = useState(true);
   const [articlesError, setArticlesError] = useState(null);
   const [clientsError, setClientsError] = useState(null);
+  const [jobsError, setJobsError] = useState(null);
 
   useEffect(() => {
     dispatch(getProfile());
@@ -49,9 +58,16 @@ const Home = () => {
         );
       })
       .finally(() => setIsTalentsLoading(false));
-  }, [dispatch]);
 
-  
+    dispatch(getAllJobs())
+      .catch((err) => {
+        console.error("Failed to fetch jobs:", err);
+        setJobsError(
+          "Failed to load jobs. Please check your internet connection."
+        );
+      })
+      .finally(() => setIsJobsLoading(false));
+  }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -97,7 +113,7 @@ const Home = () => {
   useEffect(() => {
     // Every time the route changes, reset the overflow
     document.body.style.overflow = "auto";
-  
+
     return () => {
       // Cleanup in case the component unmounts
       document.body.style.overflow = "auto";
@@ -107,7 +123,7 @@ const Home = () => {
   const toggleSidebar = (event) => {
     // Only stop event if it exists
     if (event) event.stopPropagation();
-  
+
     setSidebarVisible((prev) => {
       const newSidebarState = !prev;
       document.body.style.overflow = newSidebarState ? "hidden" : "auto";
@@ -115,9 +131,11 @@ const Home = () => {
     });
   };
 
-  
-  
-  
+  const jobtags = [
+    { name: "Film", color: "#EB6A2B" },
+    { name: "Series", color: "#31AAEA" },
+    { name: "Other", color: "#3AAB5F" },
+  ];
 
   return (
     <div>
@@ -254,17 +272,89 @@ const Home = () => {
           </div>
         )}
 
-        {activeTab === "3" && (
-          <div className="flex flex-col items-center justify-center min-h-[80vh] text-center text-gray-800 px-4">
-            {/* Heading */}
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              🚀 Coming Soon
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-lg">
-              We're working on something amazing. Stay tuned!
-            </p>
+{activeTab === "3" && (
+  <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 min-h-screen w-[90%] gap-[20px] mx-auto mt-[50px]">
+
+    {/* Filter Column */}
+    <div>
+      {isJobsLoading ? (
+        <div className="flex justify-center items-center py-10">
+          <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+        </div>
+      ) : jobsError ? (
+        <div className="text-red-500 text-center py-10">{jobsError}</div>
+      ) : (
+        <JobFilters />
+      )}
+    </div>
+
+    {/* Job List Column */}
+    <div className="col-span-1 md:col-span-2">
+      {isJobsLoading ? (
+        <div className="flex justify-center items-center py-10">
+          <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+        </div>
+      ) : jobsError ? (
+        <div className="text-red-500 text-center py-10">{jobsError}</div>
+      ) : (
+        <div><JobList jobs={jobs} /></div>
+      )}
+    </div>
+
+    {/* Sponsored Job Column — Hidden on Tablets/iPads */}
+    <div className="hidden lg:block">
+      <div className="text-[#CCC6E2] font-medium text-[14px] pb-[10px]">
+        Sponsored Job
+      </div>
+
+      <div className="bg-white flex flex-col gap-[10px] min-h-[300px] rounded-[30px] mb-[30px] md:rounded-[35px] md:rounded-[40px] mr-auto px-[30px] py-[30px] md:py-[35px]">
+        <div className="text-[10px] bg-[#EB2B93] w-fit rounded-[84px] py-[5px] px-[10px] text-white">
+          open call
+        </div>
+        <div className="text-[#000] text-[16px] uppercase font-semibold leading-[22px]">
+          Living In Bondage
+        </div>
+        <div>
+          <img
+            src={testimg3}
+            alt="jobbanner"
+            className="h-[180px] w-auto object-center object-cover rounded-[11px]"
+          />
+        </div>
+        <div className="flex gap-[10px] items-center">
+          {jobtags.map((tag) => (
+            <div
+              key={tag.name}
+              className={`text-[10px] bg-[${tag.color}] py-[5px] px-[10px] text-white w-fit rounded-[84px]`}
+            >
+              {tag.name}
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-[30px]">
+          <div className="flex items-center gap-[10px] text-[#696969] text-[11px]">
+            <EnvironmentOutlined style={{ color: "#696969", fontSize: "11px" }} />
+            <span>Lagos, Nigeria</span>
           </div>
-        )}
+          <div className="flex items-center gap-[10px] text-[#696969] text-[11px]">
+            <ClockCircleOutlined style={{ color: "#696969", fontSize: "11px" }} />
+            <span>2 days</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center">
+        <img
+          src={adjobpage}
+          alt="jobpagead"
+          className="w-[200px] h-auto object-center object-cover"
+        />
+      </div>
+    </div>
+
+  </div>
+)}
+
       </div>
 
       <div className="bg-[#EDEBF4] min-h-screen overflow-y-auto block md:hidden">
@@ -436,14 +526,22 @@ const Home = () => {
         )}
 
         {activeTab === "3" && (
-          <div className="flex flex-col items-center justify-center min-h-[80vh] text-center text-gray-800 px-4">
-            {/* Heading */}
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              🚀 Coming Soon
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-lg">
-              We're working on something amazing. Stay tuned!
-            </p>
+          <div className="">
+            <div className="">
+              {isJobsLoading ? (
+                <div className="flex justify-center items-center py-10">
+                  <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+                </div>
+              ) : jobsError ? (
+                <div className="text-red-500 text-center py-10">
+                  {jobsError}
+                </div>
+              ) : (
+                <div>
+                  <JobList jobs={jobs} />
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

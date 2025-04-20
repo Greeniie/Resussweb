@@ -2,8 +2,8 @@ import AuthAPI from "./authInstance";
 import userAuthAPI from "./userAuthInstance";
 
 const getAll = async (data) => {
-  const response = await AuthAPI.get(`/admin/job/list-jobs-v2`);
-  return response.data;
+  const response = await AuthAPI.get(`/user/jobs/list`);
+  return response;
 };
 
 const getAllFeatured = async (data) => {

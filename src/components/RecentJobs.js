@@ -11,7 +11,7 @@ const RecentJobs = () => {
       image: testjob,
       jobRoles: ["Film", "TV/Series", "Other", "Electrical", "Producer"],
       location: "Lagos, Nigeria",
-      expiryDate: "2025-04-10",
+      expiryDate: "2025-05-10",
     },
   ];
 
