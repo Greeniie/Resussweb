@@ -28,6 +28,9 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
       label: (
         <Link
           to={`/${fullName}`}
+          onClick={(e) => {
+            toggleSidebar(e); // event will be passed, stopPropagation will run
+          }}
           className="flex text-[#000] items-center justify-between text-base pb-2"
         >
           <div className="flex gap-3 items-center">
@@ -41,8 +44,11 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
     {
       label: (
         <Link
-          to={`/user ${profile?.id}`}
-          className="flex items-center justify-between text-base py-2"
+          to={`/user/${profile?.id}`}
+          onClick={(e) => {
+            toggleSidebar(e); // event will be passed, stopPropagation will run
+          }}
+          className="flex items-center justify-between text-base py-2 text-[#000]"
         >
           <div className="flex gap-3 items-center">
             <img src={view} alt="view" className="w-4 h-4" />
@@ -113,10 +119,10 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
   return (
     <div className="pt-5 pb-3 px-4 overflow-x-hidden h-[95vh] overflow-y-scroll">
       <div
-        className="relative h-[200px] w-full bg-cover rounded-[25px] overflow-hidden"
+        className="relative h-[250px] w-full bg-cover rounded-[25px] overflow-hidden"
         style={{ backgroundImage: `url(${profile?.profile_photo_url})` }}
       >
-        <div className="absolute right-[20px] mt-[10px]">
+        <div className="absolute right-[5px] mt-[10px]">
           <Tooltip placement="left" title={"bookmark"}>
             <button className="flex items-center justify-center p-2 rounded-[7px]">
               <img
@@ -183,12 +189,12 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
       </div>
 
       {/* Close Button */}
-      <button
+      {/* <button
         onClick={toggleSidebar}
         className="flex justify-center absolute top-14 right-4 text-white bg-[#461378] p-2 rounded-full hover:bg-[#330066] transition-all"
       >
         <CloseOutlined style={{ fontSize: "20px" }} />
-      </button>
+      </button> */}
     </div>
   );
 };

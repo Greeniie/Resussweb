@@ -8,27 +8,20 @@ import TalentSpotlight from "../../components/TalentSpotlight";
 import {
   UserOutlined,
   LoadingOutlined,
-  RightOutlined,
 } from "@ant-design/icons";
 import { Avatar } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import TalentFilters from "../../components/TalentFilters";
 import TalentList from "../../components/TalentList";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllClients } from "../../redux/clientSlice";
 import { getAllArticles } from "../../redux/articleSlice";
-import { Dropdown } from "antd";
-import user from "../../assets/menu-icons/user.png";
-import support from "../../assets/menu-icons/support.png";
-import bookmark from "../../assets/menu-icons/bookmark.png";
-import share from "../../assets/menu-icons/share.png";
-import view from "../../assets/menu-icons/user.png";
-import setting from "../../assets/menu-icons/setting.png";
 import { getProfile } from "../../redux/profileSlice";
 import MobileSidebar from "../../components/MobileSidebar";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { articles, users, profile } = useSelector((state) => state);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -58,6 +51,8 @@ const Home = () => {
       .finally(() => setIsTalentsLoading(false));
   }, [dispatch]);
 
+  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -80,7 +75,6 @@ const Home = () => {
     { key: "3", label: "Jobs" },
   ];
 
-
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const sidebarRef = useRef(null);
 
@@ -100,20 +94,29 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Every time the route changes, reset the overflow
+    document.body.style.overflow = "auto";
+  
+    return () => {
+      // Cleanup in case the component unmounts
+      document.body.style.overflow = "auto";
+    };
+  }, [location]);
+
   const toggleSidebar = (event) => {
-    event.stopPropagation();
+    // Only stop event if it exists
+    if (event) event.stopPropagation();
+  
     setSidebarVisible((prev) => {
       const newSidebarState = !prev;
-      if (newSidebarState) {
-        // Disable body scrolling when the sidebar is open
-        document.body.style.overflow = 'hidden';
-      } else {
-        // Enable body scrolling when the sidebar is closed
-        document.body.style.overflow = 'auto';
-      }
+      document.body.style.overflow = newSidebarState ? "hidden" : "auto";
       return newSidebarState;
     });
   };
+
+  
+  
   
 
   return (
@@ -275,11 +278,12 @@ const Home = () => {
                 onClick={toggleSidebar}
               >
                 {profile?.singleData?.user?.profile_photo_url ? (
-                  <img
-                    src={profile?.singleData?.user?.profile_photo_url}
-                    alt="profile-picture"
-                    className="w-auto h-[30px] object-cover"
-                  />
+                  <div
+                    className="relative h-[30px] w-[30px] bg-cover" // removed overflow-hidden
+                    style={{
+                      backgroundImage: `url(${profile?.singleData?.user?.profile_photo_url})`,
+                    }}
+                  ></div>
                 ) : (
                   <Avatar
                     style={{ backgroundColor: "#3f8bcaa1" }}
@@ -306,7 +310,10 @@ const Home = () => {
                   sidebarVisible ? "translate-x-0" : "-translate-x-full"
                 }`}
               >
-                <MobileSidebar profile={profile?.singleData?.user} toggleSidebar={toggleSidebar} />
+                <MobileSidebar
+                  profile={profile?.singleData?.user}
+                  toggleSidebar={toggleSidebar}
+                />
               </div>
             </div>
 

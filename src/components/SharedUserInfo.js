@@ -32,7 +32,7 @@ const SharedUserInfo = ({ user }) => {
   const handleShowVideos = () => setShowVideos(true);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 my-[50px] gap-[30px]">
+    <div className="block md:grid grid-cols-1 lg:grid-cols-3 my-[50px] gap-[30px]">
       <div className="form z-50 bg-white min-h-[700px] w-full rounded-[40px]  mx-auto px-[40px] py-[30px]">
         <div className="flex items-center justify-between pb-[10px] border-b border-[#DEDEDE]">
           <div className="flex gap-[10px] items-center">
@@ -151,7 +151,7 @@ const SharedUserInfo = ({ user }) => {
           </div>
         </div>
       </div>
-      <div className="z-50 col-span-2 bg-white w-full min-h-[700px] rounded-[30px] mx-auto px-[20px] md:px-[50px] py-[20px] md:py-[30px]">
+      <div className="z-50 col-span-2 mt-[20px] md:mt-[0] bg-white w-full min-h-[700px] rounded-[30px] mx-auto px-[20px] md:px-[50px] py-[20px] md:py-[30px]">
         <div>
           <div>
             <div className=" hidden md:block">

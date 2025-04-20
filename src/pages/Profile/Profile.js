@@ -33,11 +33,11 @@ const Profile = () => {
   const thisUser = singleData?.user;
 
   return (
-    <div className="min-h-screen bg-[#EDE8FC] rounded-lg px-[20px] md:px-[50px] py-[20px] my-0 md:py-[40px] my-[100px]">
-      <div>
+    <div className="min-h-screen bg-[#EDE8FC] rounded-lg px-[0] md:px-[50px] py-[20px] my-0 md:py-[40px] my-[100px]">
+      <div className="px-[20px] md:px-[0]">
         <img src={logo} className="h-[30px] md:h-[40px] w-auto" alt="logo" />
       </div>
-      <div className="flex justify-between items-center pt-[30px]">
+      <div className="flex justify-between items-center pt-[30px] px-[20px] md:px-[0]">
         <div className="flex gap-3 items-center">
           <button onClick={goBack} className="block md:hidden">
             <ArrowLeftOutlined style={{ fontSize: "14px" }} />

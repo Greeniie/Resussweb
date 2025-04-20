@@ -32,7 +32,7 @@ const UserInfo = ({ user }) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 my-[20px] gap-[30px]">
+    <div className="block md:grid grid-cols-1 lg:grid-cols-3 my-[20px] gap-[30px]">
       <div className="z-50 col-span-2 bg-white w-full min-h-[400px] rounded-[30px] mx-auto px-[20px] md:px-[50px] py-[20px] md:py-[60px]">
         <div className="block md:grid md:grid-cols-2 gap-[30px]">
           <div>
@@ -88,14 +88,14 @@ const UserInfo = ({ user }) => {
                   <span className="font-semibold">Height</span> 5′ 9½″ (1.77 m)
                 </div>
                 <div>
-                  <span className="font-semibold">Born</span> September
-                  3, 2003, Los Angeles, California, USA
+                  <span className="font-semibold">Born</span> September 3, 2003,
+                  Los Angeles, California, USA
                 </div>
               </div>
             </div>
           </div>
           <div className="w-[90%] relative">
-            <div className="text-[#545454] text-[27px] font-bold pt-[20px] md:pt-0">
+            <div className="text-[#545454] text-[27px] font-bold pt-[30px] md:pt-0">
               {user?.first_name} {user?.last_name}
             </div>
             <div className="text-[#898A8D] text-[16px]">
@@ -117,9 +117,9 @@ const UserInfo = ({ user }) => {
               {user?.bio ||
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries."}
             </div>
-            <button className="absolute top-[0] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex justify-center">
-                  <EditFilled className="text-white text-lg" />
-                </button>
+            <button className="absolute top-[35px] md:top-[0] right-[0] md:right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex justify-center">
+              <EditFilled className="text-white text-lg" />
+            </button>
           </div>
           <div className="mt-[40px] md:hidden block">
             <h2 className="text-[16px] font-bold text-[#DADADA] mb-[20px]">
@@ -154,7 +154,7 @@ const UserInfo = ({ user }) => {
       </div>
 
       <div>
-        <div className="form z-50 bg-white min-h-[400px] w-full mb-[30px] rounded-[40px]  mx-auto px-[40px] py-[50px]">
+        <div className="form z-50 bg-white min-h-[400px] w-full mb-[30px] mt-[30px] md:mt-[0] rounded-[40px]  mx-auto px-[40px] py-[50px]">
           <div className="text-[20px] text-[#70E1FF] font-bold pb-[20px]">
             Galleries
           </div>
@@ -221,7 +221,7 @@ const UserInfo = ({ user }) => {
             </div>
           </div>
           {allProjects?.map((project, i) => (
-            <div className="flex items-center gap-[30px] pb-[10px]">
+            <div className="flex items-center gap-[30px] pb-[10px]" key={i}>
               <div>
                 {" "}
                 <img

@@ -35,8 +35,8 @@ const SharedProfile = () => {
   const thisUser = singleData?.user;
 
   return (
-    <div className="min-h-screen bg-[#EDEBF4] rounded-lg px-[20px] md:px-[50px] py-[20px] my-0 md:py-[40px] my-[100px]">
-      <div className="flex justify-between items-start">
+    <div className="min-h-screen bg-[#EDEBF4] rounded-lg px-[0] md:px-[50px] py-[20px] my-0 md:py-[40px] my-[100px]">
+      <div className="flex justify-between items-start px-[20px] md:px-[0]">
         <img src={logo} className="h-[30px] md:h-[40px] w-auto" alt="logo" />
         <div className="w-[70%] hidden md:block">
           <img
