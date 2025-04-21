@@ -32,65 +32,87 @@ const Articles = ({ articles }) => {
   const truncatedText = truncateString(rawText);
   const parsedContent = parse(truncatedText);
 
+  const handleShare = async (id) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Share this article",
+          url: `https://resussweb.netlify.app/user/${id}`, // Current page URL
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback for browsers that don't support the share API
+      alert("Share feature is not supported on this browser.");
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto md:py-4">
       {sortedArticles[0] && (
-        <Link to={`/article/details/${sortedArticles[0]?.id}`}>
-          <div className="hidden md:flex text-white rounded-lg overflow-hidden mb-6">
-            <img
-              src={sortedArticles[0]?.image_path}
-              alt={sortedArticles[0]?.title}
-              className="w-full md:w-1/2 min-h-80 rounded-bl-[25px] rounded-tl-[25px] object-cover"
-            />
-            <div className="flex flex-col pt-[10px] px-[30px] w-full md:w-1/2 rounded-br-[25px] rounded-tr-[25px] bg-black">
-              <div className="flex justify-end mb-[30px]">
-                <Tooltip placement="left" title={"share"}>
-                  <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
-                    <img
-                      src={share}
-                      alt="share"
-                      className="h-[15px] md:h-[18px] w-auto object-center object-cover"
-                    />
-                  </button>{" "}
-                </Tooltip>
-              </div>
+        <div className="hidden md:flex text-white rounded-lg overflow-hidden mb-6">
+          <img
+            src={sortedArticles[0]?.image_path}
+            alt={sortedArticles[0]?.title}
+            className="w-full md:w-1/2 min-h-80 rounded-bl-[25px] rounded-tl-[25px] object-cover"
+          />
+          <div className="flex flex-col pt-[10px] px-[30px] w-full md:w-1/2 rounded-br-[25px] rounded-tr-[25px] bg-black">
+            <div className="flex justify-end mb-[30px]">
+              <Tooltip placement="left" title={"share"}>
+                <button
+                  onClick={() => handleShare(sortedArticles[0]?.id)}
+                  className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]"
+                >
+                  <img
+                    src={share}
+                    alt="share"
+                    className="h-[15px] md:h-[18px] w-auto object-center object-cover"
+                  />
+                </button>{" "}
+              </Tooltip>
+            </div>
 
+            <Link to={`/article/details/${sortedArticles[0]?.id}`}>
               <h2 className="text-2xl text-[#fff] font-bold mb-[30px]">
                 {sortedArticles[0]?.title}
               </h2>
               <p className="text-gray-300 pb-[50px] text-justify">
                 {parsedContent}
               </p>
-            </div>
+            </Link>
           </div>
-        </Link>
+        </div>
       )}
 
       {/* Mobile Featured Article */}
-      <Link to={`/article/details/${sortedArticles[0]?.id}`}>
-        <div
-          className="block md:hidden relative min-h-[250px] mb-4 md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
-          style={{ backgroundImage: `url(${sortedArticles[0]?.image_path})` }}
-        >
-          <div className="absolute right-[30px] mt-[10px] mb-[30px]">
-            <Tooltip placement="left" title={"share"}>
-              <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
-                <img
-                  src={share}
-                  alt="share"
-                  className="h-[15px] md:h-[18px] w-auto object-center object-cover"
-                />
-              </button>
-            </Tooltip>
-          </div>
+      <div
+        className="block md:hidden relative min-h-[250px] mb-4 md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
+        style={{ backgroundImage: `url(${sortedArticles[0]?.image_path})` }}
+      >
+        <div className="absolute right-[30px] mt-[10px] mb-[30px]">
+          <Tooltip placement="left" title={"share"}>
+            <button
+              onClick={() => handleShare(sortedArticles[0]?.id)}
+              className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]"
+            >
+              <img
+                src={share}
+                alt="share"
+                className="h-[15px] md:h-[18px] w-auto object-center object-cover"
+              />
+            </button>
+          </Tooltip>
+        </div>
 
+        <Link to={`/article/details/${sortedArticles[0]?.id}`}>
           <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-3">
             <h3 className="text-lg text-white font-semibold">
               {sortedArticles[0]?.title}
             </h3>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       {/* Article Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -107,31 +129,31 @@ const Articles = ({ articles }) => {
                 />
               </div>
             )}
-            <Link to={`/article/details/${article?.id}`}>
-              <div
-                key={article?.id}
-                className="relative min-h-[200px] md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
-                style={{ backgroundImage: `url(${article?.image_path})` }}
-              >
-                <div className="absolute right-[30px] mt-[10px] mb-[30px]">
-                  <Tooltip placement="left" title={"share"}>
-                    <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
-                      <img
-                        src={share}
-                        alt="share"
-                        className="h-[15px] md:h-[18px] w-auto object-center object-cover"
-                      />
-                    </button>
-                  </Tooltip>
-                </div>
+            <div
+              key={article?.id}
+              className="relative min-h-[200px] md:min-h-64 bg-cover bg-center rounded-[25px] overflow-hidden"
+              style={{ backgroundImage: `url(${article?.image_path})` }}
+            >
+              <div className="absolute right-[30px] mt-[10px] mb-[30px]">
+                <Tooltip placement="left" title={"share"}>
+                  <button onClick={() => handleShare(article?.id)} className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
+                    <img
+                      src={share}
+                      alt="share"
+                      className="h-[15px] md:h-[18px] w-auto object-center object-cover"
+                    />
+                  </button>
+                </Tooltip>
+              </div>
 
+              <Link to={`/article/details/${article?.id}`}>
                 <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white p-3">
                   <h3 className="text-lg text-white font-semibold leading-[23px]">
                     {article?.title}
                   </h3>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           </React.Fragment>
         ))}
       </div>

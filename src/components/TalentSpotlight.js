@@ -9,16 +9,34 @@ import { Tooltip } from "antd";
 const TalentSpotlight = () => {
   const talents = [
     {
+      id: 238,
       image: talent1,
       full_name: "Abiola Sobo",
       role: "Content Creator",
     },
     {
+      id: 354,
       image: talent2,
       full_name: "Chinwe Igwe",
       role: "Content Creator",
     },
   ];
+
+  const handleShare = async (id) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Share your profile",
+          url: `https://resussweb.netlify.app/user/${id}`, // Current page URL
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback for browsers that don't support the share API
+      alert("Share feature is not supported on this browser.");
+    }
+  };
 
   return (
     <div className="flex flex-col md:flex-row lg:flex-col gap-4 pt-[15px]">
@@ -30,7 +48,10 @@ const TalentSpotlight = () => {
         >
           <div className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]">
             <Tooltip placement="left" title={"share"}>
-              <button className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]">
+              <button
+                onClick={() => handleShare(talent?.id)}
+                className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]"
+              >
                 <img
                   src={share}
                   alt="share"
