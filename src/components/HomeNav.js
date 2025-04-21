@@ -131,7 +131,10 @@ const HomeNav = () => {
     },
     {
       label: (
-        <Link to={`/user/${profile?.singleData?.user?.id}`} className="flex items-center justify-between text-base px-4 py-2">
+        <Link
+          to={`/user/${profile?.singleData?.user?.id}`}
+          className="flex items-center justify-between text-base px-4 py-2"
+        >
           <div className="flex gap-3 items-center">
             <img src={view} alt="view" className="w-4 h-4" />
             <span className="text-[12px]">View my account</span>
@@ -435,11 +438,12 @@ const HomeNav = () => {
               onClick={(e) => e.preventDefault()}
             >
               {profile?.singleData?.user?.profile_photo_url ? (
-                <img
-                  src={profile?.singleData?.user?.profile_photo_url}
-                  alt="profile-picture"
-                  className="w-auto h-[40px] object-cover"
-                />
+                <div
+                  className="relative h-[40px] w-[40px] bg-cover overflow-hidden"
+                  style={{
+                    backgroundImage: `url(${profile?.singleData?.user?.profile_photo_url})`,
+                  }}
+                ></div>
               ) : (
                 <Avatar
                   style={{ backgroundColor: "#3f8bcaa1" }}
