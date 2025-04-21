@@ -3,7 +3,7 @@ import user from "../assets/menu-icons/user.png";
 import support from "../assets/menu-icons/support.png";
 import bookmark from "../assets/menu-icons/bookmark.png";
 import share from "../assets/menu-icons/share.png";
-import view from "../assets/menu-icons/user.png";
+import view from "../assets/menu-icons/view.png";
 import setting from "../assets/menu-icons/setting.png";
 import verified from "../assets/menu-icons/verified.png";
 import {
@@ -51,7 +51,7 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
           className="flex items-center justify-between text-base py-2 text-[#000]"
         >
           <div className="flex gap-3 items-center">
-            <img src={view} alt="view" className="w-4 h-4" />
+            <img src={view} alt="view" className="w-auto h-3 object-cover object-center" />
             <span className="text-[12px]">View my account</span>
           </div>
           <RightOutlined style={{ fontSize: "14px" }} />

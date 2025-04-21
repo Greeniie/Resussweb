@@ -25,7 +25,7 @@ import messagesactive from "../assets/menu-icons/messagesactive.png";
 import user from "../assets/menu-icons/user.png";
 import support from "../assets/menu-icons/support.png";
 import bookmark from "../assets/menu-icons/bookmark.png";
-import view from "../assets/menu-icons/user.png";
+import view from "../assets/menu-icons/view.png";
 import share from "../assets/menu-icons/share.png";
 import setting from "../assets/menu-icons/setting.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -136,8 +136,8 @@ const HomeNav = () => {
           className="flex items-center justify-between text-base px-4 py-2"
         >
           <div className="flex gap-3 items-center">
-            <img src={view} alt="view" className="w-4 h-4" />
-            <span className="text-[12px]">View my account</span>
+          <img src={view} alt="view" className="w-auto h-3 object-cover object-center" />
+          <span className="text-[12px]">View my account</span>
           </div>
           <RightOutlined style={{ fontStyle: "5px" }} />
         </Link>
