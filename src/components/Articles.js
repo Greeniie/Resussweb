@@ -37,7 +37,7 @@ const Articles = ({ articles }) => {
       try {
         await navigator.share({
           title: "Share this article",
-          url: `https://resussweb.netlify.app/articles/details/${id}`, // Current page URL
+          url: `https://resussweb.netlify.app/article/details/${id}`, // Current page URL
         });
       } catch (error) {
         console.error("Error sharing:", error);
