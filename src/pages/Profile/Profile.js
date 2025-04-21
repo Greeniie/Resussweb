@@ -49,7 +49,7 @@ const Profile = () => {
             My Profile
           </div>
         </div>
-      <ShareButton user={thisUser?.id}/>
+        <ShareButton user={thisUser?.id} />
       </div>
       {loading ? (
         <div className="flex justify-center items-center h-screen">

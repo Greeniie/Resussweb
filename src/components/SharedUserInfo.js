@@ -31,6 +31,22 @@ const SharedUserInfo = ({ user }) => {
   };
   const handleShowVideos = () => setShowVideos(true);
 
+  const handleShare = async (user) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Share this profile",
+          url: `https://resussweb.netlify.app/user/${user}`, // Current page URL
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback for browsers that don't support the share API
+      alert("Share feature is not supported on this browser.");
+    }
+  };
+
   return (
     <div className="block md:grid grid-cols-1 lg:grid-cols-3 my-[50px] gap-[30px]">
       <div className="form z-50 bg-white min-h-[700px] w-full rounded-[40px]  mx-auto px-[40px] py-[30px]">
@@ -45,7 +61,10 @@ const SharedUserInfo = ({ user }) => {
           </div>
 
           <div>
-            <button className="flex items-center justify-center ">
+            <button
+              className="flex items-center justify-center"
+              onClick={() => handleShare(user?.id)}
+            >
               <img
                 src={share}
                 alt="share"
@@ -221,9 +240,16 @@ const SharedUserInfo = ({ user }) => {
           </div>
         </div>
       </div>
-      <ImageCarouselModal show={showPictures} onHide={handleClosePictures} user={user}/>
-      <VideoCarouselModal show={showVideos} onHide={handleCloseVideos} user={user}/>
-
+      <ImageCarouselModal
+        show={showPictures}
+        onHide={handleClosePictures}
+        user={user}
+      />
+      <VideoCarouselModal
+        show={showVideos}
+        onHide={handleCloseVideos}
+        user={user}
+      />
     </div>
   );
 };
