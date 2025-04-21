@@ -37,13 +37,12 @@ const Articles = ({ articles }) => {
       try {
         await navigator.share({
           title: "Share this article",
-          url: `https://resussweb.netlify.app/user/${id}`, // Current page URL
+          url: `https://resussweb.netlify.app/articles/details/${id}`, // Current page URL
         });
       } catch (error) {
         console.error("Error sharing:", error);
       }
     } else {
-      // Fallback for browsers that don't support the share API
       alert("Share feature is not supported on this browser.");
     }
   };
@@ -113,6 +112,7 @@ const Articles = ({ articles }) => {
           </div>
         </Link>
       </div>
+      
 
       {/* Article Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
