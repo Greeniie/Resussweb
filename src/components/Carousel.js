@@ -54,41 +54,53 @@ const Carousel = () => {
     <div className="relative flex flex-col items-center mt-8 w-full">
       {/* Carousel Container */}
       <div className="relative w-[90%] overflow-hidden">
-        <motion.div
-          className="flex"
-          animate={{ x: `-${index * stepSize}%` }}
-          transition={{ ease: "easeInOut", duration: 0.5 }}
-          style={{ display: "flex", whiteSpace: "nowrap" }}
-        >
-          {extendedImages.map((image, i) => (
-            <Link
-              to={image.link}
-              key={i}
-              className={`relative flex-shrink-0 ${imageWidth} mx-2`}
-            >
-              <div className="text-[#6633FF] py-1 text-[14px] font-bold">
-                {image.tag}
-              </div>
+      <motion.div
+  className="flex"
+  drag="x"
+  dragConstraints={{ left: 0, right: 0 }} // allow free swiping
+  onDragEnd={(event, info) => {
+    const swipePower = Math.abs(info.offset.x) * info.velocity.x;
 
-              <img
-                src={image.src}
-                alt={`slide-${i}`}
-                className="w-full h-[100px] md:h-[250px] object-cover rounded-xl"
-              />
+    // You can tweak this number based on the feel you want
+    if (swipePower < -200) {
+      nextSlide(); // Swipe left, go next
+    } else if (swipePower > 200) {
+      prevSlide(); // Swipe right, go back
+    }
+  }}
+  animate={{ x: `-${index * stepSize}%` }}
+  transition={{ ease: "easeInOut", duration: 0.5 }}
+  style={{ display: "flex", whiteSpace: "nowrap", cursor: "grab" }}
+>
+  {extendedImages.map((image, i) => (
+    <Link
+      to={image.link}
+      key={i}
+      className={`relative flex-shrink-0 ${imageWidth} mx-2`}
+    >
+      <div className="text-[#6633FF] py-1 text-[14px] font-bold">
+        {image.tag}
+      </div>
 
-              {/* Ellipsis button inside the image */}
-              <button className="absolute top-2 p-2 right-[20px] mt-[20px] z-10">
-                <EllipsisOutlined
-                  style={{
-                    fontSize: "32px",
-                    color: "white",
-                    fontWeigh: "bold",
-                  }}
-                />
-              </button>
-            </Link>
-          ))}
-        </motion.div>
+      <img
+        src={image.src}
+        alt={`slide-${i}`}
+        className="w-full h-[100px] md:h-[250px] object-cover rounded-xl"
+      />
+
+      <button className="absolute top-2 p-2 right-[20px] mt-[20px] z-10">
+        <EllipsisOutlined
+          style={{
+            fontSize: "32px",
+            color: "white",
+            fontWeigh: "bold",
+          }}
+        />
+      </button>
+    </Link>
+  ))}
+</motion.div>
+
       </div>
 
       {/* Left Arrow Button */}
