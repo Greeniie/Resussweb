@@ -9,10 +9,13 @@ import {
 } from "@ant-design/icons";
 
 import hamburger from "../assets/menu-icons/hamburgericon.png";
+import { useSelector } from "react-redux";
 
 const LandingNav = () => {
   const [menuSpacing, setMenuSpacing] = useState("gap-x-24"); // Default spacing
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const handleResize = () => {
@@ -89,13 +92,24 @@ const LandingNav = () => {
                 {item.name}
               </Link>
             ))}
-            <Link
-              to="/login"
-              className="mt-6 border-2 border-[#461378] rounded-full text-[#461378] text-center py-2 px-4 font-semibold hover:bg-[#f2eaff] transition-colors duration-300"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Sign in
-            </Link>
+
+            {isLoggedIn ? (
+              <Link
+                to="/home"
+                className="mt-6 border-2 border-[#461378] rounded-full text-[#461378] text-center py-2 px-4 font-semibold hover:bg-[#f2eaff] transition-colors duration-300"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Go to Home
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="mt-6 border-2 border-[#461378] rounded-full text-[#461378] text-center py-2 px-4 font-semibold hover:bg-[#f2eaff] transition-colors duration-300"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -125,12 +139,21 @@ const LandingNav = () => {
           </div>
 
           <div className="flex items-center ml-auto">
-            <Link
-              to="/login"
-              className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-4 py-1 rounded-[60px] font-medium text-[16px]"
-            >
-              Sign in
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                to="/home"
+                className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-4 py-1 rounded-[60px] font-medium text-[16px]"
+              >
+                Go to Home
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-4 py-1 rounded-[60px] font-medium text-[16px]"
+              >
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
       </div>

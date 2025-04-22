@@ -62,14 +62,14 @@ const ArticleBody = ({ goBack, singleData }) => {
             </div>
 
             {singleData?.content ? (
-              <div className="py-[20px] body text-[14px]  font-inter text-base font-normal leading-3 text-left md:text-[18px] md:font-normal md:leading-[35px]">
+              <div className="py-[20px] body text-[14px]  font-inter text-base font-normal leading-[25px] text-left md:text-[18px] md:font-normal md:leading-[35px]">
                 {singleData?.content}
               </div>
             ) : (
               <div>
                 {singleData?.article_content?.map((article) => (
                   <div>
-                    <div className="py-[20px] body text-[14px]  font-inter text-base font-normal leading-3 text-left md:text-[18px] md:font-normal leading-[25px] md:leading-[35px] md:tracking-tight">
+                    <div className="py-[20px] body text-[14px]  font-inter text-base font-normal leading-[25px] text-left md:text-[18px] md:font-normal leading-[25px] md:leading-[35px] md:tracking-tight">
                       {parse(article?.content_body, {
                         replace: (domNode) => {
                           if (

@@ -9,7 +9,9 @@ import FAQ from "../components/LandingPage/FAQ";
 import CTA from "../components/LandingPage/CTA";
 import Footer from "../components/LandingPage/Footer";
 
+
 const LandingPage = () => {
+  
   return (
     <div>
       <div className="overflow-y-auto md:block">
