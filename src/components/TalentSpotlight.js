@@ -73,10 +73,10 @@ const TalentSpotlight = () => {
             </Tooltip>
           </div>
           <div className="absolute bottom-0 left-0 right-0 bg-white text-[#545454] p-3">
-            <h3 className="text-lg text-[#545454] font-semibold">
+            <h3 className="text-[14px] capitalize font-semibold">
               {talent.full_name}
             </h3>
-            <div className="text-[12px] p-2 rounded-[30px] bg-[#461378] text-white w-fit">
+            <div className="text-[12px] my-[5px] px-3 py-1 rounded-[30px] bg-[#461378] text-white w-fit">
               {talent.role}
             </div>
             <div className="flex items-center gap-1 text-sm">
