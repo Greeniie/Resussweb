@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo.png";
 import { getOneClient } from "../../redux/clientSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
-import { LoadingOutlined } from "@ant-design/icons";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import { LoadingOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import articlead from "../../assets/testimgs/articlead.png";
 import SharedUserInfo from "../../components/SharedUserInfo";
 
@@ -33,7 +33,14 @@ const SharedProfile = () => {
   }, [id]);
 
   const goBack = () => {
-    navigate(-1);
+    const referrer = document.referrer;
+    const sameOrigin = referrer.startsWith(window.location.origin);
+  
+    if (sameOrigin) {
+      navigate(-1);  // Go back to the previous page in history
+    } else {
+      navigate('/home');  // Navigate to home if the user came from outside
+    }
   };
 
   console.log(singleData);
@@ -80,6 +87,14 @@ const SharedProfile = () => {
         </div>
       ) : (
         <div className="w-full md:w-[90%] mx-auto">
+          <div className="flex gap-3 items-center mt-[50px] mb-[20px]">
+            <button onClick={goBack} className="block md:hidden px-[20px]">
+              <ArrowLeftOutlined style={{ fontSize: "14px" }} />
+            </button>
+            <button onClick={goBack} className="hidden md:block">
+              <ArrowLeftOutlined style={{ fontSize: "30px" }} />
+            </button>
+          </div>
           <SharedUserInfo user={thisUser} />
         </div>
       )}

@@ -69,7 +69,7 @@ const SharedUserInfo = ({ user }) => {
     ];
 
   return (
-    <div className="block md:grid grid-cols-1 lg:grid-cols-3 my-[50px] gap-[30px]">
+    <div className="block md:grid grid-cols-1 lg:grid-cols-3 gap-[30px]">
       <div className="form z-50 bg-white min-h-[700px] w-full rounded-[40px]  mx-auto px-[40px] py-[30px]">
         <div className="flex items-center justify-between pb-[10px] border-b border-[#DEDEDE]">
           <div className="flex gap-[10px] items-center">
