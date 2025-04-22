@@ -67,35 +67,65 @@ const ArticleBody = ({ goBack, singleData }) => {
               </div>
             ) : (
               <div>
-                {singleData?.article_content?.map((article) => (
-                  <div>
-                    <div className="py-[20px] body text-[14px]  font-inter text-base font-normal leading-[25px] text-left md:text-[18px] md:font-normal leading-[25px] md:leading-[35px] md:tracking-tight">
-                      {parse(article?.content_body, {
-                        replace: (domNode) => {
-                          if (
-                            domNode.name === "a" &&
-                            domNode.attribs &&
-                            domNode.attribs.href
-                          ) {
-                            // Ensure that external links are properly formatted
-                            if (!domNode.attribs.href.startsWith("http")) {
-                              domNode.attribs.href = `http://${domNode.attribs.href}`;
+                {singleData?.article_content?.map((article, index) => (
+                  <React.Fragment>
+                    {index === 2 && ( 
+              <div key={`ad-${index}`} className="block md:hidden w-full my-4">
+                <img
+                  src={artad2}
+                  alt="ad"
+                  className="h-[300px] w-auto object-center object-cover"
+                />
+              </div>
+            )}
+
+                    {index === 3 && ( // Display the ad after the third article
+                      <div
+                        key={`ad-${index}`}
+                        className="block md:hidden w-full my-4"
+                      >
+                        <RecentJobs />
+                        <div className="flex justify-end pt-[10px] pb-[30px]">
+                          {" "}
+                          <Link
+                            to="/home"
+                            className="text-[13px] text-[#330066] font-semibold"
+                          >
+                            find more jobs
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+
+                    <div key={index}>
+                      <div className="py-[10px] md:py-[20px] body text-[14px]  font-inter text-base font-normal leading-[25px] text-left md:text-[18px] md:font-normal leading-[25px] md:leading-[35px] md:tracking-tight">
+                        {parse(article?.content_body, {
+                          replace: (domNode) => {
+                            if (
+                              domNode.name === "a" &&
+                              domNode.attribs &&
+                              domNode.attribs.href
+                            ) {
+                              // Ensure that external links are properly formatted
+                              if (!domNode.attribs.href.startsWith("http")) {
+                                domNode.attribs.href = `http://${domNode.attribs.href}`;
+                              }
                             }
-                          }
-                          return domNode;
-                        },
-                      })}
+                            return domNode;
+                          },
+                        })}
+                      </div>
+                      <div className="flex justify-start">
+                        {article?.content_image_url && (
+                          <img
+                            className=" h-[200px] md:h-[400px] w-[200px] md:w-[400px] object-contain mb-3"
+                            src={article?.content_image_url}
+                            alt="article image"
+                          />
+                        )}
+                      </div>
                     </div>
-                    <div className="flex justify-start">
-                      {article?.content_image_url && (
-                        <img
-                          className=" h-[400px] w-[400px] object-contain mb-3"
-                          src={article?.content_image_url}
-                          alt="article image"
-                        />
-                      )}
-                    </div>
-                  </div>
+                  </React.Fragment>
                 ))}
               </div>
             )}
