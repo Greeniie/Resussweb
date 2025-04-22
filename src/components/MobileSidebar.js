@@ -23,6 +23,22 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
     profile?.last_name || ""
   }`.toLowerCase();
 
+  const handleShare = async (talent) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Share your profile",
+          url: `https://resussweb.netlify.app/user/${profile?.first_name}${profile?.last_name}?id=${profile?.id}`, // Current page URL
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback for browsers that don't support the share API
+      alert("Share feature is not supported on this browser.");
+    }
+  };
+
   const items = [
     {
       label: (
@@ -45,14 +61,18 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
       label: (
         <Link
           to={`/user/${fullName}`}
-          state={{id: profile?.singleData?.user?.id}}
+          state={{ id: profile?.singleData?.user?.id }}
           onClick={(e) => {
             toggleSidebar(e); // event will be passed, stopPropagation will run
           }}
           className="flex items-center justify-between text-base py-2 text-[#000]"
         >
           <div className="flex gap-3 items-center">
-            <img src={view} alt="view" className="w-auto h-3 object-cover object-center" />
+            <img
+              src={view}
+              alt="view"
+              className="w-auto h-3 object-cover object-center"
+            />
             <span className="text-[12px]">View my account</span>
           </div>
           <RightOutlined style={{ fontSize: "14px" }} />
@@ -61,7 +81,10 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
     },
     {
       label: (
-        <div className="flex items-center justify-between text-base  py-2">
+        <div
+          onClick={() => handleShare()}
+          className="flex items-center justify-between text-base  py-2 cursor-pointer"
+        >
           <div className="flex gap-3 items-center">
             <img src={share} alt="share" className="w-4 h-4" />
             <span className="text-[12px]">Share your profile</span>

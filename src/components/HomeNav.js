@@ -127,6 +127,21 @@ const HomeNav = () => {
     profile?.singleData?.user?.last_name || ""
   }`.toLowerCase();
 
+    const handleShare = async (talent) => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Share your profile",
+            url: `https://resussweb.netlify.app/user/${profile?.singleData?.user?.first_name}${profile?.singleData?.user?.last_name}?id=${profile?.singleData?.user?.id}`, // Current page URL
+          });
+        } catch (error) {
+          console.error("Error sharing:", error);
+        }
+      } else {
+        // Fallback for browsers that don't support the share API
+        alert("Share feature is not supported on this browser.");
+      }
+    };
 
 
   const items = [
@@ -168,7 +183,7 @@ const HomeNav = () => {
     },
     {
       label: (
-        <div className="flex items-center justify-between text-base px-4 py-2">
+        <div onClick={()=>handleShare()} className="flex items-center justify-between text-base px-4 py-2 cursor-pointer">
           <div className="flex gap-3 items-center">
             <img src={share} alt="share" className="w-4 h-4" />
             <span className="text-[12px]">Share your profile</span>
