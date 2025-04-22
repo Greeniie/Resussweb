@@ -9,6 +9,7 @@ import {
   UserOutlined,
   CaretDownOutlined,
   RightOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons";
 import { Avatar } from "antd";
 import Form from "react-bootstrap/Form";
@@ -31,10 +32,14 @@ import setting from "../assets/menu-icons/setting.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile } from "../redux/profileSlice";
 import { logout } from "../redux/authSlice";
+import ExpirySession from "../utils/expirySession";
 
 import { Dropdown } from "antd";
 
 const HomeNav = () => {
+  const user = ExpirySession.get("user");
+  const yourAuthToken = user?.access_token;
+
   const { profile } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -44,6 +49,8 @@ const HomeNav = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [searchResults, setSearchResults] = useState({});
+  const [loadingResults, setLoadingResults] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -136,8 +143,12 @@ const HomeNav = () => {
           className="flex items-center justify-between text-base px-4 py-2"
         >
           <div className="flex gap-3 items-center">
-          <img src={view} alt="view" className="w-auto h-3 object-cover object-center" />
-          <span className="text-[12px]">View my account</span>
+            <img
+              src={view}
+              alt="view"
+              className="w-auto h-3 object-cover object-center"
+            />
+            <span className="text-[12px]">View my account</span>
           </div>
           <RightOutlined style={{ fontStyle: "5px" }} />
         </Link>
@@ -213,6 +224,43 @@ const HomeNav = () => {
   const handleClear = () => {
     setSearchValue("");
   };
+
+  const handleSearch = async (query) => {
+    if (!query.trim()) {
+      setSearchResults({});
+      return;
+    }
+
+    setLoadingResults(true);
+    try {
+      const response = await fetch(
+        "https://api.resuss.app/api/v1/user/search/general",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${yourAuthToken}`, // <- make sure this is set
+          },
+          body: JSON.stringify({ input: query }),
+        }
+      );
+
+      const data = await response.json();
+      setSearchResults(data); // assuming API returns { users: [], articles: [], jobs: [] }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    } finally {
+      setLoadingResults(false);
+    }
+  };
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      handleSearch(searchValue);
+    }, 500); // debounce so it doesn't fire too often
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchValue]);
 
   return (
     <nav className="homenavbar">
@@ -356,7 +404,7 @@ const HomeNav = () => {
                 name="searchValue"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search"
+                placeholder="Search anything"
                 className="border-[#6633FF] p-2 custom-placeholder ps-5 w-full"
               />
             </Form.Group>
@@ -459,33 +507,152 @@ const HomeNav = () => {
         </div>
 
         {/* Search Modal (Like LinkedIn) */}
-        <Modal show={showSearchModal} onHide={() => setShowSearchModal(false)}>
-          <Modal.Header closeButton>
-            <Form.Control
-              autoFocus
-              type="text"
-              name="searchValue"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              placeholder="Search"
-              className="border-[#6633FF] p-2 w-full relative"
-            />
-            {searchValue && (
-              <button
-                className="absolute top-[30px] right-12 flex items-center cursor-pointer text-[#abb0ba]"
-                onClick={() => setSearchValue("")}
-              >
-                <CloseCircleOutlined />
-              </button>
-            )}
-          </Modal.Header>
-          <Modal.Body>
-            {/* Render search results dynamically */}
-            <p className="text-center text-[#abb0ba]">
-              Search results will appear here...
-            </p>
-          </Modal.Body>
-        </Modal>
+        <Modal
+  size="lg"
+  show={showSearchModal}
+  onHide={() => setShowSearchModal(false)}
+  centered
+  dialogClassName="custom-modal"
+>
+  <Modal.Header closeButton className="flex items-center justify-between bg-[#f8f9fa] rounded-t-2xl shadow-sm">
+    <div className="flex-1 relative">
+      <Form.Control
+        autoFocus
+        type="text"
+        name="searchValue"
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        placeholder="Search anything..."
+        className="pl-4 pr-12 py-3 rounded-full shadow-inner focus:ring-2 focus:ring-[#6633FF] focus:outline-none text-sm"
+      />
+      {searchValue && (
+        <button
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-[#6633FF] transition"
+          onClick={() => setSearchValue("")}
+        >
+          <CloseCircleOutlined className="text-lg" />
+        </button>
+      )}
+    </div>
+  </Modal.Header>
+
+  <Modal.Body className="p-4 md:p-6">
+    <div className="max-h-[70vh] overflow-y-auto pr-2">
+      {loadingResults ? (
+        <div className="flex justify-center items-center py-10">
+          <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+        </div>
+      ) : (
+        <>
+          {(!searchResults?.users?.length &&
+            !searchResults?.articles?.length &&
+            !searchResults?.jobs?.length) ? (
+            <div className="text-center text-gray-500 py-10">No results found.</div>
+          ) : (
+            <div className="flex flex-col gap-8 py-2">
+              {searchResults?.users?.length > 0 && (
+                <div>
+                  <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">Talents</div>
+                  <div className="flex flex-col gap-3">
+                    {searchResults.users.map((user) => (
+                      <Link
+                        to={`/user/${user?.id}`}
+                        key={user?.id}
+                        className="result-card"
+                      >
+                        <div
+                          className="avatar"
+                          style={{
+                            backgroundImage: `url(${user?.profile_photo_url})`,
+                          }}
+                        ></div>
+                        <div>
+                          <div className="font-medium text-gray-800">
+                            {user.first_name} {user.last_name}
+                          </div>
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {user?.services?.length > 0 ? (
+                              user.services.map((role, index) => (
+                                <div
+                                  key={index}
+                                  className={`px-3 py-1 rounded-full text-xs ${
+                                    index === 0
+                                      ? "bg-[#461378] text-white"
+                                      : "bg-[#F6E9FF] text-[#330066]"
+                                  }`}
+                                >
+                                  {role.name}
+                                </div>
+                              ))
+                            ) : (
+                              <span className="text-[#461378] text-xs">No roles selected</span>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {searchResults?.articles?.length > 0 && (
+                <div>
+                  <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">Articles</div>
+                  <div className="flex flex-col gap-3">
+                    {searchResults.articles.map((article) => (
+                      <Link
+                        to={`/article/details/${article?.id}`}
+                        key={article?.id}
+                        className="result-card"
+                      >
+                        <div
+                          className="avatar"
+                          style={{
+                            backgroundImage: `url(${article?.image_path})`,
+                          }}
+                        ></div>
+                        <span className="font-medium text-gray-800">
+                          {article?.title}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {searchResults?.jobs?.length > 0 && (
+                <div>
+                  <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">Jobs</div>
+                  <div className="flex flex-col gap-3">
+                    {searchResults.jobs.map((job) => (
+                      <Link
+                        to={`/job/${job?.id}`}
+                        key={job.id}
+                        className="result-card"
+                      >
+                        <div
+                          className="avatar"
+                          style={{
+                            backgroundImage: `url(${job?.job_banner})`,
+                          }}
+                        ></div>
+                        <span className="font-medium text-gray-800">
+                          {job?.headline}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  </Modal.Body>
+</Modal>
+
+
       </div>
     </nav>
   );
