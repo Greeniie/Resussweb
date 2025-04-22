@@ -149,6 +149,41 @@ const UserInfo = ({ user }) => {
             <div className="text-[20px] text-[#70E1FF] font-bold py-[20px]">
               PERSONAL DATA
             </div>
+            <div className="text-[14px] text-[#424242] flex flex-col gap-[15px]">
+              <div>
+                <span className="font-semibold">Official site</span> Instagram
+              </div>
+              <div>
+                <span className="font-semibold">Alternative name</span> Jack
+                Grazer
+              </div>
+              <div>
+                <span className="font-semibold">Height</span> 5′ 9½″ (1.77 m)
+              </div>
+              <div>
+                <span className="font-semibold">Born</span> September 3, 2003,
+                Los Angeles, California, USA
+              </div>
+            </div>
+
+            <div className="text-[20px] text-[#70E1FF] font-bold py-[20px]">
+              PROJECTS
+            </div>
+            {allProjects?.map((project, i) => (
+              <div className="flex items-center gap-[30px] pb-[10px]" key={i}>
+                <div>
+                  {" "}
+                  <img
+                    src={project.src}
+                    alt={`slide-${i}`}
+                    className="w-[136px] h-[100px] object-cover rounded-xl"
+                  />
+                </div>
+                <div className="text-[14px] text-[#424242] font-semibold text-wrap">
+                  {project.title}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
