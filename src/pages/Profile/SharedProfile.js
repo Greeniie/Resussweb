@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 import logo from "../../assets/logo.png";
 import { getOneClient } from "../../redux/clientSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import articlead from "../../assets/testimgs/articlead.png";
 import SharedUserInfo from "../../components/SharedUserInfo";
 
 const SharedProfile = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const idFromQuery = queryParams.get("id");
+  const idFromState = location.state?.id;
+
+  const id = idFromState || idFromQuery;
   const dispatch = useDispatch();
   const { singleData } = useSelector((state) => state.users);
   const { isLoggedIn } = useSelector((state) => state.auth);

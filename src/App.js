@@ -34,7 +34,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/user/:id" element={<SharedProfile />} />
+          <Route path="/user/:fullname" element={<SharedProfile />} />
 
           {/* Auth routes wrapped in AuthRoutes */}
           <Route element={<AuthRoutes />}>

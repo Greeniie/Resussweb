@@ -23,7 +23,7 @@ import resussactive from "../assets/menu-icons/resussactive.png";
 import appactive from "../assets/menu-icons/appactive.png";
 import projectsactive from "../assets/menu-icons/projectsactive.png";
 import messagesactive from "../assets/menu-icons/messagesactive.png";
-import user from "../assets/menu-icons/user.png";
+import usericon from "../assets/menu-icons/user.png";
 import support from "../assets/menu-icons/support.png";
 import bookmark from "../assets/menu-icons/bookmark.png";
 import view from "../assets/menu-icons/view.png";
@@ -50,6 +50,7 @@ const HomeNav = () => {
   const [searchValue, setSearchValue] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [searchResults, setSearchResults] = useState({});
+  const [hasSearched, setHasSearched] = useState(false);
   const [loadingResults, setLoadingResults] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isSearchCollapsed, setIsSearchCollapsed] = useState(false);
@@ -115,9 +116,18 @@ const HomeNav = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!showSearchModal || searchValue.trim() === "") {
+      setHasSearched(false);
+      setSearchResults(null); // Optional: reset previous results too
+    }
+  }, [showSearchModal, searchValue]);
+
   const fullName = `${profile?.singleData?.user?.first_name || ""}${
     profile?.singleData?.user?.last_name || ""
   }`.toLowerCase();
+
+
 
   const items = [
     {
@@ -127,7 +137,7 @@ const HomeNav = () => {
           className="flex items-center justify-between text-base px-4 py-2"
         >
           <div className="flex gap-3 items-center">
-            <img src={user} alt="Profile" className="w-4 h-4" />
+            <img src={usericon} alt="Profile" className="w-4 h-4" />
             <span className="text-[12px]">Your profile</span>
           </div>
 
@@ -139,7 +149,8 @@ const HomeNav = () => {
     {
       label: (
         <Link
-          to={`/user/${profile?.singleData?.user?.id}`}
+          to={`/user/${fullName}`}
+          state={{id: profile?.singleData?.user?.id}}
           className="flex items-center justify-between text-base px-4 py-2"
         >
           <div className="flex gap-3 items-center">
@@ -230,7 +241,7 @@ const HomeNav = () => {
       setSearchResults({});
       return;
     }
-
+    setHasSearched(true);
     setLoadingResults(true);
     try {
       const response = await fetch(
@@ -508,151 +519,168 @@ const HomeNav = () => {
 
         {/* Search Modal (Like LinkedIn) */}
         <Modal
-  size="lg"
-  show={showSearchModal}
-  onHide={() => setShowSearchModal(false)}
-  centered
-  dialogClassName="custom-modal"
->
-  <Modal.Header closeButton className="flex items-center justify-between bg-[#f8f9fa] rounded-t-2xl shadow-sm">
-    <div className="flex-1 relative">
-      <Form.Control
-        autoFocus
-        type="text"
-        name="searchValue"
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        placeholder="Search anything..."
-        className="pl-4 pr-12 py-3 rounded-full shadow-inner focus:ring-2 focus:ring-[#6633FF] focus:outline-none text-sm"
-      />
-      {searchValue && (
-        <button
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-[#6633FF] transition"
-          onClick={() => setSearchValue("")}
+          size="lg"
+          show={showSearchModal}
+          onHide={() => setShowSearchModal(false)}
+          centered
+          dialogClassName="custom-modal"
         >
-          <CloseCircleOutlined className="text-lg" />
-        </button>
-      )}
-    </div>
-  </Modal.Header>
-
-  <Modal.Body className="p-4 md:p-6">
-    <div className="max-h-[70vh] overflow-y-auto pr-2">
-      {loadingResults ? (
-        <div className="flex justify-center items-center py-10">
-          <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
-        </div>
-      ) : (
-        <>
-          {(!searchResults?.users?.length &&
-            !searchResults?.articles?.length &&
-            !searchResults?.jobs?.length) ? (
-            <div className="text-center text-gray-500 py-10">No results found.</div>
-          ) : (
-            <div className="flex flex-col gap-8 py-2">
-              {searchResults?.users?.length > 0 && (
-                <div>
-                  <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">Talents</div>
-                  <div className="flex flex-col gap-3">
-                    {searchResults.users.map((user) => (
-                      <Link
-                        to={`/user/${user?.id}`}
-                        key={user?.id}
-                        className="result-card"
-                      >
-                        <div
-                          className="avatar"
-                          style={{
-                            backgroundImage: `url(${user?.profile_photo_url})`,
-                          }}
-                        ></div>
-                        <div>
-                          <div className="font-medium text-gray-800">
-                            {user.first_name} {user.last_name}
-                          </div>
-                          <div className="flex flex-wrap gap-2 mt-1">
-                            {user?.services?.length > 0 ? (
-                              user.services.map((role, index) => (
-                                <div
-                                  key={index}
-                                  className={`px-3 py-1 rounded-full text-xs ${
-                                    index === 0
-                                      ? "bg-[#461378] text-white"
-                                      : "bg-[#F6E9FF] text-[#330066]"
-                                  }`}
-                                >
-                                  {role.name}
-                                </div>
-                              ))
-                            ) : (
-                              <span className="text-[#461378] text-xs">No roles selected</span>
-                            )}
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {searchResults?.articles?.length > 0 && (
-                <div>
-                  <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">Articles</div>
-                  <div className="flex flex-col gap-3">
-                    {searchResults.articles.map((article) => (
-                      <Link
-                        to={`/article/details/${article?.id}`}
-                        key={article?.id}
-                        className="result-card"
-                      >
-                        <div
-                          className="avatar"
-                          style={{
-                            backgroundImage: `url(${article?.image_path})`,
-                          }}
-                        ></div>
-                        <span className="font-medium text-gray-800">
-                          {article?.title}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {searchResults?.jobs?.length > 0 && (
-                <div>
-                  <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">Jobs</div>
-                  <div className="flex flex-col gap-3">
-                    {searchResults.jobs.map((job) => (
-                      <Link
-                        to={`/job/${job?.id}`}
-                        key={job.id}
-                        className="result-card"
-                      >
-                        <div
-                          className="avatar"
-                          style={{
-                            backgroundImage: `url(${job?.job_banner})`,
-                          }}
-                        ></div>
-                        <span className="font-medium text-gray-800">
-                          {job?.headline}
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+          <Modal.Header
+            closeButton
+            className="flex items-center justify-between bg-[#f8f9fa] rounded-t-2xl shadow-sm"
+          >
+            <div className="flex-1 relative">
+              <Form.Control
+                autoFocus
+                type="text"
+                name="searchValue"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="Search anything..."
+                className="pl-4 pr-12 py-3 rounded-full shadow-inner focus:ring-2 focus:ring-[#6633FF] focus:outline-none text-sm"
+              />
+              {searchValue && (
+                <button
+                  className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-[#6633FF] transition"
+                  onClick={() => setSearchValue("")}
+                >
+                  <CloseCircleOutlined className="text-lg" />
+                </button>
               )}
             </div>
-          )}
-        </>
-      )}
-    </div>
-  </Modal.Body>
-</Modal>
+          </Modal.Header>
 
+          <Modal.Body className="p-4 md:p-6">
+            <div className="max-h-[70vh] overflow-y-auto pr-2">
+              {loadingResults ? (
+                <div className="flex justify-center items-center py-10">
+                  <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+                </div>
+              ) : (
+                <>
+                  {hasSearched ? (
+                    !searchResults?.users?.length &&
+                    !searchResults?.articles?.length &&
+                    !searchResults?.jobs?.length ? (
+                      <div className="text-center text-gray-500 py-10">
+                        No results found.
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-8 py-2">
+                        {searchResults?.users?.length > 0 && (
+                          <div>
+                            <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">
+                              Talents
+                            </div>
+                            <div className="flex flex-col gap-3">
+                              {searchResults.users.map((user) => (
+                                <Link
+                                  to={`/user/${user?.first_name}${user?.last_name}`} state={{ id: user?.id }}
+                                  key={user?.id}
+                                  className="result-card"
+                                >
+                                  <div
+                                    className="avatar"
+                                    style={{
+                                      backgroundImage: `url(${user?.profile_photo_url})`,
+                                    }}
+                                  ></div>
+                                  <div>
+                                    <div className="font-medium text-gray-800">
+                                      {user.first_name} {user.last_name}
+                                    </div>
+                                    <div className="flex flex-wrap gap-2 mt-1">
+                                      {user?.services?.length > 0 ? (
+                                        user.services.map((role, index) => (
+                                          <div
+                                            key={index}
+                                            className={`px-3 py-1 rounded-full text-xs ${
+                                              index === 0
+                                                ? "bg-[#461378] text-white"
+                                                : "bg-[#F6E9FF] text-[#330066]"
+                                            }`}
+                                          >
+                                            {role.name}
+                                          </div>
+                                        ))
+                                      ) : (
+                                        <span className="text-[#461378] text-xs">
+                                          No roles selected
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
 
+                        {searchResults?.articles?.length > 0 && (
+                          <div>
+                            <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">
+                              Articles
+                            </div>
+                            <div className="flex flex-col gap-3">
+                              {searchResults.articles.map((article) => (
+                                <Link
+                                  to={`/article/details/${article?.id}`}
+                                  key={article?.id}
+                                  className="result-card"
+                                >
+                                  <div
+                                    className="avatar"
+                                    style={{
+                                      backgroundImage: `url(${article?.image_path})`,
+                                    }}
+                                  ></div>
+                                  <span className="font-medium text-gray-800">
+                                    {article?.title}
+                                  </span>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {searchResults?.jobs?.length > 0 && (
+                          <div>
+                            <div className="text-lg md:text-xl text-[#70E1FF] font-semibold mb-3">
+                              Jobs
+                            </div>
+                            <div className="flex flex-col gap-3">
+                              {searchResults.jobs.map((job) => (
+                                <Link
+                                  to={`/job/${job?.id}`}
+                                  key={job.id}
+                                  className="result-card"
+                                >
+                                  <div
+                                    className="avatar"
+                                    style={{
+                                      backgroundImage: `url(${job?.job_banner})`,
+                                    }}
+                                  ></div>
+                                  <span className="font-medium text-gray-800">
+                                    {job?.headline}
+                                  </span>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  ) : (
+                    <div className="text-center text-gray-400 py-10">
+                      Start typing to search.
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </nav>
   );

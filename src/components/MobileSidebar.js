@@ -44,7 +44,8 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
     {
       label: (
         <Link
-          to={`/user/${profile?.id}`}
+          to={`/user/${fullName}`}
+          state={{id: profile?.singleData?.user?.id}}
           onClick={(e) => {
             toggleSidebar(e); // event will be passed, stopPropagation will run
           }}

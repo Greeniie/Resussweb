@@ -12,13 +12,12 @@ import { Link } from "react-router-dom";
 const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
   const visibleTalents = isExpanded ? talents : talents.slice(0, 8);
 
-
-  const handleShare = async (id) => {
+  const handleShare = async (talent) => {
     if (navigator.share) {
       try {
         await navigator.share({
           title: "Share your profile",
-          url: `https://resussweb.netlify.app/user/${id}`, // Current page URL
+          url: `https://resussweb.netlify.app/user/${talent.first_name}${talent.last_name}?id=${talent.id}`, // Current page URL
         });
       } catch (error) {
         console.error("Error sharing:", error);
@@ -72,7 +71,7 @@ const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
               <div className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]">
                 <Tooltip placement="left" title="share">
                   <button
-                    onClick={() => handleShare(talent?.id)}
+                    onClick={() => handleShare(talent)}
                     className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]"
                   >
                     <img
@@ -93,7 +92,7 @@ const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
                 </Tooltip>
               </div>
 
-              <Link to={`/user/${talent?.id}`}>
+              <Link to={`/user/${talent.first_name}${talent.last_name}`} state={{ id: talent.id }}>
                 <img
                   src={talent.profile_photo_url || pro6}
                   alt={`${talent.first_name} ${talent.last_name}`}

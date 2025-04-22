@@ -3,6 +3,7 @@ import talent1 from "../assets/testimgs/talent1.png";
 import talent2 from "../assets/testimgs/talent2.png";
 import share from "../assets/menu-icons/shareblack.png";
 import bookmark from "../assets/menu-icons/bookmarkblack.png";
+import { EnvironmentFilled } from "@ant-design/icons";
 
 import { Tooltip } from "antd";
 
@@ -13,21 +14,23 @@ const TalentSpotlight = () => {
       image: talent1,
       full_name: "Abiola Sobo",
       role: "Content Creator",
+      location: "Lagos",
     },
     {
       id: 354,
       image: talent2,
       full_name: "Chinwe Igwe",
       role: "Content Creator",
+      location: "Abuja",
     },
   ];
 
-  const handleShare = async (id) => {
+  const handleShare = async (talent) => {
     if (navigator.share) {
       try {
         await navigator.share({
           title: "Share your profile",
-          url: `https://resussweb.netlify.app/user/${id}`, // Current page URL
+          url: `https://resussweb.netlify.app/user/${talent.first_name}${talent.last_name}?id=${talent.id}`, // Current page URL
         });
       } catch (error) {
         console.error("Error sharing:", error);
@@ -49,7 +52,7 @@ const TalentSpotlight = () => {
           <div className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]">
             <Tooltip placement="left" title={"share"}>
               <button
-                onClick={() => handleShare(talent?.id)}
+                onClick={() => handleShare(talent)}
                 className="flex items-center justify-center p-2 bg-[#F5F5F5] rounded-[7px]"
               >
                 <img
@@ -75,6 +78,9 @@ const TalentSpotlight = () => {
             </h3>
             <div className="text-[12px] p-2 rounded-[30px] bg-[#461378] text-white w-fit">
               {talent.role}
+            </div>
+            <div className="flex items-center gap-1 text-sm">
+              <EnvironmentFilled /> {talent.location || "No location"}
             </div>
           </div>
         </div>

@@ -32,6 +32,8 @@ const Profile = () => {
   console.log(singleData?.user);
   const thisUser = singleData?.user;
 
+  
+
   return (
     <div className="min-h-screen bg-[#EDE8FC] rounded-lg px-[0] md:px-[50px] py-[20px] my-0 md:py-[40px] my-[100px]">
       <div className="px-[20px] md:px-[0]">
