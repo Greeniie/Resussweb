@@ -49,24 +49,24 @@ const SharedUserInfo = ({ user }) => {
     }
   };
 
-   const allProjects = [
-      {
-        src: testimg1,
-        title: "Batman and Superman: Battle for the Super Sons Kyptionite",
-      },
-      {
-        src: testimg2,
-        title: "Batman and Superman: Battle for the Super Sons Kyptionite",
-      },
-      {
-        src: testimg1,
-        title: "Batman and Superman: Battle for the Super Sons Kyptionite",
-      },
-      {
-        src: testimg2,
-        title: "Batman and Superman: Battle for the Super Sons Kyptionite",
-      },
-    ];
+  const allProjects = [
+    {
+      src: testimg1,
+      title: "Batman and Superman: Battle for the Super Sons Kyptionite",
+    },
+    {
+      src: testimg2,
+      title: "Batman and Superman: Battle for the Super Sons Kyptionite",
+    },
+    {
+      src: testimg1,
+      title: "Batman and Superman: Battle for the Super Sons Kyptionite",
+    },
+    {
+      src: testimg2,
+      title: "Batman and Superman: Battle for the Super Sons Kyptionite",
+    },
+  ];
 
   return (
     <div className="block md:grid grid-cols-1 lg:grid-cols-3 gap-[30px]">
@@ -126,6 +126,11 @@ const SharedUserInfo = ({ user }) => {
                 </button>
               </Tooltip>
             </div>
+          </div>
+
+          <div className="font-semibold text-[14px] py-[20px] block lg:hidden">
+            {user?.bio ||
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."}
           </div>
           <div className="flex gap-[20px] items-center py-[20px]">
             <div className="font-semibold text-[#898A8D] text-[14px]">
@@ -259,23 +264,23 @@ const SharedUserInfo = ({ user }) => {
               PERSONAL DATA
             </div>
             <div className="text-[14px] text-[#424242] flex flex-col gap-[15px]">
-                <div>
-                  <span className="font-semibold">Official site</span> Instagram
-                </div>
-                <div>
-                  <span className="font-semibold">Alternative name</span> Jack
-                  Grazer
-                </div>
-                <div>
-                  <span className="font-semibold">Height</span> 5′ 9½″ (1.77 m)
-                </div>
-                <div>
-                  <span className="font-semibold">Born</span> September 3, 2003,
-                  Los Angeles, California, USA
-                </div>
+              <div>
+                <span className="font-semibold">Official site</span> Instagram
               </div>
+              <div>
+                <span className="font-semibold">Alternative name</span> Jack
+                Grazer
+              </div>
+              <div>
+                <span className="font-semibold">Height</span> 5′ 9½″ (1.77 m)
+              </div>
+              <div>
+                <span className="font-semibold">Born</span> September 3, 2003,
+                Los Angeles, California, USA
+              </div>
+            </div>
 
-              <div className="text-[20px] text-[#70E1FF] font-bold py-[20px]">
+            <div className="text-[20px] text-[#70E1FF] font-bold py-[20px]">
               PROJECTS
             </div>
             {allProjects?.map((project, i) => (
