@@ -146,17 +146,15 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
         className="relative h-[250px] w-full bg-cover rounded-[25px] overflow-hidden"
         style={{ backgroundImage: `url(${profile?.profile_photo_url})` }}
       >
-        <div className="absolute right-[5px] mt-[10px]">
-          <Tooltip placement="left" title={"bookmark"}>
-            <button className="flex items-center justify-center p-2 rounded-[7px]">
-              <img
-                src={verified}
-                alt="bookmark"
-                className="h-[30px] w-auto object-center object-cover"
-              />
-            </button>
-          </Tooltip>
-        </div>
+        {profile?.level === "verified" && (
+          <div className="absolute right-[5px] mt-[10px]">
+            <img
+              src={verified}
+              alt="bookmark"
+              className="h-[30px] w-auto object-center object-cover"
+            />
+          </div>
+        )}
       </div>
 
       <div>

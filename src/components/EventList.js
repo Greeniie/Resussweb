@@ -20,14 +20,14 @@ const EventList = () => {
 
   const events = [
     {
-      date: "2025-04-08",
+      date: "2025-05-08",
       img: event6,
       event_name: "Lagos food and drink by GTB",
       event_info:
         "The country is going bankrupt,” Musk said last week in an interview with Fox News in reference to the growing national debt. ",
     },
     {
-      date: "2025-05-09",
+      date: "2025-05-15",
       img: event1,
       event_name: "Lagos mainland Festival",
       event_info:

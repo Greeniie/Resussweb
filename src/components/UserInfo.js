@@ -10,6 +10,8 @@ import vid from "../assets/images/vid.png";
 import clip from "../assets/testimgs/clip.png";
 import testimg1 from "../assets/testimgs/p1.png";
 import testimg2 from "../assets/testimgs/p2.png";
+import verified from "../assets/menu-icons/verified.png";
+
 
 const UserInfo = ({ user }) => {
   const allProjects = [
@@ -95,9 +97,17 @@ const UserInfo = ({ user }) => {
             </div>
           </div>
           <div className="w-[90%] relative">
-            <div className="text-[#545454] text-[27px] font-bold pt-[30px] md:pt-0">
-              {user?.first_name} {user?.last_name}
-            </div>
+          <div className="text-[#545454] text-[27px] leading-[20px] capitalize font-bold py-[10px] md:pt-[10px] flex items-center gap-[10px]">
+            {user?.first_name} {user?.last_name}  {user?.level === "verified" && (
+              <div className="">
+                <img
+                  src={verified}
+                  alt="bookmark"
+                  className="h-[20px] w-auto object-center object-cover"
+                />
+              </div>
+            )}
+          </div>
             <div className="text-[#898A8D] text-[16px]">
               {user?.phone_number}
             </div>

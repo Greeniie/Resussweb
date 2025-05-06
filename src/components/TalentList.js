@@ -66,9 +66,15 @@ const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
             <motion.div
               key={index}
               layout
-              className="relative border border-[#DEDEDE] h-[300px] w-full rounded-[25px] overflow-hidden bg-gray-200"
+              className="group relative border border-[#DEDEDE] h-[300px] w-full rounded-[25px] overflow-hidden bg-gray-200"
             >
-              <div className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]">
+              {/* Buttons: always visible on mobile, only on hover for lg+ */}
+              <div
+                className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]
+                            lg:opacity-0 lg:pointer-events-none
+                            group-hover:lg:opacity-100 group-hover:lg:pointer-events-auto
+                            transition-opacity duration-300 z-10"
+              >
                 <Tooltip placement="left" title="share">
                   <button
                     onClick={() => handleShare(talent)}
@@ -92,7 +98,11 @@ const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
                 </Tooltip>
               </div>
 
-              <Link to={`/user/${talent.first_name}${talent.last_name}`} state={{ id: talent.id }}>
+              {/* Talent Link and Info */}
+              <Link
+                to={`/user/${talent.first_name}${talent.last_name}`}
+                state={{ id: talent.id }}
+              >
                 <img
                   src={talent.profile_photo_url || pro6}
                   alt={`${talent.first_name} ${talent.last_name}`}

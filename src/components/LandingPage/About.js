@@ -108,6 +108,20 @@ const About = () => {
         <motion.div
           className="flex flex-nowrap transition-transform duration-500"
           animate={{ x: `-${index * 66.666}%` }} // Shift by 1.5-item width
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }} // allow free swiping
+          onDragEnd={(event, info) => {
+            const swipePower = Math.abs(info.offset.x) * info.velocity.x;
+        
+            // You can tweak this number based on the feel you want
+            if (swipePower < -200) {
+              nextSlide(); // Swipe left, go next
+            } else if (swipePower > 200) {
+              prevSlide(); // Swipe right, go back
+            }
+          }}
+          transition={{ ease: "easeInOut", duration: 0.5 }}
+          style={{ display: "flex", whiteSpace: "nowrap", cursor: "grab" }}
         >
           {aboutresuss.map((ar, i) => (
             <div

@@ -52,7 +52,7 @@ const VideoCarouselModal = ({ show, onHide, user }) => {
             />
             <div className="text-[#4FD6FA] text-[16px]">Videos</div>
           </div>
-          <div className="text-[16px] text-[#545454] font-semibold">
+          <div className="text-[16px] text-[#545454] font-semibold capitalize">
             {user?.first_name} {user?.last_name}
           </div>
         </div>

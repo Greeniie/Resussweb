@@ -79,7 +79,7 @@ const JobList = () => {
           </div>
         </div>
         <div className="flex flex-col gap-4 pt-[15px]">
-          {jobs.map((job, index) => (
+          {jobs.map((job, index, i) => (
             <React.Fragment>
               {index === 2 && ( // Display the ad after the third article
                 <div
@@ -93,7 +93,7 @@ const JobList = () => {
                   />
                 </div>
               )}
-              <JobCard key={index} job={job} />
+              <JobCard key={i} job={job} />
             </React.Fragment>
           ))}
         </div>
