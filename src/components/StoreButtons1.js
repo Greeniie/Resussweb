@@ -3,7 +3,7 @@ import playstore from "../assets/menu-icons/playstore.png";
 
 const StoreButtons1 = () => {
   return (
-    <div className="flex items-center md:justify-start justify-center gap-4 mt-6 pb-[70px] md:pb-0">
+    <div className="flex items-center md:justify-start justify-center gap-2 mt-6 pb-[70px] md:pb-0">
       {/* Play Store Button */}
       <a
         href="#"
