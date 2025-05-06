@@ -23,9 +23,14 @@ const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
         console.error("Error sharing:", error);
       }
     } else {
-      // Fallback for browsers that don't support the share API
-      alert("Share feature is not supported on this browser.");
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert("Link copied to clipboard!");
+      } catch (err) {
+        alert("Couldn't copy link.");
+      }
     }
+    
   };
 
   return (
