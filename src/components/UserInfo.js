@@ -39,12 +39,12 @@ const UserInfo = ({ user }) => {
         <div className="block md:grid md:grid-cols-2 gap-[30px]">
           <div>
             <div
-              className="relative h-[300px] w-[85%] bg-cover rounded-[25px]" // removed overflow-hidden
+              className="relative h-[300px] w-full bg-cover rounded-[25px]" // removed overflow-hidden
               style={{ backgroundImage: `url(${user?.profile_photo_url})` }}
             >
               <div>
-                <label className="absolute bottom-[-20px] left-[50%] translate-x-[-50%] bg-[#330066] w-[40px] h-[40px] rounded-full flex justify-center items-center cursor-pointer">
-                  <EditFilled className="text-white text-lg" />
+                <label className="absolute bottom-[-15px] md:bottom-[-20px] left-[50%] translate-x-[-50%] bg-[#330066] w-[30px] md:w-[40px] h-[30px] md:h-[40px] rounded-full flex justify-center items-center cursor-pointer">
+                  <EditFilled className="text-white text-[15px] md:text-[20px]" />
                   <input type="file" className="hidden" />
                 </label>
               </div>
@@ -96,8 +96,8 @@ const UserInfo = ({ user }) => {
               </div>
             </div>
           </div>
-          <div className="w-[90%] relative">
-          <div className="text-[#545454] text-[27px] leading-[20px] capitalize font-bold py-[10px] md:pt-[10px] flex items-center gap-[10px]">
+          <div className="w-full relative">
+          <div className="text-[#545454] text-[27px] leading-[20px] capitalize font-bold pt-[30px] pb-[10px] md:pt-[10px] md:pb-0 flex items-center gap-[10px]">
             {user?.first_name} {user?.last_name}  {user?.level === "verified" && (
               <div className="">
                 <img
@@ -112,11 +112,9 @@ const UserInfo = ({ user }) => {
               {user?.phone_number}
             </div>
             <div className="py-[10px]">
-              <EnvironmentFilled
+              <EnvironmentFilled className="text-[20px] pr-[10px]"
                 style={{
-                  fontSize: "20px",
                   color: "#6633FF",
-                  paddingRight: "10px",
                 }}
               />
               <span className="text-[20px] text-[#70E1FF] uppercase font-bold">
@@ -127,8 +125,8 @@ const UserInfo = ({ user }) => {
               {user?.bio ||
                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries."}
             </div>
-            <button className="absolute top-[35px] md:top-[0] right-[0] md:right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
-              <EditFilled className="text-white text-lg" />
+            <button className="absolute top-[35px] md:top-[0] right-[0] md:right-[10px] bg-[#898A8D] h-[25px] md:h-[30px] w-[25px] md:w-[30px] rounded-full flex items-center justify-center">
+              <EditFilled className="text-white text-[15px] md:text-[20px]"  />
             </button>
           </div>
           <div className="mt-[40px] md:hidden block">
@@ -211,8 +209,8 @@ const UserInfo = ({ user }) => {
                   alt="pics"
                   className="h-[35px] w-auto object-cover object-center"
                 />
-                <button className="absolute top-[10px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
-                  <EditFilled className="text-white text-lg" />
+                <button className="absolute top-[10px] right-[10px] bg-[#898A8D] h-[25px] md:h-[30px] w-[25px] md:w-[30px] rounded-full flex items-center justify-center">
+                  <EditFilled className="text-white text-[15px] md:text-[20px]" />
                 </button>
                 <div className="pt-[10px] font-medium text-[14px] text-[#898A8D]">
                   10 Photos
@@ -224,8 +222,8 @@ const UserInfo = ({ user }) => {
                   alt="pics"
                   className="h-[35px] w-auto object-cover object-center"
                 />
-                <button className="absolute top-[10px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
-                  <EditFilled className="text-white text-lg" />
+                <button className="absolute top-[10px] right-[10px] bg-[#898A8D] h-[25px] md:h-[30px] w-[25px] md:w-[30px] rounded-full flex items-center justify-center">
+                  <EditFilled className="text-white text-[15px] md:text-[20px]" />
                 </button>
                 <div className="pt-[10px] font-medium text-[14px] text-[#898A8D]">
                   3 Videos
@@ -238,13 +236,13 @@ const UserInfo = ({ user }) => {
                 alt=""
                 className="w-full h-[150px] rounded-[14px] object-cover object-center"
               />
-              <button className="absolute top-[30px] right-[10px] bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
-                <EditFilled className="text-white text-lg" />
+              <button className="absolute top-[30px] right-[10px] bg-[#898A8D] h-[25px] md:h-[30px] w-[25px] md:w-[30px] rounded-full flex items-center justify-center">
+                <EditFilled className="text-white text-[15px] md:text-[20px]" />
               </button>
               <button className="absolute bottom-[30px] left-[10px] text-[14px] text-[#fff]">
                 <PlayCircleOutlined
                   style={{ fontSize: "18px" }}
-                  className="text-white text-lg pr-[5px]"
+                  className="text-white text-[15px] md:text-[20px] pr-[5px]"
                 />{" "}
                 Play Clip
               </button>
@@ -260,8 +258,8 @@ const UserInfo = ({ user }) => {
               <span className="text-[12px] text-[#ABB0BA]">
                 {allProjects.length} Projects
               </span>
-              <button className="bg-[#898A8D] h-[30px] w-[30px] rounded-full flex items-center justify-center">
-                <EditFilled className="text-white text-lg" />
+              <button className="bg-[#898A8D] h-[25px] md:h-[30px] w-[25px] md:w-[30px] rounded-full flex items-center justify-center">
+                <EditFilled className="text-white text-[15px] md:text-[20px]" />
               </button>
             </div>
           </div>

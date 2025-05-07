@@ -24,7 +24,7 @@ const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
       }
     } else {
       try {
-        await navigator.clipboard.writeText(shareUrl);
+        await navigator.clipboard.writeText(`https://resussweb.netlify.app/user/${talent.first_name}${talent.last_name}?id=${talent.id}`);
         alert("Link copied to clipboard!");
       } catch (err) {
         alert("Couldn't copy link.");

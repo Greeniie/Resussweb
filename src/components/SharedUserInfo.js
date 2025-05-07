@@ -3,6 +3,7 @@ import {
   EnvironmentFilled,
   ArrowRightOutlined,
   PlayCircleOutlined,
+  ArrowLeftOutlined,
 } from "@ant-design/icons";
 import star from "../assets/images/star.png";
 import pic from "../assets/images/pic.png";
@@ -21,7 +22,7 @@ import testimg2 from "../assets/testimgs/p2.png";
 import verified from "../assets/menu-icons/verified.png";
 import { Helmet } from "react-helmet";
 
-const SharedUserInfo = ({ user }) => {
+const SharedUserInfo = ({ user, goBack }) => {
   const [showPictures, setShowPictures] = useState(false);
   const [showVideos, setShowVideos] = useState(false);
 
@@ -47,13 +48,14 @@ const SharedUserInfo = ({ user }) => {
       }
     } else {
       try {
-        await navigator.clipboard.writeText(shareUrl);
+        await navigator.clipboard.writeText(
+          `https://resussweb.netlify.app/user/${user}`
+        );
         alert("Link copied to clipboard!");
       } catch (err) {
         alert("Couldn't copy link.");
       }
     }
-    
   };
 
   const allProjects = [
@@ -113,8 +115,11 @@ const SharedUserInfo = ({ user }) => {
       </Helmet>
 
       <div className="block md:grid grid-cols-1 lg:grid-cols-3 gap-[30px]">
-        <div className="form z-50 bg-white min-h-[700px] w-full rounded-[40px]  mx-auto px-[40px] py-[30px]">
-          <div className="flex items-center justify-between pb-[10px] border-b border-[#DEDEDE]">
+        <div className="form z-50 bg-white min-h-[700px] w-full rounded-tl-[40px] rounded-tr-[40px] md:rounded-[40px]   mx-auto px-[40px] py-[30px]">
+          <button onClick={goBack} className="block md:hidden pb-[10px]">
+            <ArrowLeftOutlined style={{ fontSize: "14px" }} />
+          </button>
+          <div className="flex items-center justify-between pb-[10px] md:border-b md:border-[#DEDEDE]">
             <div className="flex gap-[10px] items-center">
               <img
                 src={star}
@@ -163,6 +168,27 @@ const SharedUserInfo = ({ user }) => {
                 {user?.location || "No location added"}
               </span>
             </div>
+            <div className=" md:hidden block">
+              <div className="flex items-center gap-[10px] border-b border-[#DEDEDE] pb-[20px]">
+                {user?.services.length > 0 ? (
+                  user?.services.map((role, index) => (
+                    <div
+                      key={index}
+                      className={`flex w-fit justify-between px-[15px] py-[10px] rounded-[50px] ${
+                        index === 0
+                          ? "bg-[#461378] text-white"
+                          : "bg-[#F6E9FF] text-[#330066]"
+                      }`}
+                    >
+                      <span>{role.name}</span>
+                      <span className="cursor-pointer"></span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-[#461378]">No roles selected</p>
+                )}
+              </div>
+            </div>
             <div
               className="relative h-[310px] w-full bg-cover rounded-[25px] overflow-hidden"
               style={{ backgroundImage: `url(${user?.profile_photo_url})` }}
@@ -180,13 +206,6 @@ const SharedUserInfo = ({ user }) => {
               </div>
             </div>
 
-            <div className="font-semibold text-[14px] py-[20px] block lg:hidden">
-              <div className="text-[14px] text-[#70E1FF] font-bold py-[20px]">
-                ABOUT
-              </div>
-              {user?.bio ||
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."}
-            </div>
             <div className="flex gap-[20px] items-center py-[20px]">
               <div className="font-semibold text-[#898A8D] text-[14px]">
                 AWARDS 3 wins & 2 Nominations{" "}
@@ -202,6 +221,28 @@ const SharedUserInfo = ({ user }) => {
               <button>
                 <ArrowRightOutlined style={{ fontSize: "14px" }} />
               </button>
+            </div>
+
+            <div className="block md:hidden">
+              <div className="text-[14px] text-[#70E1FF] font-bold py-[20px]">
+                PERSONAL DATA
+              </div>
+              <div className="text-[14px] text-[#424242] flex flex-col gap-[15px]">
+                <div>
+                  <span className="font-semibold">Official site</span> Instagram
+                </div>
+                <div>
+                  <span className="font-semibold">Alternative name</span> Jack
+                  Grazer
+                </div>
+                <div>
+                  <span className="font-semibold">Height</span> 5′ 9½″ (1.77 m)
+                </div>
+                <div>
+                  <span className="font-semibold">Born</span> September 3, 2003,
+                  Los Angeles, California, USA
+                </div>
+              </div>
             </div>
 
             <div className="pt-[20px]">
@@ -249,9 +290,36 @@ const SharedUserInfo = ({ user }) => {
                 </button>
               </div>
             </div>
+            <div className="font-semibold text-[14px] py-[20px] block lg:hidden">
+              <div className="text-[14px] text-[#70E1FF] font-bold py-[20px]">
+                ABOUT
+              </div>
+              {user?.bio ||
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."}
+            </div>
+            <div className="md:hidden block">
+              <div className="text-[14px] text-[#70E1FF] font-bold py-[20px]">
+                PROJECTS
+              </div>
+              {allProjects?.map((project, i) => (
+                <div className="flex items-center gap-[30px] pb-[10px]" key={i}>
+                  <div>
+                    {" "}
+                    <img
+                      src={project.src}
+                      alt={`slide-${i}`}
+                      className="w-[136px] h-[100px] object-cover rounded-xl"
+                    />
+                  </div>
+                  <div className="text-[14px] text-[#424242] font-semibold text-wrap">
+                    {project.title}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="z-50 col-span-2 mt-[20px] md:mt-[0] bg-white w-full min-h-[700px] rounded-[30px] mx-auto px-[20px] md:px-[50px] py-[20px] md:py-[30px]">
+        <div className="hidden md:block z-50 col-span-2 mt-[20px] md:mt-[0] bg-white w-full min-h-[700px] rounded-[30px] mx-auto px-[20px] md:px-[50px] py-[20px] md:py-[30px]">
           <div>
             <div>
               <div className=" hidden md:block">
@@ -316,46 +384,7 @@ const SharedUserInfo = ({ user }) => {
               </div>
             </div>
 
-            <div className="md:hidden block">
-              <div className="text-[14px] text-[#70E1FF] font-bold py-[20px]">
-                PERSONAL DATA
-              </div>
-              <div className="text-[14px] text-[#424242] flex flex-col gap-[15px]">
-                <div>
-                  <span className="font-semibold">Official site</span> Instagram
-                </div>
-                <div>
-                  <span className="font-semibold">Alternative name</span> Jack
-                  Grazer
-                </div>
-                <div>
-                  <span className="font-semibold">Height</span> 5′ 9½″ (1.77 m)
-                </div>
-                <div>
-                  <span className="font-semibold">Born</span> September 3, 2003,
-                  Los Angeles, California, USA
-                </div>
-              </div>
-
-              <div className="text-[14px] text-[#70E1FF] font-bold py-[20px]">
-                PROJECTS
-              </div>
-              {allProjects?.map((project, i) => (
-                <div className="flex items-center gap-[30px] pb-[10px]" key={i}>
-                  <div>
-                    {" "}
-                    <img
-                      src={project.src}
-                      alt={`slide-${i}`}
-                      className="w-[136px] h-[100px] object-cover rounded-xl"
-                    />
-                  </div>
-                  <div className="text-[14px] text-[#424242] font-semibold text-wrap">
-                    {project.title}
-                  </div>
-                </div>
-              ))}
-            </div>
+          
           </div>
         </div>
         <ImageCarouselModal

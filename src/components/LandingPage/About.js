@@ -42,6 +42,12 @@ const About = () => {
       info: "Discover and be discovered. Unlock earning opportunities, create projects",
     },
   ];
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  };
+
   const [index, setIndex] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
 
@@ -68,15 +74,22 @@ const About = () => {
   return (
     <div className="pt-[50px] md:pt-[150px] w-[85%] mx-auto">
       <div className="text-center">
-        <div className="text-[30px] md:text-[35px] text-[#461378] font-medium leading-[30px] pb-[10px]">
+        <motion.div
+          variants={fadeInUp}
+          initial="hidden"
+          animate="visible"
+          className="text-[30px] md:text-[35px] text-[#461378] font-medium leading-[30px] pb-[10px]"
+        >
           Everything you need to grow{" "}
           <span className="text-[#4FD6FA]">your career</span>
-        </div>
-        <div className="pt-[10px] text-[16px] md:text-[20px] text-[#898A8D] pb-[30px] md:text-center w-full md:w-[70%] mx-auto">
+        </motion.div>
+        <motion.div  variants={fadeInUp}
+          initial="hidden"
+          animate="visible" className="pt-[10px] text-[16px] md:text-[20px] text-[#898A8D] pb-[30px] md:text-center w-full md:w-[70%] mx-auto">
           Resuss is a professional platform that brings valuable tools that
           empowers producers/ creators and talent, allowing seamless
           collaborative success.
-        </div>
+        </motion.div>
       </div>
       <div className="hidden md:grid md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-8 lg:px-16 py-10 mb-[130px]">
         {aboutresuss.map((item, index) => (
@@ -112,7 +125,7 @@ const About = () => {
           dragConstraints={{ left: 0, right: 0 }} // allow free swiping
           onDragEnd={(event, info) => {
             const swipePower = Math.abs(info.offset.x) * info.velocity.x;
-        
+
             // You can tweak this number based on the feel you want
             if (swipePower < -200) {
               nextSlide(); // Swipe left, go next
