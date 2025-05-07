@@ -1,6 +1,6 @@
 import React from "react";
 import LandingNav from "../components/LandingPage/LandingNav";
-import HeroSection from "../components/How_It_Works/HeroSection";
+import HeroSection from "../components/About/HeroSection";
 
 const How_It_Works = () => {
   return (

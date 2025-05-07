@@ -16,7 +16,7 @@ import Events from "./pages/Events";
 import LandingPage from "./pages/LandingPage";
 import Profile from "./pages/Profile/Profile";
 import SharedProfile from "./pages/Profile/SharedProfile";
-import How_It_Works from "./pages/How_It_Works";
+import About from "./pages/About";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -35,7 +35,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/how-it-works" element={<How_It_Works />} />
+          <Route path="/about" element={<About/>} />
 
           <Route path="/user/:fullname" element={<SharedProfile />} />
 
