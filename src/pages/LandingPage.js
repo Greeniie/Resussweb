@@ -1,6 +1,6 @@
 import React from "react";
 import HeroSection from "../components/LandingPage/HeroSection";
-import LandingNav from "../components/LandingNav";
+import LandingNav from "../components/LandingPage/LandingNav";
 import About from "../components/LandingPage/About";
 import Features from "../components/LandingPage/Features";
 import Features2 from "../components/LandingPage/Features2";
