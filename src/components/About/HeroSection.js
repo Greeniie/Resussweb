@@ -83,7 +83,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, x: 80 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
-        className="hidden md:block pt-[60px] lg:pt-[90px] pr-[8it_wor0px] relative z-10"
+        className="hidden md:block pt-[60px] lg:pt-[90px] pr-[80px] relative z-10"
       >
         <img
           src={hero}

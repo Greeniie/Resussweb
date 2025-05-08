@@ -1,8 +1,12 @@
 import React from "react";
 import LandingNav from "../components/LandingPage/LandingNav";
 import HeroSection from "../components/About/HeroSection";
+import Whoweare from "../components/About/Whoweare";
+import Values from "../components/About/Values";
+import Footer from "../components/LandingPage/Footer";
+import Learnmore from "../components/About/Learnmore";
 
-const How_It_Works = () => {
+const About = () => {
   return (
     <div>
       <div className="overflow-y-auto md:block">
@@ -10,9 +14,13 @@ const How_It_Works = () => {
           <LandingNav />
         </div>
         <HeroSection />
+        <Whoweare/>
+        <Values/>
+        <Learnmore/>
+        <Footer/>
       </div>
     </div>
   );
 };
 
-export default How_It_Works;
+export default About;

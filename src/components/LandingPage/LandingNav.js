@@ -132,11 +132,13 @@ const LandingNav = () => {
 
       {/* Desktop View */}
       <div className="hidden md:flex justify-between items-center w-full pt-10 px-6 md:px-18 lg:px-20">
-        <img
-          src={logo}
-          className="h-[40px] w-auto object-contain flex-shrink-0"
-          alt="logo"
-        />
+        <Link to="/">
+          <img
+            src={logo}
+            className="h-[40px] w-auto object-contain flex-shrink-0"
+            alt="logo"
+          />
+        </Link>
 
         <div
           className={`flex items-center ${menuSpacing} flex-nowrap`}
@@ -147,11 +149,7 @@ const LandingNav = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`group text-[16px] font-medium relative transition-colors duration-300 ${
-                  location.pathname === item.path
-                    ? "text-[#461378]"
-                    : "text-[#461378] hover:text-[#461378]"
-                }`}
+                className="link group text-[16px] font-medium relative transition-colors duration-300"
               >
                 <div className="relative">
                   {item.name}
