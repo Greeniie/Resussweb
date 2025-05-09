@@ -13,12 +13,28 @@ const MainBody = () => {
   ];
 
   return (
-    <div>
-      <div className="mt-[60px] my-[50px] w-fit mx-auto flex gap-[20px] items-center bg-[#F3F3F3] p-[3px] rounded-lg">
+    <div className="w-[90%] md-[80%] mx-auto">
+      <div className="hidden md:block mt-[60px] my-[50px] w-fit mx-auto flex gap-[20px] items-center bg-[#F3F3F3] p-[3px] rounded-lg">
         {tabItems.map((tab) => (
           <div
             key={tab.key}
             className={`py-[6px] px-[50px] rounded-lg text-[14px] cursor-pointer transition-all duration-300 ${
+              activeTab === tab.key
+                ? "bg-[white] text-[#330066]"
+                : "text-[#545454]"
+            }`}
+            onClick={() => setActiveTab(tab.key)}
+          >
+            {tab.label}
+          </div>
+        ))}
+      </div>
+
+      <div className="block md:hidden flex gap-[20px] items-center bg-white p-[3px] rounded-lg w-[90%] mx-auto">
+        {tabItems.map((tab) => (
+          <div
+            key={tab.key}
+            className={`py-[3px] flex-1 text-center rounded-lg text-[14px] cursor-pointer transition-all duration-300 ${
               activeTab === tab.key
                 ? "bg-[white] text-[#330066]"
                 : "text-[#545454]"
