@@ -4,7 +4,7 @@ import logo from "../../assets/logo.png";
 import { CloseCircleOutlined } from "@ant-design/icons";
 
 import hamburger from "../../assets/menu-icons/hamburgericon.png";
-import hamburgerwhite from '../../assets/menu-icons/hamburgerwhite.png'
+import hamburgerwhite from "../../assets/menu-icons/hamburgerwhite.png";
 import { useSelector } from "react-redux";
 
 const LandingNav = () => {

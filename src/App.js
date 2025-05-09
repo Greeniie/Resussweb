@@ -18,6 +18,7 @@ import Profile from "./pages/Profile/Profile";
 import SharedProfile from "./pages/Profile/SharedProfile";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
+import How_It_Works from "./pages/How_It_Works";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -36,9 +37,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/about" element={<About/>} />
-          <Route path="/faq" element={<FAQ/>} />
-
+          <Route path="/about" element={<About />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/how-it-works" element={<How_It_Works />} />
           <Route path="/user/:fullname" element={<SharedProfile />} />
 
           {/* Auth routes wrapped in AuthRoutes */}
