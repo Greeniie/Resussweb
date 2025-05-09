@@ -17,7 +17,7 @@ const HeroSection = () => {
     },
   };
   return (
-    <div className="bg-[#E5DFF8] mt-0 lg:mt-[20px] h-[630px] relative font-[Inter] z-0 overflow-x-clip overflow-y-visible mb-[400px] md:mb-0">
+    <div className="bg-[#E5DFF8] mt-0 lg:mt-[20px] h-[650px] md:h-[500px] relative font-[Inter] z-0 overflow-x-clip overflow-y-visible mb-[400px] md:mb-[300px]">
       <div>
         <LandingNav />
       </div>
