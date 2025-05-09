@@ -1,30 +1,28 @@
-import React, {useEffect} from "react";
+import React from "react";
 import LandingNav from "../components/LandingPage/LandingNav";
-import HeroSection from "../components/About/HeroSection";
-import Whoweare from "../components/About/Whoweare";
-import Values from "../components/About/Values";
 import Footer from "../components/LandingPage/Footer";
+import HeroSection from "../components/FAQ/HeroSection";
+import FAQlist from "../components/FAQ/FAQlist";
 import Learnmore from "../components/About/Learnmore";
+import Question from "../components/FAQ/Question";
 
-const About = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+const FAQ = () => {
   return (
     <div>
       <div className="overflow-y-auto md:block">
         <div className="hidden lg:block mb-[20px]">
           <LandingNav />
         </div>
-        <HeroSection />
-        <Whoweare/>
-        <Values/>
+        <div className="overflow-hidden">
+          <HeroSection />
+        </div>
+        <FAQlist/>
+        <Question/>
         <Learnmore/>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );
 };
 
-export default About;
+export default FAQ;

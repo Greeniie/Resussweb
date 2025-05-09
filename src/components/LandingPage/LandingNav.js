@@ -4,6 +4,7 @@ import logo from "../../assets/logo.png";
 import { CloseCircleOutlined } from "@ant-design/icons";
 
 import hamburger from "../../assets/menu-icons/hamburgericon.png";
+import hamburgerwhite from '../../assets/menu-icons/hamburgerwhite.png'
 import { useSelector } from "react-redux";
 
 const LandingNav = () => {
@@ -55,9 +56,9 @@ const LandingNav = () => {
 
           <button onClick={() => setMobileMenuOpen(true)}>
             <img
-              src={hamburger}
+              src={location.pathname === "/faq" ? hamburgerwhite : hamburger}
               alt="menu"
-              className="h-[32px] w-auto object-cover object-center"
+              className="h-[40px] w-auto object-cover object-center"
             />
           </button>
         </div>

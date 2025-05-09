@@ -17,6 +17,7 @@ import LandingPage from "./pages/LandingPage";
 import Profile from "./pages/Profile/Profile";
 import SharedProfile from "./pages/Profile/SharedProfile";
 import About from "./pages/About";
+import FAQ from "./pages/FAQ";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -36,6 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<About/>} />
+          <Route path="/faq" element={<FAQ/>} />
 
           <Route path="/user/:fullname" element={<SharedProfile />} />
 

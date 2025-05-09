@@ -20,7 +20,7 @@ const HeroSection = () => {
       <LandingNav />
     </div>
   
-    <div className="block md:flex overflow-hidden">
+    <div className="block md:flex items-center overflow-hidden">
       <div className="w-full md:w-[95%] lg:w-[90%] mx-auto md:mr-auto">
         <div className="bg-[#E0E8FC] absolute inset-y-0 left-0 w-[279px] lg:block hidden"></div>
   
@@ -37,12 +37,12 @@ const HeroSection = () => {
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
-          className="hidden md:block pt-[60px] lg:pt-[90px] pl-[140px] relative z-20"
+          className="hidden md:block pt-[60px] lg:pt-[0] pl-[140px] relative z-20"
         >
           <div className="px-[10px] py-[2px] text-[14px] rounded-[10px] bg-[#9900FF] w-fit text-white mb-[20px]">
             About us
           </div>
-          <div className="pb-[10px] font-semibold text-[32px] lg:text-[45px] text-[#461378] leading-tight w-full max-w-[95%] lg:max-w-full">
+          <div className="pb-[10px] font-semibold text-[32px] lg:text-[50px] text-[#461378] leading-[50px] w-full max-w-[95%] lg:max-w-full">
             Building the future for <br /> African creators in <br /> media
           </div>
         </motion.div>
