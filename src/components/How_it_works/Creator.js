@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import CreatorFeature1 from "./CreatorFeature1";
+import CreatorFeature2 from "./CreatorFeature2";
 
 const Creator = () => {
   return (
-    <div>Creator</div>
-  )
-}
+    <div>
+      <CreatorFeature1 />
+      <CreatorFeature2/>
+    </div>
+  );
+};
 
-export default Creator
+export default Creator;

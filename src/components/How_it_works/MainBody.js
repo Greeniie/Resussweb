@@ -14,7 +14,7 @@ const MainBody = () => {
 
   return (
     <div className="">
-      <div className="hidden md:flex mt-[60px] my-[50px] w-fit mx-auto flex gap-[20px] items-center bg-[#F3F3F3] p-[3px] rounded-lg">
+      <div className="hidden md:flex  my-[50px] sm:mt-[60px] md:mt-[100px] lg:mt-[60px] w-fit mx-auto flex gap-[20px] items-center bg-[#F3F3F3] p-[3px] rounded-lg">
         {tabItems.map((tab) => (
           <div
             key={tab.key}
@@ -30,7 +30,7 @@ const MainBody = () => {
         ))}
       </div>
 
-      <div className="block md:hidden flex gap-[20px] items-center bg-[#F3F3F3] p-[3px] rounded-lg w-[90%] mx-auto">
+      <div className="block md:hidden flex gap-[20px] items-center bg-[#F3F3F3] mt-[350px]  p-[3px]  rounded-lg w-[90%] mx-auto">
         {tabItems.map((tab) => (
           <div
             key={tab.key}

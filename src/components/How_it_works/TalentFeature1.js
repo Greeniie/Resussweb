@@ -37,8 +37,8 @@ const TalentFeature1 = () => {
         {/* Mobile layout - shown on all screens below lg (including tablets) */}
         <div className="block lg:hidden">
           <div className="w-full">
-            <div className="pt-[50px] w-[85%] mx-auto">
-              <div className="text-[30px] leading-[30px] text-[#4FD6FA] font-medium pb-[20px] sm:pt-0 md:pt-[130px] lg:pt-0">
+            <div className="pt-[30px] w-[85%] mx-auto">
+              <div className="text-[30px] leading-[30px] text-[#4FD6FA] font-medium pb-[20px] sm:pt-0 md:pt-[0] lg:pt-0">
                 <span className="text-[#461378]">Create</span> your <br />
                 Professional Profile
               </div>

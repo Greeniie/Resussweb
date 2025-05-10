@@ -17,7 +17,7 @@ const HeroSection = () => {
     },
   };
   return (
-    <div className="bg-[#E5DFF8] mt-0 lg:mt-[20px] h-[650px] md:h-[500px] relative font-[Inter] z-0 overflow-x-clip overflow-y-visible mb-[400px] md:mb-[300px]">
+    <div className="bg-[#E5DFF8] mt-0 lg:mt-[20px] h-[650px] md:h-[670px] relative font-[Inter] z-0 overflow-x-clip overflow-y-visible sm:mb-[400px] md:mb-[400px] lg:mb-[50px]">
       <div>
         <LandingNav />
       </div>
@@ -28,7 +28,7 @@ const HeroSection = () => {
             <img
               src={resuss}
               alt="resuss"
-              className="h-[500px] w-auto object-cover"
+              className="h-[500px] md:h-[670px] w-auto object-cover"
             />
           </div>
           {/* Gradient Overlay to blend */}
