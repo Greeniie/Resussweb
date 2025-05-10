@@ -22,7 +22,7 @@ const HeroSection = () => {
         <LandingNav />
       </div>
 
-      <div className="block md:grid md:grid-cols-2 pt-[60px]">
+      <div className="block md:grid lg:grid-cols-2 pt-[60px]">
         <div className="w-full md:w-[95%] lg:w-[90%] mx-auto md:mr-auto">
           <div className="absolute top-0 left-0 z-[-10]">
             <img
@@ -69,7 +69,7 @@ const HeroSection = () => {
           >
             <Link
               to="/"
-              className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-16 lg:px-24 py-3 md:py-2 rounded-[60px] font-medium text-[16px] lg:text-[18px]"
+              className="no-underline border-[2px] text-[#461378] hover:text-[#461378] border-[#461378] px-16 lg:px-18 py-3 md:py-2 rounded-[60px] font-medium text-[16px] lg:text-[18px]"
             >
               See latest updates
             </Link>
@@ -117,7 +117,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, x: 80 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 }}
-          className="hidden md:block  pl-[100px]   relative z-10"
+          className="hidden md:block pl-[30px] relative z-10"
         >
           <img
             src={how}
