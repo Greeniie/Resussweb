@@ -30,7 +30,7 @@ const MainBody = () => {
         ))}
       </div>
 
-      <div className="block md:hidden flex gap-[20px] items-center bg-white p-[3px] rounded-lg w-[90%] mx-auto">
+      <div className="block md:hidden flex gap-[20px] items-center bg-[#F3F3F3] p-[3px] rounded-lg w-[90%] mx-auto">
         {tabItems.map((tab) => (
           <div
             key={tab.key}
