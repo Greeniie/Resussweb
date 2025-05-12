@@ -6,7 +6,7 @@ const CreatorFeature2 = () => {
     <div className="">
       <div className="relative w-full md:w-[90%] lg:w-[80%] mx-auto">
         {/* Desktop layout */}
-        <div className="hidden lg:grid lg:grid-cols-2 h-[480px]">
+        <div className="hidden lg:grid lg:grid-cols-2 h-[420px]">
           <div>
             <img
               src={c2}
