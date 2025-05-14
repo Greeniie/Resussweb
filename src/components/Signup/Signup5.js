@@ -27,11 +27,11 @@ const Signup5 = ({
 
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredRoles = roles.filter((role) =>
+  const filteredRoles = roles?.filter((role) =>
     role.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  const groupedFilteredRoles = filteredRoles.reduce((acc, role) => {
+  const groupedFilteredRoles = filteredRoles?.reduce((acc, role) => {
     const firstLetter = role.charAt(0).toUpperCase();
     if (!acc[firstLetter]) {
       acc[firstLetter] = [];
@@ -63,7 +63,6 @@ const Signup5 = ({
     });
   };
 
-  console.log(formData);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -180,8 +179,8 @@ const Signup5 = ({
               </div>
 
               <div>
-                <div className="text-[#545454] text-[27px]">Abiola Sobo</div>
-                <div className="text-[#898A8D] text-[16px]">08037227490</div>
+                <div className="text-[#545454] text-[27px]">{formData.first_name} {formData.last_name}</div>
+                <div className="text-[#898A8D] text-[16px]">{formData.phone_number}</div>
               </div>
 
               <div className="mt-[40px]">
@@ -213,8 +212,13 @@ const Signup5 = ({
                 </div>
 
                 <button
+                  disabled={selectedRoles.length === 0}
                   onClick={nextStep}
-                  className="bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[50px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium"
+                  className={`${
+                    selectedRoles.length === 0
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+                  } bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[50px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium`}
                 >
                   Continue
                 </button>
@@ -356,8 +360,13 @@ const Signup5 = ({
                   </div>
 
                   <button
+                    disabled={selectedRoles.length === 0}
                     onClick={nextStep}
-                    className="bg-[#4FD6FA] rounded-[50px] mb-[40px] w-full mt-[50px] p-[8px] text-[15px] text-white font-medium"
+                    className={`${
+                      selectedRoles.length === 0
+                        ? "bg-gray-300 cursor-not-allowed"
+                        : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+                    } bg-[#4FD6FA] rounded-[50px] mb-[40px] w-full mt-[50px] p-[8px] text-[15px] text-white font-medium`}
                   >
                     Continue
                   </button>

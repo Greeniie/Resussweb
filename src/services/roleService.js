@@ -1,7 +1,7 @@
 import AuthAPI from './authInstance'
 
 const getAll = async (data) => {
-  const response = await AuthAPI.get(`/admin/job-roles/list`)
+  const response = await AuthAPI.get(`/user/roles/list`)
   return response.data
 }
 

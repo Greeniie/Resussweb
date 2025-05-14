@@ -1,16 +1,52 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { EnvironmentFilled } from "@ant-design/icons";
+import {
+  EnvironmentFilled,
+  CaretDownOutlined,
+  CaretUpOutlined,
+} from "@ant-design/icons";
 import pro6 from "../assets/images/pro6.png";
-import filters from "../assets/images/filtersmobile.png";
+import filterimg from "../assets/images/filtersmobile.png";
 import share from "../assets/menu-icons/shareblack.png";
 import bookmark from "../assets/menu-icons/bookmarkblack.png";
 
 import { Tooltip } from "antd";
 import { Link } from "react-router-dom";
+import TalentFilters from "./TalentFilters";
 
 const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
-  const visibleTalents = isExpanded ? talents : talents.slice(0, 8);
+  const [showFilters, setShowFilters] = useState(false); // Manage sidebar visibility
+  const [filters, setFilters] = useState(null);
+
+  const filteredTalents = filters
+  ? talents.filter((talent) => {
+      const matchesGender =
+        !filters.gender || talent.gender === filters.gender;
+      const matchesLocation =
+        !filters.location || talent.location?.includes(filters.location);
+      const matchesRoles =
+        !filters.selectedRoles?.length ||
+        talent.services?.some((service) =>
+          filters.selectedRoles.includes(service.name)
+        );
+      const matchesAge =
+        !filters.ageRange ||
+        (talent.age >= filters.ageRange[0] &&
+          talent.age <= filters.ageRange[1]);
+
+      return (
+        matchesGender &&
+        matchesLocation &&
+        matchesRoles &&
+        matchesAge
+      );
+    })
+  : talents;
+
+const visibleTalents = isExpanded
+  ? filteredTalents
+  : filteredTalents.slice(0, 8);
+
 
   const handleShare = async (talent) => {
     if (navigator.share) {
@@ -24,14 +60,22 @@ const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
       }
     } else {
       try {
-        await navigator.clipboard.writeText(`https://resussweb.netlify.app/user/${talent.first_name}${talent.last_name}?id=${talent.id}`);
+        await navigator.clipboard.writeText(
+          `https://resussweb.netlify.app/user/${talent.first_name}${talent.last_name}?id=${talent.id}`
+        );
         alert("Link copied to clipboard!");
       } catch (err) {
         alert("Couldn't copy link.");
       }
     }
-    
   };
+
+
+  const handleApplyFilters = (filterData) => {
+    setFilters(filterData);
+    setShowFilters(false); // Hide filter panel
+  };
+  
 
   return (
     <AnimatePresence>
@@ -43,16 +87,69 @@ const TalentList = ({ talents, title, isExpanded, toggleExpanded }) => {
         transition={{ duration: 0.3 }}
         className="bg-white min-h-[480px] mt-[30px] md:mt-0 rounded-[30px] mb-[30px] md:rounded-[35px] px-[15px] md:px-[50px] py-[30px] md:py-[35px]"
       >
-        <div className="block md:hidden">
-          <div className="flex gap-[10px] items-center pb-[20px] border-b">
+        {/* Mobile Filters Button */}
+        <div className="block md:hidden border-b">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="flex gap-[10px] items-center pb-[20px] "
+          >
             <img
-              src={filters}
+              src={filterimg}
               alt="filter"
               className="h-[16px] w-auto object-cover object-center"
             />
             <div className="text-[#898A8D] text-[14px]">Show filters</div>
-          </div>
+            <div>
+              <CaretDownOutlined
+                style={{
+                  fontSize: "14px",
+                  color: "#898A8D",
+                  transform: showFilters ? "rotate(180deg)" : "rotate(0deg)",
+                }}
+              />
+            </div>
+          </button>
         </div>
+
+        {/* Filters Sidebar */}
+        {showFilters && (
+          <div
+            style={{ zIndex: 9999 }}
+            className={`fixed inset-0 backdrop-blur-sm bg-white/70 flex sm:justify-end justify-center transition-transform duration-700 ease-in-out ${
+              showFilters
+                ? "translate-y-0 sm:translate-x-0"
+                : "translate-y-full sm:translate-x-full"
+            }`}
+          >
+            <TalentFilters onApplyFilters={handleApplyFilters} />
+            <button
+              onClick={() => setShowFilters(false)}
+              className="absolute top-4 right-4 text-gray-500"
+            >
+              <div className="block md:hidden">
+                <div className="flex gap-[10px] items-center">
+                  <img
+                    src={filterimg}
+                    alt="filter"
+                    className="h-[16px] w-auto object-cover object-center"
+                  />
+                  <div className="text-[#898A8D] text-[14px]">Hide filters</div>
+                  <div onClick={() => setShowFilters(!showFilters)}>
+                    <CaretUpOutlined
+                      style={{
+                        fontSize: "14px",
+                        color: "#898A8D",
+                        transform: showFilters
+                          ? "rotate(180deg)"
+                          : "rotate(0deg)",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
+        )}
 
         <div className="flex justify-between items-center pb-[10px] md:border-b">
           <div className="text-[#AF98BF] text-[16px] pt-[20px] md:pt-0">

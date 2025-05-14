@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import pro7 from "../../assets/images/pro7.png";
+import pro6 from "../../assets/images/pro6.png";
 import finish from "../../assets/images/finish.png";
 
 import {
@@ -10,22 +10,71 @@ import {
 } from "@ant-design/icons";
 import Modal from "react-bootstrap/Modal";
 import NavBar from "../NavBar";
+import { useDispatch } from "react-redux";
+import { signup } from "../../redux/authSlice";
+import { notification } from "antd";
+import { Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
+const Signup9 = ({ nextStep, prevStep, formData }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleClose = () => {
     setShow(false);
   };
   const handleShow = () => setShow(true);
 
-  const handleContinue = () => {
-    handleClose();
-    nextStep();
+  const onFinish = (e) => {
+    e.preventDefault();
+    setLoading(true);
+  
+    // 1. Get email from localStorage (or set to empty string)
+    const email = localStorage.getItem("email") || "";
+  
+    // 2. Prepare additional fields
+    const additionalData = {
+      email: email,
+      user_type: "user",
+      star_rating_count: "",
+      profile_video_url: "",
+      dob: "",
+      gender: "",
+      years_active: "",
+    };
+  
+    // 3. Merge formData with additional data
+    const finalFormData = {
+      ...formData,
+      ...additionalData,
+    };
+  
+    // 4. Dispatch the merged form data
+    dispatch(signup(finalFormData)).then((response) => {
+      if (response.type === "auth/signup/fulfilled") {
+        notification.success({
+          message: "Account created successfully",
+        });
+        setLoading(false);
+        navigate("/home");
+      } else {
+        notification.error({
+          message: response?.payload?.message,
+        });
+        setLoading(false);
+        setError({ error: true, message: response?.payload?.message });
+      }
+    });
   };
+  
 
   return (
     <div>
@@ -53,18 +102,19 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
             <div>
               <div className="relative h-[300px] w-[300px] flex justify-center items-center">
                 <img
-                  src={pro7}
+                  src={formData.profile_photo_name || pro6}
                   className="object-cover object-center h-[300px] w-auto"
                   alt="profile"
                 />
-              
               </div>
 
               <div>
                 <div className="text-[#545454] text-[27px] pt-[20px] font-bold">
-                  Abiola Sobo
+                  {formData.first_name} {formData.last_name}
                 </div>
-                <div className="text-[#898A8D] text-[16px]">08037227490</div>
+                <div className="text-[#898A8D] text-[16px]">
+                  {formData.phone_number}
+                </div>
                 <div className="pt-[10px]">
                   <EnvironmentFilled
                     style={{
@@ -74,19 +124,11 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                     }}
                   />
                   <span className="text-[20px] text-[#70E1FF] uppercase font-bold">
-                    BENIN
+                    {formData.coverage_location}
                   </span>
                 </div>
                 <div className="font-semibold text-[14px] pt-[15px]">
-                  Janet is very excited to be a part of Hamlet at Round Moon
-                  Theatre. She recently worked with Round Moon on MacBeth as
-                  Witch 1, and at Variety Theatre in Dead Man Walking as Helen's
-                  Mother. Janet studied Theatre Performance at Northwestern
-                  University, where she received a BFA. For fun, Janet
-                  volunteers with the local YMCA as a drama teacher. Her
-                  writings on working in the theatre can be found at
-                  JanetUnlocked.com. She wants to thank her partner Jeff, and
-                  their dog Jet for always supporting her passions.
+                  {formData.bio}
                 </div>
               </div>
 
@@ -106,9 +148,7 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                         }`}
                       >
                         <span>{role}</span>
-                        <span className="cursor-pointer">
-                        
-                        </span>
+                        <span className="cursor-pointer"></span>
                       </div>
                     ))
                   ) : (
@@ -158,15 +198,13 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 </div>
 
                 <button
-                  onClick={handleContinue}
+                  onClick={onFinish}
                   className="bg-[#4FD6FA] rounded-[50px] w-full mt-[30px] p-[10px] text-[16px] text-white font-medium"
                 >
-                  Start Resuss
+                  {loading ? "Please wait..." : "Start Resuss"}
+                  {loading ? <Spinner size="sm" /> : ""}
                 </button>
-                <button
-                  onClick={handleContinue}
-                  className="bg-[#DADADA] rounded-[50px] w-full mt-[15px] p-[10px] text-[16px] text-white font-medium"
-                >
+                <button className="bg-[#DADADA] rounded-[50px] w-full mt-[15px] p-[10px] text-[16px] text-white font-medium">
                   Setup Filmography
                 </button>
               </div>
@@ -190,18 +228,19 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
               </div>
               <div className="relative h-[300px] w-[300px] flex justify-center items-center">
                 <img
-                  src={pro7}
+                  src={formData.profile_photo_name || pro6}
                   className="object-cover object-center h-[300px] w-auto"
                   alt="profile"
                 />
-                
               </div>
 
               <div>
                 <div className="text-[#545454] text-[27px] font-bold pt-[30px]">
-                  Abiola Sobo
+                  {formData.first_name} {formData.last_name}
                 </div>
-                <div className="text-[#898A8D] text-[16px]">08037227490</div>
+                <div className="text-[#898A8D] text-[16px]">
+                  {formData.phone_number}
+                </div>
                 <div className="pt-[10px]">
                   <EnvironmentFilled
                     style={{
@@ -211,20 +250,10 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                     }}
                   />
                   <span className="text-[20px] text-[#70E1FF] uppercase font-bold">
-                    BENIN
+                    {formData.coverage_location}
                   </span>
                 </div>
-                <div className="font-semibold text-[14px]">
-                  Janet is very excited to be a part of Hamlet at Round Moon
-                  Theatre. She recently worked with Round Moon on MacBeth as
-                  Witch 1, and at Variety Theatre in Dead Man Walking as Helen's
-                  Mother. Janet studied Theatre Performance at Northwestern
-                  University, where she received a BFA. For fun, Janet
-                  volunteers with the local YMCA as a drama teacher. Her
-                  writings on working in the theatre can be found at
-                  JanetUnlocked.com. She wants to thank her partner Jeff, and
-                  their dog Jet for always supporting her passions.
-                </div>
+                <div className="font-semibold text-[14px]">{formData.bio}</div>
               </div>
 
               <div className="mt-[40px]">
@@ -243,9 +272,7 @@ const Signup9 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                         }`}
                       >
                         <span>{role}</span>
-                        <span className="cursor-pointer">
-                        
-                        </span>
+                        <span className="cursor-pointer"></span>
                       </div>
                     ))
                   ) : (

@@ -41,6 +41,16 @@ const Home = () => {
   useEffect(() => {
     dispatch(getProfile());
 
+    // const applyFilter = () => {
+    //   if (activeFilter === "myLocation") {
+    //     const filtered = users?.data?.users.filter(
+    //       (user) => user.location === profile?.singleData?.user?.location
+    //     );
+    //     setFilteredTalents(filtered);
+    //   }
+    //   setIsFilterApplied(true); // Set the filter as applied
+    // };
+
     dispatch(getAllArticles())
       .catch((err) => {
         console.error("Failed to fetch articles:", err);

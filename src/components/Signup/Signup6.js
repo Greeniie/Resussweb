@@ -1,18 +1,51 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import signup6 from "../../assets/images/signup6.png";
 import pro6 from "../../assets/images/pro6.png";
-
-import {
-  ArrowLeftOutlined,
-  CloseCircleFilled,
-  EditFilled,
-} from "@ant-design/icons";
+import { Spinner } from "react-bootstrap";
+import { ArrowLeftOutlined, EditFilled } from "@ant-design/icons";
 import NavBar from "../NavBar";
+import axios from "axios";
+import { notification } from "antd";
 
 const Signup6 = ({ nextStep, prevStep, formData, handleInputChange }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [image, setImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
+
+  const onChangeImage = async (e) => {
+    const image = e.target.files[0];
+    setImageLoading(true);
+
+    const imageformData = new FormData();
+    imageformData.append("file", image);
+    imageformData.append("upload_preset", "resuss_dev");
+
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dcn2e7gon/image/upload",
+        imageformData
+      );
+
+      const imageUrl = response.data.secure_url;
+      setImage(imageUrl);
+      handleInputChange("profile_photo_name", imageUrl); // Store the URL, not the file
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+      notification.error({
+        message: "Upload Failed",
+        description:
+          "There was an error uploading your image. Please try again.",
+        placement: "topRight",
+      });
+    } finally {
+      setImageLoading(false);
+    }
+  };
+
+
   return (
     <div>
       <div className="relative min-h-screen overflow-hidden login-bg hidden md:block">
@@ -45,23 +78,36 @@ const Signup6 = ({ nextStep, prevStep, formData, handleInputChange }) => {
               We recommend you use a clear picture
             </div>
             <div className="relative bg-[#D2CAE9] h-[150px] w-[150px] flex justify-center items-center">
-              <img
-                src={pro6}
-                className="object-cover object-center h-[120px] w-auto"
-                alt="profile"
-              />
+              {imageLoading ? (
+                <Spinner
+                  animation="border"
+                  variant="primary"
+                  className="absolute"
+                />
+              ) : (
+                <img
+                  src={image || pro6}
+                  className="object-cover object-center h-[120px] w-auto"
+                  alt="profile"
+                />
+              )}
+
               {/* File Upload Button */}
               <label className="absolute bottom-[-20px] bg-[#330066] w-[40px] h-[40px] rounded-full flex justify-center items-center cursor-pointer">
                 <EditFilled className="text-white text-lg" />
-                <input type="file" className="hidden" />
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={onChangeImage}
+                />
               </label>
             </div>
 
             <div>
               <div className="text-[#545454] text-[27px] pt-[50px]">
-                Abiola Sobo
+              {formData.first_name} {formData.last_name}
               </div>
-              <div className="text-[#898A8D] text-[16px]">08037227490</div>
+              <div className="text-[#898A8D] text-[16px]">{formData.phone_number}</div>
             </div>
 
             <div className="mt-[40px]">
@@ -69,26 +115,24 @@ const Signup6 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 Your selected roles
               </h2>
               <div className="flex flex-col gap-[10px]">
-                  {formData?.roles.length > 0 ? (
-                    formData?.roles.map((role, index) => (
-                      <div
-                        key={index}
-                        className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
-                          index === 0
-                            ? "bg-[#461378] text-white"
-                            : "bg-[#F6E9FF] text-[#330066]"
-                        }`}
-                      >
-                        <span>{role}</span>
-                        <span className="cursor-pointer">
-                        
-                        </span>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-[#461378]">No roles selected</p>
-                  )}
-                </div>
+                {formData?.roles.length > 0 ? (
+                  formData?.roles.map((role, index) => (
+                    <div
+                      key={index}
+                      className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
+                        index === 0
+                          ? "bg-[#461378] text-white"
+                          : "bg-[#F6E9FF] text-[#330066]"
+                      }`}
+                    >
+                      <span>{role}</span>
+                      <span className="cursor-pointer"></span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-[#461378]">No roles selected</p>
+                )}
+              </div>
 
               <button
                 onClick={nextStep}
@@ -126,22 +170,26 @@ const Signup6 = ({ nextStep, prevStep, formData, handleInputChange }) => {
 
               <div className="relative bg-[#D2CAE9] h-[150px] w-[150px] flex justify-center items-center">
                 <img
-                  src={pro6}
+                  src={image || pro6}
                   className="object-cover object-center h-[120px] w-auto"
                   alt="profile"
                 />
                 {/* File Upload Button */}
                 <label className="absolute bottom-[-20px] bg-[#330066] w-[40px] h-[40px] rounded-full flex justify-center items-center cursor-pointer">
                   <EditFilled className="text-white text-lg" />
-                  <input type="file" className="hidden" />
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={onChangeImage}
+                  />
                 </label>
               </div>
 
               <div>
                 <div className="text-[#545454] text-[27px] pt-[50px]">
-                  Abiola Sobo
+                {formData.first_name} {formData.last_name}
                 </div>
-                <div className="text-[#898A8D] text-[16px]">08037227490</div>
+                <div className="text-[#898A8D] text-[16px]">{formData.phone_number}</div>
               </div>
 
               <div className="mt-[40px]">
@@ -160,9 +208,7 @@ const Signup6 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                         }`}
                       >
                         <span>{role}</span>
-                        <span className="cursor-pointer">
-                        
-                        </span>
+                        <span className="cursor-pointer"></span>
                       </div>
                     ))
                   ) : (

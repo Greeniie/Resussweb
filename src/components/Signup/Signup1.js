@@ -1,11 +1,70 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import signup1 from "../../assets/images/signup1.png";
 import Form from "react-bootstrap/Form";
 
 import { Link } from "react-router-dom";
 import NavBar from "../NavBar";
+import { useDispatch } from "react-redux";
+import { sendSignupOTP } from "../../redux/authSlice";
+import { notification } from "antd";
+import { Spinner } from "react-bootstrap";
+
+const initialFormData = {
+  email: "",
+};
 
 const Signup1 = ({ nextStep }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleInputChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const clearFormData = () => {
+    setFormData({
+      email: "",
+    });
+  };
+
+  const onFinish = (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: formData.email,
+    };
+
+    setConfirmLoading(true);
+    dispatch(sendSignupOTP(data)).then((response) => {
+      if (response.type === "auth/sendSignupOTP/fulfilled") {
+        localStorage.setItem("email", response?.payload);
+        notification.success({
+          message: "OTP successfully sent to your email",
+        });
+        clearFormData();
+        setConfirmLoading(false);
+        nextStep();
+      } else {
+        notification.error({
+          message: "Error sending OTP, Please try again later",
+        });
+        setConfirmLoading(false);
+        setError({ error: true, message: response?.payload?.message });
+      }
+    });
+  };
+
   return (
     <div>
       <div className="relative min-h-screen overflow-hidden login-bg hidden md:block">
@@ -49,18 +108,29 @@ const Signup1 = ({ nextStep }) => {
                 <Form.Group className="mb-3">
                   <Form.Control
                     type="text"
-                    name="title"
+                    name="email"
                     placeholder="Enter your email address"
                     className="border-[#abb0ba] p-2 custom-placeholder"
+                    onChange={(evt) => handleInputChange(evt)}
                   />
                 </Form.Group>
 
                 <button
-                  onClick={nextStep}
-                  className="bg-[#4FD6FA] rounded-[50px] mb-[20px] rounded-[60px] w-full mt-[20px] py-[12px] px-[10px] text-[16px] text-white font-medium"
+                  disabled={!formData.email}
+                  onClick={onFinish}
+                  className={`${
+                    !formData.email
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+                  } bg-[#4FD6FA] rounded-[50px] mb-[20px] rounded-[60px] w-full mt-[20px] py-[12px] px-[10px] text-[16px] text-white font-medium`}
                 >
-                  Submit
+                  {confirmLoading ? "Please wait..." : "Submit"}
+                  {confirmLoading ? <Spinner size="sm" /> : ""}
                 </button>
+
+                {error?.error && (
+                  <div className="text-[12px] text-[red]">{error?.message}</div>
+                )}
                 <div className="text-[#898A8D] text-[14px] md:text-[15px] md:text-[16px]">
                   Already have an account?{" "}
                   <span>
@@ -98,10 +168,10 @@ const Signup1 = ({ nextStep }) => {
                 <Form.Group className="mb-3" controlId="formBasicText">
                   <Form.Control
                     type="text"
-                    name="title"
+                    name="email"
                     placeholder="Enter your email address"
                     className="border-[#abb0ba] p-2 custom-placeholder"
-                    // onChange={(evt) => handleInputChange(evt)}
+                    onChange={(evt) => handleInputChange(evt)}
                   />
                 </Form.Group>
               </Form>
@@ -117,10 +187,18 @@ const Signup1 = ({ nextStep }) => {
 
             <button
               onClick={nextStep}
-              className="bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium"
+              className={`${
+                !formData.email
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+              }bg-[#4FD6FA] rounded-[60px] w-full my-[30px] px-[10px] py-[12px] text-[18px] text-white font-medium`}
             >
-              Submit
+               {confirmLoading ? "Please wait..." : "Submit"}
+               {confirmLoading ? <Spinner size="sm" /> : ""}
             </button>
+            {error?.error && (
+              <div className="text-[12px] text-[red]">{error?.message}</div>
+            )}
           </div>
         </div>
       </div>

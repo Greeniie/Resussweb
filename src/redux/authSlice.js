@@ -60,6 +60,30 @@ export const sendOTP = createAsyncThunk(
   }
 );
 
+export const sendSignupOTP = createAsyncThunk(
+  "auth/sendSignupOTP",
+  async (data, thunkAPI) => {
+    try {
+      const response = await authService.sendSignupOTP(data);
+      return response?.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+export const verifySignupOTP = createAsyncThunk(
+  "auth/verifySignupOTP",
+  async (data, thunkAPI) => {
+    try {
+      const response = await authService.verifySignupOTP(data);
+      return response?.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 export const verifyOTP = createAsyncThunk(
   "auth/verifyOTP",
   async (data, thunkAPI) => {
@@ -156,6 +180,27 @@ const authSlice = createSlice({
       state.adminEmail = payload;
     },
     [sendOTP.rejected]: (state) => {
+      state.loading = false;
+    },
+    [sendSignupOTP.pending]: (state) => {
+      state.loading = true;
+    },
+    [sendSignupOTP.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.adminEmail = payload;
+    },
+    [sendSignupOTP.rejected]: (state) => {
+      state.loading = false;
+    },
+
+    [verifySignupOTP.pending]: (state) => {
+      state.loading = true;
+    },
+    [verifySignupOTP.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.adminEmail = payload;
+    },
+    [verifySignupOTP.rejected]: (state) => {
       state.loading = false;
     },
     [verifyOTP.pending]: (state) => {

@@ -2,8 +2,34 @@ import React, { useState, useRef } from "react";
 import signup2 from "../../assets/images/signup2.png";
 import { MailOutlined } from "@ant-design/icons";
 import NavBar from "../NavBar";
+import { useDispatch } from "react-redux";
+import { sendSignupOTP } from "../../redux/authSlice";
+import { notification } from "antd";
+import { Spinner } from "react-bootstrap";
 
 const Signup2 = ({ nextStep }) => {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const resendOTP = (e) => {
+    e.preventDefault();
+    const email = localStorage.getItem("email");
+    const values = { email: email };
+    setLoading(true);
+    dispatch(sendSignupOTP(values)).then((response) => {
+      if (response.type === "auth/sendSignupOTP/fulfilled") {
+        notification.success({
+          message: "We have sent another OTP to your email",
+        });
+        setLoading(false);
+      } else {
+        notification.error({
+          message: "Error sending OTP, Please try again later",
+        });
+        setLoading(false);
+      }
+    });
+  };
+
   return (
     <div>
       <div className="relative min-h-screen overflow-hidden login-bg hidden md:block">
@@ -52,8 +78,11 @@ const Signup2 = ({ nextStep }) => {
               <div className="text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
                 Didn't receive an email?{" "}
                 <span>
-                  <button className="no-underline text-[#6633FF] font-semibold">
-                    Click to resend
+                  <button
+                    onClick={resendOTP}
+                    className="no-underline text-[#6633FF] font-semibold"
+                  >
+                    Click to resend {loading ? <Spinner size="sm" /> : ""}
                   </button>
                 </span>
               </div>
@@ -81,10 +110,8 @@ const Signup2 = ({ nextStep }) => {
                 <MailOutlined /> <span>Check your email</span>
               </div>
               <div className="text-[#898A8D] text-[14px] pt-[10px]">
-              We have sent account creation instructions to your email.
+                We have sent account creation instructions to your email.
               </div>
-
-            
             </div>
 
             <button
@@ -94,13 +121,16 @@ const Signup2 = ({ nextStep }) => {
               Continue
             </button>
             <div className="text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
-                Didn't receive an email?{" "}
-                <span>
-                  <button className="no-underline text-[#6633FF] font-semibold">
-                    Click to resend
-                  </button>
-                </span>
-              </div>
+              Didn't receive an email?{" "}
+              <span>
+                <button
+                  onClick={resendOTP}
+                  className="no-underline text-[#6633FF] font-semibold"
+                >
+                  Click to resend {loading ? <Spinner size="sm" /> : ""}
+                </button>
+              </span>
+            </div>
           </div>
         </div>
       </div>

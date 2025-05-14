@@ -1,12 +1,29 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import signup3 from "../../assets/images/signup3.png";
-import { Link } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import NavBar from "../NavBar";
+import { useDispatch } from "react-redux";
+import { verifySignupOTP } from "../../redux/authSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { notification } from "antd";
+import { Spinner } from "react-bootstrap";
+import OtpInput from "../OtpInput";
 
 const Signup3 = ({ nextStep }) => {
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
   const inputRefs = useRef([]);
+  const [formData, setFormData] = useState({ otp: "" });
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [otp, setOtp] = useState(["", "", "", ""]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    setFormData({ otp: otp.join("") });
+  }, [otp]);
 
   const handleChange = (index, value) => {
     if (!isNaN(value) && value.length <= 1) {
@@ -24,6 +41,27 @@ const Signup3 = ({ nextStep }) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1].focus();
     }
+  };
+
+  const onFinish = (e) => {
+    e.preventDefault();
+    setConfirmLoading(true);
+
+    dispatch(verifySignupOTP(formData)).then((response) => {
+      if (response.type === "auth/verifySignupOTP/fulfilled") {
+        notification.success({ message: "OTP verified successfully" });
+        setConfirmLoading(false);
+        nextStep();
+      } else if (response.type === "auth/verifySignupOTP/rejected") {
+        setConfirmLoading(false);
+        setError(response?.payload?.message || "An unknown error occurred"); // Handle error message correctly
+      } else {
+        setConfirmLoading(false);
+        notification.error({
+          message: "Error verifying otp, please try again",
+        });
+      }
+    });
   };
 
   return (
@@ -61,26 +99,25 @@ const Signup3 = ({ nextStep }) => {
               <div className="text-[#898A8D] text-[14px] pb-[20px] md:text-[15px] md:text-[16px]">
                 Enter OTP code sent to your email address
               </div>
-              <div className="flex justify-start gap-3 my-2">
-                {otp.map((digit, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    maxLength="1"
-                    value={digit}
-                    ref={(el) => (inputRefs.current[index] = el)}
-                    onChange={(e) => handleChange(index, e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(index, e)}
-                    className="w-12 h-12 border border-gray-300 text-center text-lg rounded-md focus:outline-none focus:ring-2 focus:ring-[#4FD6FA]"
-                  />
-                ))}
-              </div>
+              <OtpInput otp={otp} setOtp={setOtp} />
               <button
-                onClick={nextStep}
-                className="bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[20px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium"
+                disabled={otp.some((digit) => digit === "")}
+                onClick={onFinish}
+                className={`${
+                  otp.some((digit) => digit === "")
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+                } bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[20px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium`}
               >
-                Continue
+                {confirmLoading ? "Please wait..." : "Continue"}
+                {confirmLoading ? <Spinner size="sm" /> : ""}
               </button>
+
+              <div className="min-h-[20px]">
+                {error && (
+                  <p className="text-red-500 text-sm pt-[5px]">{error}</p>
+                )}
+              </div>
               <div className="flex items-center gap-[10px] no-underline text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
                 <ArrowLeftOutlined />
                 <span>
@@ -114,28 +151,26 @@ const Signup3 = ({ nextStep }) => {
                 Enter OTP code sent to your email address
               </div>
 
-              <div className="flex justify-start gap-2 mt-[30px]">
-                {otp.map((digit, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    maxLength="1"
-                    value={digit}
-                    ref={(el) => (inputRefs.current[index] = el)}
-                    onChange={(e) => handleChange(index, e.target.value)}
-                    onKeyDown={(e) => handleKeyDown(index, e)}
-                    className="w-12 h-12 border border-gray-300 text-center text-lg rounded-md focus:outline-none focus:ring-2 focus:ring-[#4FD6FA]"
-                  />
-                ))}
-              </div>
+              <OtpInput otp={otp} setOtp={setOtp} />
             </div>
 
             <button
-              onClick={nextStep}
-              className="bg-[#4FD6FA] rounded-[60px] w-full mb-[10px] mt-[20px] px-[10px] py-[12px] text-[18px] text-white font-medium"
+              disabled={otp.some((digit) => digit === "")}
+              onClick={onFinish}
+              className={`${
+                otp.some((digit) => digit === "")
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+              } bg-[#4FD6FA] rounded-[60px] w-full mb-[10px] mt-[20px] px-[10px] py-[12px] text-[18px] text-white font-medium`}
             >
-              Continue
+              {confirmLoading ? "Please wait..." : "Continue"}
+              {confirmLoading ? <Spinner size="sm" /> : ""}
             </button>
+            <div className="min-h-[20px]">
+              {error && (
+                <p className="text-red-500 text-sm pt-[5px]">{error}</p>
+              )}
+            </div>
             <div className=" pt-[20px] flex items-center gap-[10px] no-underline text-[#B8B8B8] text-[14px] md:text-[15px] md:text-[16px]">
               <ArrowLeftOutlined />
               <span>

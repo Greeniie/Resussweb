@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import Signup1 from "../../components/Signup/Signup1";
 import Signup2 from "../../components/Signup/Signup2";
@@ -9,39 +9,24 @@ import Signup6 from "../../components/Signup/Signup6";
 import Signup7 from "../../components/Signup/Signup7";
 import Signup8 from "../../components/Signup/Signup8";
 import Signup9 from "../../components/Signup/Signup9";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllRoles } from "../../redux/RoleSlice";
 
 const initialFormData = {
   roles: [],
 };
 
 const Signup = () => {
-  const roles = [
-    "Actor",
-    "Art",
-    "Agent",
-    "Company",
-    "Craft Services",
-    "Camera",
-    "Content Creator",
-    "Dance",
-    "Director",
-    "Electrical",
-    "Equipment",
-    "Grip",
-    "Hair & Makeup",
-    "Location",
-    "Media Company",
-    "Producer",
-    "Post Production",
-    "Rental",
-    "School",
-    "Screenwriter",
-    "Script",
-    "Sound",
-    "Studio Exec",
-    "Voice Talent ",
-    "Wardrobe",
-  ];
+  const dispatch = useDispatch();
+  const { role } = useSelector((state) => state);
+
+  useEffect(() => {
+    dispatch(getAllRoles()).catch((err) => {
+      console.error("Failed to fetch roles:", err);
+    });
+  }, [dispatch]);
+
+  const roleList = role?.data?.map((item) => item?.name);
 
   const [step, setStep] = useState(1);
   const nextStep = () => {
@@ -53,14 +38,25 @@ const Signup = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleInputChange = (eOrName, value) => {
+    if (typeof eOrName === "string") {
+      // Direct key-value update (like profile photo)
+      setFormData((prevData) => ({
+        ...prevData,
+        [eOrName]: value,
+      }));
+    } else {
+      // Standard input change event
+      const { name, value } = eOrName.target;
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   return (
     <div>
-     
       {step === 1 && (
         <Signup1
           nextStep={nextStep}
@@ -92,7 +88,7 @@ const Signup = () => {
       )}
       {step === 5 && (
         <Signup5
-          roles={roles}
+          roles={roleList}
           nextStep={nextStep}
           prevStep={prevStep}
           formData={formData}
@@ -115,7 +111,7 @@ const Signup = () => {
           handleInputChange={handleInputChange}
         />
       )}
-       {step === 8 && (
+      {step === 8 && (
         <Signup8
           nextStep={nextStep}
           prevStep={prevStep}

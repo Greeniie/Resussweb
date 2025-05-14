@@ -3,7 +3,7 @@ import ApiInstance from "./apiInstance";
 import AutInstance from "./authInstance";
 
 const signup = async (data) => {
-  const response = await ApiInstance.post("/user/auth/signup", data);
+  const response = await ApiInstance.post("/user/auth/signup-with-email", data);
   if (response.data) {
     ExpirySession.set("user", response.data);
   }
@@ -39,6 +39,19 @@ const sendOTP = async (data) => {
   return response.data;
 };
 
+const sendSignupOTP = async (data) => {
+  const response = await ApiInstance.post(
+    "/user/auth/send-otp-email",
+    data
+  );
+  return response.data;
+};
+
+const verifySignupOTP = async (data) => {
+  const response = await ApiInstance.post("/user/auth/verify/otp", data);
+  return response.data;
+};
+
 const verifyOTP = async (data) => {
   const response = await ApiInstance.post("/user/auth/verify-otp", data);
   return response.data;
@@ -69,4 +82,6 @@ export const authService = {
   loginAsUser,
   logout,
   changePassword,
+  sendSignupOTP,
+  verifySignupOTP
 };

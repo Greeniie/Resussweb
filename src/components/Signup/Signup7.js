@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import pro7 from "../../assets/images/pro7.png";
+import pro6 from "../../assets/images/pro6.png";
 import Form from "react-bootstrap/Form";
 import { Select, Input } from "antd";
 import {
@@ -52,7 +52,6 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
 
   const { TextArea } = Input;
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -67,9 +66,16 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
 
   const handleLocationChange = (value) => {
     setSelectedValue(value);
-    handleInputChange({ target: { name: "location", value } });
+    handleInputChange({ target: { name: "coverage_location", value } });
   };
 
+  const handleBioChange = (e) => {
+    const { value } = e.target;
+    handleInputChange({ target: { name: "bio", value } });
+  };
+
+  // Check if continue button should be disabled
+  const isContinueDisabled = !formData.coverage_location || !formData.bio;
 
   return (
     <div>
@@ -118,24 +124,27 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
               Write your bio
             </div>
 
-            <TextArea rows={12} />
+            <TextArea
+              value={formData.bio || ""}
+              onChange={handleBioChange}
+              rows={12}
+            />
           </div>
 
           <div className="form z-50 bg-white min-h-[480px] w-[100%] mb-[30px] rounded-[40px]  mx-auto px-[40px] py-[50px]">
             <div className="relative h-[300px] w-[300px] flex justify-center items-center">
               <img
-                src={pro7}
+                src={formData.profile_photo_name || pro6}
                 className="object-cover object-center h-[300px] w-auto"
                 alt="profile"
               />
-             
             </div>
 
             <div>
               <div className="text-[#545454] font-bold text-[27px] pt-[50px]">
-                Abiola Sobo
+              {formData.first_name} {formData.last_name}
               </div>
-              <div className="text-[#898A8D] text-[16px]">08037227490</div>
+              <div className="text-[#898A8D] text-[16px]">{formData.phone_number}</div>
             </div>
 
             <div className="mt-[40px]">
@@ -143,30 +152,33 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
                 Your selected roles
               </h2>
               <div className="flex flex-col gap-[10px]">
-                  {formData?.roles.length > 0 ? (
-                    formData?.roles.map((role, index) => (
-                      <div
-                        key={index}
-                        className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
-                          index === 0
-                            ? "bg-[#461378] text-white"
-                            : "bg-[#F6E9FF] text-[#330066]"
-                        }`}
-                      >
-                        <span>{role}</span>
-                        <span className="cursor-pointer">
-                        
-                        </span>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-[#461378]">No roles selected</p>
-                  )}
-                </div>
+                {formData?.roles.length > 0 ? (
+                  formData?.roles.map((role, index) => (
+                    <div
+                      key={index}
+                      className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
+                        index === 0
+                          ? "bg-[#461378] text-white"
+                          : "bg-[#F6E9FF] text-[#330066]"
+                      }`}
+                    >
+                      <span>{role}</span>
+                      <span className="cursor-pointer"></span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-[#461378]">No roles selected</p>
+                )}
+              </div>
 
               <button
                 onClick={nextStep}
-                className="bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[50px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium"
+                disabled={isContinueDisabled}
+                className={`bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[50px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium ${
+                  isContinueDisabled
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+                }`}
               >
                 Continue
               </button>
@@ -193,18 +205,19 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
             <div className="pt-[20px] pb-[30px]">
               <div className="relative h-[300px] w-[300px] flex justify-center items-center">
                 <img
-                  src={pro7}
+                  src={formData.profile_photo_name || pro6}
                   className="object-cover object-center h-[300px] w-auto"
                   alt="profile"
                 />
-             
               </div>
 
               <div>
                 <div className="text-[#545454] font-bold text-[27px] pt-[50px]">
-                  Abiola Sobo
+                {formData.first_name} {formData.last_name}
                 </div>
-                <div className="text-[#898A8D] text-[16px] pb-[20px]">08037227490</div>
+                <div className="text-[#898A8D] text-[16px] pb-[20px]">
+                {formData.phone_number}
+                </div>
               </div>
               <div className="text-[#4fd6fa] text-[25px] font-semibold leading-snug">
                 Your Location
@@ -245,36 +258,43 @@ const Signup7 = ({ nextStep, prevStep, formData, handleInputChange }) => {
               <div className="text-[#898A8D] text-[14px] pb-[20px]">
                 Write your bio
               </div>
-              <TextArea rows={12} />
+              <TextArea
+                value={formData.bio || ""}
+                onChange={handleBioChange}
+                rows={12}
+              />
 
               <h2 className="text-[16px] font-bold text-[#DADADA] my-[20px]">
                 Your selected roles
               </h2>
               <div className="flex flex-col gap-[10px]">
-                  {formData?.roles.length > 0 ? (
-                    formData?.roles.map((role, index) => (
-                      <div
-                        key={index}
-                        className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
-                          index === 0
-                            ? "bg-[#461378] text-white"
-                            : "bg-[#F6E9FF] text-[#330066]"
-                        }`}
-                      >
-                        <span>{role}</span>
-                        <span className="cursor-pointer">
-                        
-                        </span>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-[#461378]">No roles selected</p>
-                  )}
-                </div>
+                {formData?.roles.length > 0 ? (
+                  formData?.roles.map((role, index) => (
+                    <div
+                      key={index}
+                      className={`flex justify-between px-[15px] py-[10px] rounded-[50px] ${
+                        index === 0
+                          ? "bg-[#461378] text-white"
+                          : "bg-[#F6E9FF] text-[#330066]"
+                      }`}
+                    >
+                      <span>{role}</span>
+                      <span className="cursor-pointer"></span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-[#461378]">No roles selected</p>
+                )}
+              </div>
 
               <button
                 onClick={nextStep}
-                className="bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[50px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium"
+                disabled={isContinueDisabled}
+                className={`bg-[#4FD6FA] rounded-[50px] mb-[40px] md:rounded-[55px] md:rounded-[60px] w-full mt-[50px] p-[8px] md:p-[10px] text-[15px] md:text-[16px] text-white font-medium ${
+                  isContinueDisabled
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-[#4FD6FA] hover:bg-[#6633FF]"
+                }`}
               >
                 Continue
               </button>
