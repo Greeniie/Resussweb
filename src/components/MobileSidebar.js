@@ -6,6 +6,7 @@ import share from "../assets/menu-icons/share.png";
 import view from "../assets/menu-icons/view.png";
 import setting from "../assets/menu-icons/setting.png";
 import verified from "../assets/menu-icons/verified.png";
+import placeholderimg from "../assets/images/profile.png";
 import {
   RightOutlined,
   EnvironmentFilled,
@@ -142,20 +143,27 @@ const MobileSidebar = ({ profile, toggleSidebar }) => {
 
   return (
     <div className="pt-5 pb-3 px-4 overflow-x-hidden h-[95vh] overflow-y-scroll">
-      <div
-        className="relative h-[250px] w-full bg-cover rounded-[25px] overflow-hidden"
-        style={{ backgroundImage: `url(${profile?.profile_photo_url})` }}
-      >
-        {profile?.level === "verified" && (
-          <div className="absolute right-[5px] mt-[10px]">
-            <img
-              src={verified}
-              alt="bookmark"
-              className="h-[30px] w-auto object-center object-cover"
-            />
-          </div>
-        )}
-      </div>
+      {profile?.profile_photo_url ? (
+        <div
+          className="relative h-[250px] w-full bg-cover rounded-[25px] overflow-hidden"
+          style={{ backgroundImage: `url(${profile?.profile_photo_url})` }}
+        >
+          {profile?.level === "verified" && (
+            <div className="absolute right-[5px] mt-[10px]">
+              <img
+                src={verified}
+                alt="bookmark"
+                className="h-[30px] w-auto object-center object-cover"
+              />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div
+          className="relative h-[250px] w-auto bg-contain bg-no-repeat" // removed overflow-hidden
+          style={{ backgroundImage: `url(${placeholderimg})` }}
+        ></div>
+      )}
 
       <div>
         <div>

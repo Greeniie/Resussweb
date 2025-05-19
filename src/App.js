@@ -19,6 +19,7 @@ import SharedProfile from "./pages/Profile/SharedProfile";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import How_It_Works from "./pages/How_It_Works";
+import JobDetails from "./pages/JobDetails";
 
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
@@ -55,6 +56,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/article/details/:id" element={<ArticleDetails />} />
+            <Route path="/job/details/:id" element={<JobDetails/>} />
             <Route path="/:fullname" element={<Profile />} />
             <Route path="/events" element={<Events />} />
           </Route>

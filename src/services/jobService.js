@@ -12,7 +12,7 @@ const getAllFeatured = async (data) => {
 };
 
 const getOne = async (data) => {
-  const response = await AuthAPI.get(`/admin/job/show/${data}`);
+  const response = await AuthAPI.get(`/user/jobs/show/${data}`);
   return response.data;
 };
 

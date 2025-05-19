@@ -296,7 +296,7 @@ const Home = () => {
                 </div>
               ) : (
                 <div>
-                  <JobList jobs={jobs} />
+                  <JobList jobs={jobs?.data?.data} />
                 </div>
               )}
             </div>
@@ -540,8 +540,8 @@ const Home = () => {
                 </div>
               ) : (
                 <div>
-                  <JobList jobs={jobs} />
-                </div>
+                  <JobList jobs={jobs?.data?.data} />
+                  </div>
               )}
             </div>
           </div>

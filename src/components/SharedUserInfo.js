@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import star from "../assets/images/star.png";
 import pic from "../assets/images/pic.png";
+import placeholderimg from "../assets/images/profile.png";
 import vid from "../assets/images/vid.png";
 import clip from "../assets/testimgs/clip.png";
 
@@ -14,7 +15,6 @@ import share from "../assets/menu-icons/shareblack.png";
 import bookmark from "../assets/menu-icons/bookmark.png";
 import { Tooltip } from "antd";
 import ProjectCarousel from "./ProjectCarousel";
-import Modal from "react-bootstrap/Modal";
 import ImageCarouselModal from "./ImageCarouselModal";
 import VideoCarouselModal from "./VideoCarouselModal";
 import testimg1 from "../assets/testimgs/p1.png";
@@ -189,22 +189,42 @@ const SharedUserInfo = ({ user, goBack }) => {
                 )}
               </div>
             </div>
-            <div
-              className="relative h-[310px] w-full bg-cover rounded-[25px] overflow-hidden"
-              style={{ backgroundImage: `url(${user?.profile_photo_url})` }}
-            >
-              <div className="absolute right-[10px] mt-[10px]">
-                <Tooltip placement="left" title={"bookmark"}>
-                  <button className="flex items-center justify-center p-2 rounded-[7px]">
-                    <img
-                      src={bookmark}
-                      alt="bookmark"
-                      className="h-[11px] md:h-[20px] w-auto object-center object-cover"
-                    />
-                  </button>
-                </Tooltip>
+
+            {user?.profile_photo_url ? (
+              <div
+                className="relative h-[310px] w-full bg-cover rounded-[25px] overflow-hidden"
+                style={{ backgroundImage: `url(${user?.profile_photo_url})` }}
+              >
+                <div className="absolute right-[10px] mt-[10px]">
+                  <Tooltip placement="left" title={"bookmark"}>
+                    <button className="flex items-center justify-center p-2 rounded-[7px]">
+                      <img
+                        src={bookmark}
+                        alt="bookmark"
+                        className="h-[11px] md:h-[20px] w-auto object-center object-cover"
+                      />
+                    </button>
+                  </Tooltip>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div
+                className="relative h-[250px] w-auto bg-contain bg-no-repeat rounded-[25px] overflow-hidden"
+                style={{ backgroundImage: `url(${placeholderimg})` }}
+              >
+                <div className="absolute right-[10px] mt-[10px]">
+                  <Tooltip placement="left" title={"bookmark"}>
+                    <button className="flex items-center justify-center p-2 rounded-[7px]">
+                      <img
+                        src={bookmark}
+                        alt="bookmark"
+                        className="h-[11px] md:h-[20px] w-auto object-center object-cover"
+                      />
+                    </button>
+                  </Tooltip>
+                </div>
+              </div>
+            )}
 
             <div className="flex gap-[20px] items-center py-[20px]">
               <div className="font-semibold text-[#898A8D] text-[14px]">
@@ -383,8 +403,6 @@ const SharedUserInfo = ({ user, goBack }) => {
                 </div>
               </div>
             </div>
-
-          
           </div>
         </div>
         <ImageCarouselModal

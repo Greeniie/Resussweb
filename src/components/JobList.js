@@ -16,49 +16,8 @@ import filters from "../assets/images/filtersmobile.png";
 import { Tooltip } from "antd";
 import { Link } from "react-router-dom";
 
-const JobList = () => {
-  const jobs = [
-    {
-      jobTitle: "NEW FACES SEARCH",
-      info: "Are you passionate about bringing characters to life through animation? Ready to dive into the exciting world of animation and make an impact? Join our team today!",
-      image: img1,
-      call_type: { tag: "opencall", color: "#EB2B93" },
-      role: "",
-      jobRoles: ["Film", "TV/Series", "Other"],
-      location: "Lagos, Nigeria",
-      expiryDate: "2025-05-10",
-    },
-    {
-      jobTitle: "AcTORS FOR series",
-      info: "Are you passionate about bringing characters to life through animation? Ready to dive into the exciting world of animation and make an impact? Join our team today!",
-      image: img2,
-      call_type: { tag: "general hire", color: "#FFC107" },
-      role: { name: "Art Director", color: "#000" },
-      jobRoles: ["Film", "TV/Series", "Other"],
-      location: "Lagos, Nigeria",
-      expiryDate: "2025-05-15",
-    },
-    {
-      jobTitle: "diamond island production",
-      info: "Are you passionate about bringing characters to life through animation? Ready to dive into the exciting world of animation and make an impact? Join our team today!",
-      image: img3,
-      call_type: { tag: "closedcall", color: "#60E2AC" },
-      role: "",
-      jobRoles: ["Film", "TV/Series", "Other"],
-      location: "Lagos, Nigeria",
-      expiryDate: "2025-05-20",
-    },
-    {
-      jobTitle: "looking for writers",
-      info: "Are you passionate about bringing characters to life through animation? Ready to dive into the exciting world of animation and make an impact? Join our team today!",
-      image: img4,
-      call_type: { tag: "opencall", color: "#EB2B93" },
-      jobRoles: ["Film", "TV/Series", "Other"],
-      location: "Lagos, Nigeria",
-      expiryDate: "2025-05-24",
-    },
-  ];
-
+const JobList = ({ jobs }) => {
+  console.log(jobs);
   return (
     <AnimatePresence>
       <motion.div
@@ -78,8 +37,8 @@ const JobList = () => {
             <div className="text-[#898A8D] text-[14px]">Show filters</div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 pt-[15px]">
-          {jobs.map((job, index, i) => (
+        <div className="flex flex-col gap-4">
+          {jobs.map((job, index) => (
             <React.Fragment>
               {index === 2 && ( // Display the ad after the third article
                 <div
@@ -93,7 +52,9 @@ const JobList = () => {
                   />
                 </div>
               )}
-              <JobCard key={i} job={job} />
+              <Link to={`/job/details/${job?.id}`} className="">
+                <JobCard key={job?.id} job={job} />
+              </Link>
             </React.Fragment>
           ))}
         </div>
@@ -104,61 +65,80 @@ const JobList = () => {
 
 const JobCard = ({ job }) => {
   const [showMore, setShowMore] = useState(false);
-  const maxInfoLength = 100;
+  const maxdescriptionLength = 100;
 
   const toggleMore = () => setShowMore(!showMore);
 
-  const truncatedInfo =
-    job.info.length > maxInfoLength && !showMore
-      ? job.info.slice(0, maxInfoLength) + "..."
-      : job.info;
+  const truncateddescription =
+    job?.description.length > maxdescriptionLength && !showMore
+      ? job?.description.slice(0, maxdescriptionLength) + "..."
+      : job?.description;
 
-  const remainingRoles = job.jobRoles.length > 3 ? job.jobRoles.length - 3 : 0;
+  const jobRoles = job?.job_types?.map((j) => j.name);
+  const serviceCat = job?.job_service_categories?.map((j) => j?.job_role_type);
 
-  // Define role color scheme
   const roleColors = {
-    Film: "#EB6A2B",
-    "TV/Series": "#31AAEA",
-    Other: "#3AAB5F",
-    Electrical: "black",
-    Producer: "yellow",
+    general: "#FFC107",
+    "open-call": "#EB2B93",
+    "closed-call": "#60E2AC",
   };
+
+  const remainingRoles =
+    job?.job_types.length > 3 ? job?.job_types.length - 3 : 0;
 
   return (
     <div className="border-b border-[#DEDEDE] px-[20px] pb-[20px]">
       <div className="mb-[10px] flex gap-[10px] items-center">
-        <div
-          className={`text-[10px] bg-[${job.call_type.color}] py-[5px] px-[10px] text-white w-fit rounded-[84px]`}
-        >
-          {job.call_type.tag}
+        <div className="flex items-center gap-1 w-full overflow-x-auto pb-2 whitespace-nowrap">
+          {serviceCat?.map((role, index) => (
+            <span
+              key={index}
+              className="px-3 py-1 rounded-[22px] text-white text-[12px] w-fit whitespace-nowrap"
+              style={{ backgroundColor: roleColors[role] }}
+            >
+              {role === "general"
+                ? "General Hire"
+                : role === "open-call"
+                ? "Open Call"
+                : "Closed Call"}
+            </span>
+          ))}
+
+          {serviceCat?.map(
+            (role, index) =>
+              role === "closed-call" && (
+                <span key={`lock-${index}`} className="whitespace-nowrap">
+                  <LockFilled style={{ color: "#000" }} />
+                </span>
+              )
+          )}
+
+          {job?.job_service_categories[0]?.job_role_type === "general" && (
+            <div className="text-[10px] bg-[#000] py-[5px] px-[10px] text-white w-fit rounded-[84px] whitespace-nowrap">
+              {job?.job_service_categories[0]?.name}
+            </div>
+          )}
         </div>
-        {job.role !== "" && (
-          <div
-            className={`text-[10px] bg-[${job?.role?.color}] py-[5px] px-[10px] text-white w-fit rounded-[84px]`}
-          >
-            {job?.role?.name}
-          </div>
-        )}
-        {job.call_type.tag === "closedcall" && (
-          <LockFilled style={{ color: "#000" }} />
-        )}
       </div>
       {/* Job Title */}
       <div className="text-[#3A3A3A] text-[16px] uppercase leading-[20px] font-bold mb-[20px]">
-        {job.jobTitle}
+        {job?.headline}
       </div>
 
-      {/* Image & Info Section */}
-      <div className="flex items-center gap-3">
-        <img
-          src={job.image}
-          alt={job.jobTitle}
-          className="h-[113px] w-auto object-cover"
-        />
-        <div>
-          <p className="text-sm">
-            {truncatedInfo}{" "}
-            {job.info.length > maxInfoLength && (
+      {/* Image & description Section */}
+      <div className="flex gap-3">
+        <div className="w-[150px] h-[113px] flex-shrink-0">
+          <img
+            src={job?.job_banner}
+            alt={job?.jobTitle}
+            className="w-full h-full object-cover rounded"
+          />
+        </div>
+
+        <div className="flex-1">
+          <p className="text-sm text-[#696969]">
+            {truncateddescription}{" "}
+            {job?.description.length > maxdescriptionLength && (
               <button
                 onClick={toggleMore}
                 className="text-[#6633FF] font-bold border-none bg-transparent cursor-pointer"
@@ -173,7 +153,7 @@ const JobCard = ({ job }) => {
       {/* Job Roles */}
       <div className="flex items-center justify-between mt-3">
         <div className="flex items-center gap-1">
-          {job.jobRoles.slice(0, 3).map((role, index) => (
+          {jobRoles?.slice(0, 3).map((role, index) => (
             <span
               key={index}
               className="px-3 py-1 rounded-[22px] text-white text-[12px]"
@@ -196,14 +176,14 @@ const JobCard = ({ job }) => {
       <div className="flex gap-[30px] items-center mt-3 text-[#3A3A3A] text-[12px]">
         <div className="flex items-center gap-1">
           <EnvironmentOutlined />
-          <span>{job.location}</span>
+          <span>{job?.location}</span>
         </div>
         <div className="flex items-center gap-1">
           <div>
             <ClockCircleOutlined />
           </div>
           <span className="font-bold">
-            {moment(job.expiryDate).fromNow(true)}
+            {moment(job?.delivery_timeline).fromNow(true)}
           </span>
         </div>
       </div>

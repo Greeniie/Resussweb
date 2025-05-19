@@ -36,6 +36,7 @@ import ExpirySession from "../utils/expirySession";
 import verified from "../assets/menu-icons/verified.png";
 
 import { Dropdown } from "antd";
+import { liveBaseURL } from "../networkUrl";
 
 const HomeNav = () => {
   const user = ExpirySession.get("user");
@@ -262,17 +263,14 @@ const HomeNav = () => {
     setHasSearched(true);
     setLoadingResults(true);
     try {
-      const response = await fetch(
-        "https://api.resuss.app/api/v1/user/search/general",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${yourAuthToken}`, // <- make sure this is set
-          },
-          body: JSON.stringify({ input: query }),
-        }
-      );
+      const response = await fetch(`${liveBaseURL}/user/search/general`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${yourAuthToken}`, // <- make sure this is set
+        },
+        body: JSON.stringify({ input: query }),
+      });
 
       const data = await response.json();
       setSearchResults(data); // assuming API returns { users: [], articles: [], jobs: [] }
@@ -606,8 +604,7 @@ const HomeNav = () => {
                                   ></div>
                                   <div>
                                     <div className="font-medium text-gray-800 flex items-center gap-[10px]">
-                                      {user.first_name}  {user.last_name}{" "}
-
+                                      {user.first_name} {user.last_name}{" "}
                                       <span>
                                         {user?.level === "verified" && (
                                           <div className="">
