@@ -39,7 +39,7 @@ const JobBody = ({ singleData, goBack }) => {
   const handleShow = () => setShow(true);
 
   return (
-    <div className=" mx-auto w-[90%] rounded-lg px-[20px] md:px-[50px] py-[20px] md:py-[40px] my-[50px] md:my-[100px] md:mt-0">
+    <div className=" mx-auto w-[90%] rounded-lg px-[0] md:px-[50px] py-[20px] md:py-[40px] my-[50px] md:my-[100px] md:mt-0">
       <button onClick={goBack} className="block md:hidden mb-[20px]">
         <ArrowLeftOutlined style={{ fontSize: "14px" }} />
       </button>
