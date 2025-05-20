@@ -254,7 +254,7 @@ const JobBody = ({ singleData, goBack }) => {
                 <div>{j.age}</div>
               </div>
               <div className="text-[#161616] text-[13px] font-normal py-[20px]">
-                {j.description}
+                {j.description || j.invitation_note} 
               </div>
               <div className="text-[#330066] font-bold text-[13px] pb-[20px]">
                 ₦{Number(j.price).toLocaleString()}
@@ -338,8 +338,8 @@ const JobBody = ({ singleData, goBack }) => {
           <div className="text-[12px] text-[#000] font-bold">Links</div>
           {singleData?.additional_materials?.map((a, i) => {
             const validLink =
-              a.link.startsWith("http://") || a.link.startsWith("https://")
-                ? a.link
+              a?.link?.startsWith("http://") || a?.link?.startsWith("https://")
+                ? a?.link
                 : `https://${a.link}`;
 
             return (

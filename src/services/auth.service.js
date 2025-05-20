@@ -40,10 +40,7 @@ const sendOTP = async (data) => {
 };
 
 const sendSignupOTP = async (data) => {
-  const response = await ApiInstance.post(
-    "/user/auth/send-otp-email",
-    data
-  );
+  const response = await ApiInstance.post("/user/auth/send-otp-email", data);
   return response.data;
 };
 
@@ -65,6 +62,7 @@ const logout = async () => {
     console.error("Logout failed:", err);
   } finally {
     ExpirySession.clearAll(); // only clear session after logout call finishes
+    localStorage.removeItem("homeActiveTab");
   }
 };
 
@@ -83,5 +81,5 @@ export const authService = {
   logout,
   changePassword,
   sendSignupOTP,
-  verifySignupOTP
+  verifySignupOTP,
 };

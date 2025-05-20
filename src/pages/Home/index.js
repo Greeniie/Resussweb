@@ -37,6 +37,9 @@ const Home = () => {
   const [articlesError, setArticlesError] = useState(null);
   const [clientsError, setClientsError] = useState(null);
   const [jobsError, setJobsError] = useState(null);
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem("homeActiveTab") || "1";
+  });
 
   useEffect(() => {
     dispatch(getProfile());
@@ -60,14 +63,16 @@ const Home = () => {
       })
       .finally(() => setIsLoading(false));
 
-    dispatch(getAllClients())
-      .catch((err) => {
-        console.error("Failed to fetch clients:", err);
-        setClientsError(
-          "Failed to load talents. Please check your internet connection."
-        );
-      })
-      .finally(() => setIsTalentsLoading(false));
+      if (!users?.data?.users?.length) {
+        dispatch(getAllClients())
+          .catch((err) => {
+            console.error("Failed to fetch clients:", err);
+            setClientsError("Failed to load talents. Please check your internet connection.");
+          })
+          .finally(() => setIsTalentsLoading(false));
+      } else {
+        setIsTalentsLoading(false);
+      }
 
     dispatch(getAllJobs())
       .catch((err) => {
@@ -83,6 +88,10 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("homeActiveTab", activeTab);
+  }, [activeTab]);
+
   const [expandedList, setExpandedList] = useState(null); // 'actors', 'crew', 'creative' or null
 
   const actors = users?.data?.users?.filter(
@@ -92,8 +101,6 @@ const Home = () => {
   const others = users?.data?.users?.filter(
     (user) => user.services?.[0]?.name !== "Actor"
   );
-
-  const [activeTab, setActiveTab] = useState("1");
 
   const tabItems = [
     { key: "1", label: "Today" },
@@ -119,7 +126,6 @@ const Home = () => {
   // useEffect(() => {
   //   document.body.style.overflow = sidebarVisible ? "hidden" : "auto";
   // }, [sidebarVisible]);
-
 
   const toggleSidebar = (event) => {
     if (event) event.stopPropagation();
@@ -541,7 +547,7 @@ const Home = () => {
               ) : (
                 <div>
                   <JobList jobs={jobs?.data?.data} />
-                  </div>
+                </div>
               )}
             </div>
           </div>
