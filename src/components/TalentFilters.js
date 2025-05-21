@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 import { Form } from "react-bootstrap";
 import RangeSlider from "react-range-slider-input";
@@ -7,9 +7,30 @@ import star from "../assets/images/star.png";
 import bookmark from "../assets/images/bookmark.png";
 import start from "../assets/images/start.png";
 import filters from "../assets/images/filters.png";
-import settings from "../assets/images/settings.png";
+import { getProfile } from "../redux/profileSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const TalentFilters = ({ onApplyFilters }) => {
+  const { profile } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
+
+  const location = profile?.singleData?.user?.location;
+
+  // Load saved filters from localStorage
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("talentFilters"));
+    if (saved) {
+      setSelectedFilters(saved.selectedFilters || []);
+      setSelectedGenders(saved.selectedGenders || []);
+      setSelectedRoles(saved.selectedRoles || []);
+      setValue(saved.ageRange || [10, 55]);
+    }
+  }, []);
+
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedGenders, setSelectedGenders] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
@@ -43,28 +64,31 @@ const TalentFilters = ({ onApplyFilters }) => {
   ];
 
   const handleFilterClick = (filter) => {
-    setSelectedFilters(
-      (prevSelected) =>
-        prevSelected.includes(filter)
-          ? prevSelected.filter((item) => item !== filter) // Remove if already selected
-          : [...prevSelected, filter] // Add if not selected
+    setSelectedFilters((prevSelected) =>
+      prevSelected.includes(filter)
+        ? prevSelected.filter((item) => item !== filter)
+        : [...prevSelected, filter]
     );
   };
 
   const handleGenderChange = (gender) => {
-    if (selectedGenders.includes(gender)) {
-      setSelectedGenders(selectedGenders.filter((g) => g !== gender));
+    if (gender === "All") {
+      setSelectedGenders(["Male", "Female"]);
     } else {
-      setSelectedGenders([...selectedGenders, gender]);
+      setSelectedGenders((prev) => {
+        const updated = prev.includes(gender)
+          ? prev.filter((g) => g !== gender)
+          : [...prev, gender];
+        // Auto-uncheck "All" if not both genders are selected
+        return updated.length === 2 ? ["Male", "Female"] : updated;
+      });
     }
   };
 
   const handleRoleChange = (role) => {
-    if (selectedRoles.includes(role)) {
-      setSelectedRoles(selectedRoles.filter((r) => r !== role)); // Remove if already selected
-    } else {
-      setSelectedRoles([...selectedRoles, role]); // Add if not selected
-    }
+    setSelectedRoles((prev) =>
+      prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]
+    );
   };
 
   const handleValueChange = (newValue) => {
@@ -72,50 +96,47 @@ const TalentFilters = ({ onApplyFilters }) => {
   };
 
   const handleApplyFilters = () => {
-    // Call the passed callback function to apply filters
-    onApplyFilters({
+    const filtersToApply = {
       selectedFilters,
-      selectedGenders,
+      selectedGenders: selectedGenders.includes("All")
+        ? ["Male", "Female"]
+        : selectedGenders,
       selectedRoles,
       ageRange: value,
-    });
+    };
+
+    if (selectedFilters.includes("My Location") && location) {
+      filtersToApply.location = location;
+    }
+
+    localStorage.setItem("talentFilters", JSON.stringify(filtersToApply));
+    onApplyFilters(filtersToApply);
   };
 
   return (
-    <div className="bg-white h-[100dvh] overflow-y-scroll md:overflow-x-hidden md:min-h-[1100px] rounded-[30px] mb-[30px] md:rounded-[35px] md:rounded-[40px] mr-auto px-[30px] py-[30px] md:py-[35px]">
- <div className="flex gap-[10px] items-center pb-[10px] border-b">
-        <img
-          src={star}
-          alt="talentmgt"
-          className="h-[16px] w-auto object-cover object-center"
-        />
+    <div className="bg-white h-[100dvh] overflow-y-scroll md:min-h-[1100px] rounded-[30px] mb-[30px] px-[30px] py-[30px] md:py-[35px]">
+      {/* Header */}
+      <div className="flex gap-[10px] items-center pb-[10px] border-b">
+        <img src={star} alt="star" className="h-[16px]" />
         <div className="text-[#4FD6FA] text-[14px]">Talent Management</div>
       </div>
 
-      <div className="flex gap-[10px] items-center pb-[10px] pt-[20px]">
-        <img
-          src={start}
-          alt="start"
-          className="h-[16px] w-auto object-cover object-center"
-        />
+      {/* Start a Project */}
+      <div className="flex gap-[10px] items-center py-[10px]">
+        <img src={start} alt="start" className="h-[16px]" />
         <div className="text-[#ABB0BA] text-[14px]">Start a Project</div>
       </div>
 
+      {/* Bookmarked */}
       <div className="flex gap-[18px] items-center pb-[10px]">
-        <img
-          src={bookmark}
-          alt="bookmark"
-          className="h-[16px] w-auto object-cover object-center"
-        />
+        <img src={bookmark} alt="bookmark" className="h-[16px]" />
         <div className="text-[#ABB0BA] text-[14px]">Bookmarked</div>
       </div>
-      <div className="flex justify-between items-center pb-[10px] pt-[10px] border-b border-t">
+
+      {/* Filters Header */}
+      <div className="flex justify-between items-center py-[10px] border-y">
         <div className="flex gap-[10px] items-center">
-          <img
-            src={filters}
-            alt="filter"
-            className="h-[16px] w-auto object-cover object-center"
-          />
+          <img src={filters} alt="filter" className="h-[16px]" />
           <div className="text-[#4FD6FA] text-[14px]">Filters</div>
         </div>
         <button onClick={() => setShowFilters(!showFilters)}>
@@ -128,162 +149,178 @@ const TalentFilters = ({ onApplyFilters }) => {
           />
         </button>
       </div>
-      {/* Filters Section */}
-      <div>
-        {/* General Section */}
-        <div className="border-b pb-[10px]">
-          <div className="flex justify-between items-center pt-[10px]">
-            <div className="text-[#ABB0BA] text-[14px]">General</div>
-            <button onClick={() => setShowGeneral(!showGeneral)}>
-              {showGeneral ? (
-                <CaretUpOutlined style={{ fontSize: "14px", color: "#ABB0BA" }} />
-              ) : (
-                <CaretDownOutlined style={{ fontSize: "14px", color: "#ABB0BA" }} />
-              )}
-            </button>
-          </div>
 
-          {showGeneral && (
-            <div>
+      {showFilters && (
+        <>
+          {/* General */}
+          <div className="border-b pb-[10px]">
+            <div className="flex justify-between items-center pt-[10px]">
+              <div className="text-[#ABB0BA] text-[14px]">General</div>
+              <button onClick={() => setShowGeneral(!showGeneral)}>
+                {showGeneral ? (
+                  <CaretUpOutlined
+                    style={{ fontSize: "14px", color: "#ABB0BA" }}
+                  />
+                ) : (
+                  <CaretDownOutlined
+                    style={{ fontSize: "14px", color: "#ABB0BA" }}
+                  />
+                )}
+              </button>
+            </div>
+            {showGeneral && (
               <div className="flex flex-wrap gap-[10px] pt-[20px]">
                 {filterCategories.map((filter, index) => (
                   <div
                     key={index}
-                    className="text-[14px] px-[20px] py-[5px] border rounded-[50px] cursor-pointer transition-all text-[#545454] border-[#dedede]"
-                    onClick={() => handleFilterClick(filter)}
+                    className={`text-[14px] px-[20px] py-[5px] border rounded-[50px] cursor-pointer ${
+                      selectedFilters.includes(filter)
+                        ? "bg-[#DFD1E7] text-[#461378] border-[#A388EE]"
+                        : "text-[#545454] border-[#dedede]"
+                    } ${
+                      filter === "My Location" && !location
+                        ? "opacity-40 cursor-not-allowed"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (filter === "My Location" && !location) return;
+                      handleFilterClick(filter);
+                    }}
                   >
                     {filter}
                   </div>
                 ))}
               </div>
+            )}
+          </div>
+
+          {/* Gender */}
+          <div className="border-b">
+            <div className="flex justify-between items-center py-[10px]">
+              <div className="text-[#ABB0BA] text-[14px]">Gender</div>
+              <button onClick={() => setShowGender(!showGender)}>
+                {showGender ? (
+                  <CaretUpOutlined
+                    style={{ fontSize: "14px", color: "#ABB0BA" }}
+                  />
+                ) : (
+                  <CaretDownOutlined
+                    style={{ fontSize: "14px", color: "#ABB0BA" }}
+                  />
+                )}
+              </button>
             </div>
-          )}
-        </div>
-
-        {/* Gender Section */}
-        <div className="border-b">
-          <div className="flex justify-between items-center py-[10px]">
-            <div className="text-[#ABB0BA] text-[14px]">Gender</div>
-            <button onClick={() => setShowGender(!showGender)}>
-              {showGender ? (
-                <CaretUpOutlined style={{ fontSize: "14px", color: "#ABB0BA" }} />
-              ) : (
-                <CaretDownOutlined style={{ fontSize: "14px", color: "#ABB0BA" }} />
-              )}
-            </button>
+            {showGender && (
+              <Form.Group className="flex flex-col gap-3 pb-[20px]">
+                {["All", "Male", "Female"].map((gender) => (
+                  <div key={gender} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id={gender}
+                      checked={selectedGenders.includes(gender)}
+                      onChange={() => handleGenderChange(gender)}
+                      className="w-5 h-5"
+                    />
+                    <label htmlFor={gender} className="text-sm text-[#ABB0BA]">
+                      {gender}
+                    </label>
+                  </div>
+                ))}
+              </Form.Group>
+            )}
           </div>
-          {showGender && (
-            <Form.Group className="flex flex-col gap-3 pb-[20px]">
-              {["All", "Male", "Female"].map((gender) => (
-                <div key={gender} className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id={gender}
-                    checked={selectedGenders.includes(gender)}
-                    onChange={() => handleGenderChange(gender)}
-                    className="custom-check w-5 h-5 border-gray-300 text-[#ABB0BA] rounded cursor-pointer"
+
+          {/* Age */}
+          <div className="border-b">
+            <div className="flex justify-between items-center py-[10px]">
+              <div className="text-[#ABB0BA] text-[14px]">Age</div>
+              <button onClick={() => setShowAge(!showAge)}>
+                {showAge ? (
+                  <CaretUpOutlined
+                    style={{ fontSize: "14px", color: "#ABB0BA" }}
                   />
-                  <label htmlFor={gender} className="text-gray-600 text-sm text-[#ABB0BA]">
-                    {gender}
-                  </label>
-                </div>
-              ))}
-            </Form.Group>
-          )}
-        </div>
-
-        {/* Age Section */}
-        <div className="border-b">
-          <div className="flex justify-between items-center py-[10px]">
-            <div className="text-[#ABB0BA] text-[14px]">Age</div>
-            <button onClick={() => setShowAge(!showAge)}>
-              {showAge ? (
-                <CaretUpOutlined style={{ fontSize: "14px", color: "#ABB0BA" }} />
-              ) : (
-                <CaretDownOutlined style={{ fontSize: "14px", color: "#ABB0BA" }} />
-              )}
-            </button>
-          </div>
-          {showAge && (
-            <>
-              <div className="flex justify-end my-[10px] text-[#9900ff] text-[12px] font-bold">
-                {value[0]}-{value[1]} yrs
-              </div>
-              <RangeSlider
-                min={0}
-                max={100}
-                value={value}
-                onInput={handleValueChange}
-                style={{ width: "100%", backgroundColor: "#9900FF" }}
-                thumbsDisabled={[false, false]} // Ensure both thumbs can be moved
-                rangeSlideDisabled={false} // Ensure range sliding is enabled
-              />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  margin: "10px 0",
-                  color: "#9900FF",
-                  fontSize: "10px",
-                }}
-              >
-                <span className="text-[#696969]">10yrs</span>
-                <span className="text-[#696969]">55yrs+</span>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Talents Section */}
-        <div className="border-b">
-          <div className="flex justify-between items-center py-[10px]">
-            <div className="text-[#ABB0BA] text-[14px]">Talents</div>
-            <button onClick={() => setShowTalents(!showTalents)}>
-              {showTalents ? (
-                <CaretUpOutlined style={{ fontSize: "14px", color: "#ABB0BA" }} />
-              ) : (
-                <CaretDownOutlined style={{ fontSize: "14px", color: "#ABB0BA" }} />
-              )}
-            </button>
-          </div>
-          {showTalents && (
-            <Form.Group className="flex flex-col gap-3 pb-[20px]">
-              {(showAll ? roles : roles.slice(0, 6)).map((role) => (
-                <div key={role} className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id={role}
-                    checked={selectedRoles.includes(role)}
-                    onChange={() => handleRoleChange(role)}
-                    className="custom-check w-5 h-5 border-gray-300 rounded cursor-pointer"
+                ) : (
+                  <CaretDownOutlined
+                    style={{ fontSize: "14px", color: "#ABB0BA" }}
                   />
-                  <label htmlFor={role} className="text-gray-600 text-sm">
-                    {role}
-                  </label>
+                )}
+              </button>
+            </div>
+            {showAge && (
+              <>
+                <div className="flex justify-end my-[10px] text-[#9900ff] text-[12px] font-bold">
+                  {value[0]}-{value[1]} yrs
                 </div>
-              ))}
-              {roles.length > 6 && (
-                <button
-                  className="text-[#ABB0BA] text-sm font-semibold mt-2 w-fit"
-                  onClick={() => setShowAll(!showAll)}
-                >
-                  {showAll ? "Show Less" : "More"}
-                </button>
-              )}
-            </Form.Group>
-          )}
-        </div>
+                <RangeSlider
+                  min={10}
+                  max={80}
+                  value={value}
+                  onInput={handleValueChange}
+                />
+                <div className="flex justify-between text-[#696969] text-[10px] mt-2">
+                  <span>10yrs</span>
+                  <span>55yrs+</span>
+                </div>
+              </>
+            )}
+          </div>
 
-        {/* Apply Filters Button */}
-        <div className="flex justify-center pt-[20px]">
-          <button
-            onClick={handleApplyFilters}
-            className="bg-[#6633FF] text-white px-[40px] py-[10px] text-sm font-semibold rounded-[5px]"
-          >
-            Apply Filters
-          </button>
-        </div>
-      </div>
+          {/* Talents */}
+          <div className="border-b">
+            <div className="flex justify-between items-center py-[10px]">
+              <div className="text-[#ABB0BA] text-[14px]">Talents</div>
+              <button onClick={() => setShowTalents(!showTalents)}>
+                {showTalents ? (
+                  <CaretUpOutlined
+                    style={{ fontSize: "14px", color: "#ABB0BA" }}
+                  />
+                ) : (
+                  <CaretDownOutlined
+                    style={{ fontSize: "14px", color: "#ABB0BA" }}
+                  />
+                )}
+              </button>
+            </div>
+            {showTalents && (
+              <Form.Group className="flex flex-col gap-3 pb-[10px]">
+                {(showAll ? roles : roles.slice(0, 6)).map((role) => (
+                  <div key={role} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id={role}
+                      checked={selectedRoles.includes(role)}
+                      onChange={() => handleRoleChange(role)}
+                      className="w-5 h-5"
+                    />
+                    <label htmlFor={role} className="text-sm">
+                      {role}
+                    </label>
+                  </div>
+                ))}
+                {roles.length > 6 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAll(!showAll)}
+                    className="text-[#4FD6FA] text-sm mt-2 text-left"
+                  >
+                    {showAll ? "Show Less" : "Show More"}
+                  </button>
+                )}
+              </Form.Group>
+            )}
+          </div>
+
+          {/* Apply Button */}
+          <div className="pt-[20px]">
+            <button
+              onClick={handleApplyFilters}
+              className="bg-[#4FD6FA] w-full text-white py-[10px] rounded-[8px] text-[14px]"
+            >
+              Apply Filters
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

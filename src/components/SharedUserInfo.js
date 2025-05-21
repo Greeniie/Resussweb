@@ -143,7 +143,7 @@ const SharedUserInfo = ({ user, goBack }) => {
             </div>
           </div>
           <div>
-            <div className="text-[#545454] text-[27px] leading-[20px] capitalize font-bold py-[10px] md:pt-[10px] flex justify-between items-center gap-[10px]">
+            <div className="text-[#545454] text-[27px] leading-[25px] capitalize font-bold py-[10px] md:pt-[10px] flex justify-between items-center gap-[10px]">
               {user?.first_name} {user?.last_name}{" "}
               {user?.level === "verified" && (
                 <div className="">

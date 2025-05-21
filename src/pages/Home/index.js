@@ -28,31 +28,26 @@ import JobFilters from "../../components/JobFilters";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
   const { articles, users, profile, jobs } = useSelector((state) => state);
-
+  const [filters, setFilters] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isTalentsLoading, setIsTalentsLoading] = useState(true);
   const [isJobsLoading, setIsJobsLoading] = useState(true);
   const [articlesError, setArticlesError] = useState(null);
   const [clientsError, setClientsError] = useState(null);
   const [jobsError, setJobsError] = useState(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpanded = () => {
+    setIsExpanded((prev) => !prev);
+  };
+
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem("homeActiveTab") || "1";
   });
 
   useEffect(() => {
     dispatch(getProfile());
-
-    // const applyFilter = () => {
-    //   if (activeFilter === "myLocation") {
-    //     const filtered = users?.data?.users.filter(
-    //       (user) => user.location === profile?.singleData?.user?.location
-    //     );
-    //     setFilteredTalents(filtered);
-    //   }
-    //   setIsFilterApplied(true); // Set the filter as applied
-    // };
 
     dispatch(getAllArticles())
       .catch((err) => {
@@ -63,16 +58,18 @@ const Home = () => {
       })
       .finally(() => setIsLoading(false));
 
-      if (!users?.data?.users?.length) {
-        dispatch(getAllClients())
-          .catch((err) => {
-            console.error("Failed to fetch clients:", err);
-            setClientsError("Failed to load talents. Please check your internet connection.");
-          })
-          .finally(() => setIsTalentsLoading(false));
-      } else {
-        setIsTalentsLoading(false);
-      }
+    if (!users?.data?.users?.length) {
+      dispatch(getAllClients())
+        .catch((err) => {
+          console.error("Failed to fetch clients:", err);
+          setClientsError(
+            "Failed to load talents. Please check your internet connection."
+          );
+        })
+        .finally(() => setIsTalentsLoading(false));
+    } else {
+      setIsTalentsLoading(false);
+    }
 
     dispatch(getAllJobs())
       .catch((err) => {
@@ -108,6 +105,15 @@ const Home = () => {
     { key: "3", label: "Jobs" },
   ];
 
+  const talentList = users?.data?.users;
+  const [filteredTalents, setFilteredTalents] = useState(talentList || []);
+
+  useEffect(() => {
+    if (!filters) {
+      setFilteredTalents(talentList || []);
+    }
+  }, [talentList, filters]);
+
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const sidebarRef = useRef(null);
 
@@ -122,11 +128,6 @@ const Home = () => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  // Handle scroll lock
-  // useEffect(() => {
-  //   document.body.style.overflow = sidebarVisible ? "hidden" : "auto";
-  // }, [sidebarVisible]);
-
   const toggleSidebar = (event) => {
     if (event) event.stopPropagation();
     setSidebarVisible((prev) => !prev);
@@ -137,6 +138,76 @@ const Home = () => {
     { name: "Series", color: "#31AAEA" },
     { name: "Other", color: "#3AAB5F" },
   ];
+
+  const applyFilters = (newFilters) => {
+    setFilters(newFilters); // update filters state
+
+    const calculateAge = (dob) => {
+      const birthDate = new Date(dob);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    };
+
+    const filtered = talentList.filter((talent) => {
+      const {
+        selectedGenders = [],
+        location,
+        selectedRoles,
+        ageRange,
+      } = newFilters || {};
+
+      const genderPass =
+        !selectedGenders?.length ||
+        selectedGenders.includes("All") ||
+        selectedGenders.includes(talent.gender);
+      const locationPass = !location || talent.location?.includes(location);
+      const rolesPass =
+        !selectedRoles?.length ||
+        talent.services?.some((s) => selectedRoles.includes(s.name));
+      const agePass =
+        !ageRange ||
+        (talent.dob &&
+          (() => {
+            const age = calculateAge(talent.dob);
+            return age >= ageRange[0] && age <= ageRange[1];
+          })());
+
+      return genderPass && locationPass && rolesPass && agePass;
+    });
+
+    setFilteredTalents(filtered);
+  };
+
+  const clearFilters = () => {
+    setFilters(null);
+    setFilteredTalents(talentList); // reset to full list
+    localStorage.removeItem("talentFilters");
+  };
+
+  const categorizedTalents = {
+    performingTalent: [],
+    crew: [],
+    creativeManagement: [],
+  };
+
+  filteredTalents.forEach((user) => {
+    if (user.services?.[0]?.name === "Actor") {
+      categorizedTalents.performingTalent.push(user);
+    } else {
+      categorizedTalents.crew.push(user);
+      categorizedTalents.creativeManagement.push(user);
+      // or add logic to separate creativeManagement
+    }
+  });
+
+  const handleShowAll = (category) => {
+    setExpandedList((prev) => (prev === category ? null : category));
+  };
 
   return (
     <div>
@@ -213,7 +284,7 @@ const Home = () => {
                   {clientsError}
                 </div>
               ) : (
-                <TalentFilters />
+                <TalentFilters onApplyFilters={applyFilters} />
               )}
             </div>
 
@@ -228,43 +299,80 @@ const Home = () => {
                 </div>
               ) : (
                 <div>
-                  {(expandedList === null || expandedList === "actors") && (
+                  {!expandedList && (
+                    <>
+                      {categorizedTalents.performingTalent.length > 0 && (
+                        <TalentList
+                          title="Performing Talent"
+                          talents={categorizedTalents.performingTalent.slice(
+                            0,
+                            8
+                          )}
+                          onShowAll={() => handleShowAll("performingTalent")}
+                          onApplyFilters={setFilters}
+                          activeFilters={filters}
+                          handleClearFilters={clearFilters}
+                        />
+                      )}
+                      {categorizedTalents.crew.length > 0 && (
+                        <TalentList
+                          title="Crew"
+                          talents={categorizedTalents.crew.slice(0, 8)}
+                          onShowAll={() => handleShowAll("crew")}
+                          onApplyFilters={setFilters}
+                          activeFilters={filters}
+                          handleClearFilters={clearFilters}
+                        />
+                      )}
+                      {categorizedTalents.creativeManagement.length > 0 && (
+                        <TalentList
+                          title="Creative Management"
+                          talents={categorizedTalents.creativeManagement.slice(
+                            0,
+                            8
+                          )}
+                          onShowAll={() => handleShowAll("creativeManagement")}
+                          onApplyFilters={setFilters}
+                          activeFilters={filters}
+                          handleClearFilters={clearFilters}
+                        />
+                      )}
+                    </>
+                  )}
+
+                  {expandedList === "performingTalent" && (
                     <TalentList
-                      id="actors"
-                      talents={actors || []}
                       title="Performing Talent"
-                      isExpanded={expandedList === "actors"}
-                      toggleExpanded={() =>
-                        setExpandedList(
-                          expandedList === "actors" ? null : "actors"
-                        )
-                      }
+                      talents={categorizedTalents.performingTalent}
+                      onShowAll={() => handleShowAll(null)}
+                      showAll
+                      onApplyFilters={setFilters}
+                      activeFilters={filters}
+                      handleClearFilters={clearFilters}
                     />
                   )}
 
-                  {(expandedList === null || expandedList === "crew") && (
+                  {expandedList === "crew" && (
                     <TalentList
-                      id="crew"
-                      talents={others}
                       title="Crew"
-                      isExpanded={expandedList === "crew"}
-                      toggleExpanded={() =>
-                        setExpandedList(expandedList === "crew" ? null : "crew")
-                      }
+                      talents={categorizedTalents.crew}
+                      onShowAll={() => handleShowAll(null)}
+                      showAll
+                      onApplyFilters={setFilters}
+                      activeFilters={filters}
+                      handleClearFilters={clearFilters}
                     />
                   )}
 
-                  {(expandedList === null || expandedList === "creative") && (
+                  {expandedList === "creativeManagement" && (
                     <TalentList
-                      id="creative"
-                      talents={others}
                       title="Creative Management"
-                      isExpanded={expandedList === "creative"}
-                      toggleExpanded={() =>
-                        setExpandedList(
-                          expandedList === "creative" ? null : "creative"
-                        )
-                      }
+                      talents={categorizedTalents.creativeManagement}
+                      onShowAll={() => handleShowAll(null)}
+                      showAll
+                      onApplyFilters={setFilters}
+                      activeFilters={filters}
+                      handleClearFilters={clearFilters}
                     />
                   )}
                 </div>
