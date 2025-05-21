@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   EnvironmentFilled,
@@ -23,6 +23,32 @@ const TalentList = ({
   showAll,
 }) => {
   const [showFilters, setShowFilters] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(12);
+  const loadMoreRef = useRef(null);
+
+  const visibleTalents = talents.slice(0, visibleCount);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleCount < talents.length) {
+          setVisibleCount((prev) => prev + 8);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0,
+      }
+    );
+
+    const currentRef = loadMoreRef.current;
+    if (currentRef) observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [visibleCount, talents.length]);
 
   const handleShare = async (talent) => {
     const url = `https://resussweb.netlify.app/user/${talent.first_name}${talent.last_name}?id=${talent.id}`;
@@ -42,7 +68,6 @@ const TalentList = ({
     }
   };
 
-  // Helper function to render filters as strings
   const renderActiveFilters = () => {
     if (!activeFilters || Object.keys(activeFilters).length === 0) {
       return <div className="text-gray-500 text-sm">No filters applied</div>;
@@ -51,7 +76,6 @@ const TalentList = ({
     return (
       <div className="flex flex-wrap gap-2 mt-2">
         {Object.entries(activeFilters).map(([key, value]) => {
-          // Skip empty or empty arrays
           if (
             value === null ||
             value === undefined ||
@@ -61,11 +85,7 @@ const TalentList = ({
 
           let displayValue = "";
 
-          if (
-            key === "ageRange" &&
-            Array.isArray(value) &&
-            value.length === 2
-          ) {
+          if (key === "ageRange" && Array.isArray(value) && value.length === 2) {
             displayValue = `${value[0]} - ${value[1]}`;
           } else if (Array.isArray(value)) {
             displayValue = value.join(", ");
@@ -120,11 +140,7 @@ const TalentList = ({
         {showFilters && (
           <div
             style={{ zIndex: 9999 }}
-            className={`fixed inset-0 backdrop-blur-sm bg-white/70 flex sm:justify-end justify-center transition-transform duration-700 ease-in-out ${
-              showFilters
-                ? "translate-y-0 sm:translate-x-0"
-                : "translate-y-full sm:translate-x-full"
-            }`}
+            className={`fixed inset-0 backdrop-blur-sm bg-white/70 flex sm:justify-end justify-center transition-transform duration-700 ease-in-out`}
           >
             <TalentFilters
               onApplyFilters={(filters) => {
@@ -161,12 +177,9 @@ const TalentList = ({
         )}
 
         {/* Header */}
-
         {activeFilters && (
           <div className="flex justify-between items-center pb-[10px]">
             <div>{renderActiveFilters()}</div>
-
-            {/* Clear Filters button */}
             <button
               onClick={handleClearFilters}
               disabled={
@@ -182,6 +195,7 @@ const TalentList = ({
             </button>
           </div>
         )}
+
         <div className="flex justify-between items-center pb-[10px] md:border-b">
           <div className="text-[#AF98BF] text-[16px] pt-[20px] md:pt-0">
             {title}
@@ -196,7 +210,7 @@ const TalentList = ({
 
         {/* Talent Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6 pt-[20px]">
-          {talents?.map((talent, index) => (
+          {visibleTalents?.map((talent) => (
             <motion.div
               key={talent.id}
               layout
@@ -252,6 +266,9 @@ const TalentList = ({
             </motion.div>
           ))}
         </div>
+
+        {/* Infinite scroll sentinel */}
+        <div ref={loadMoreRef} className="h-10 mt-10"></div>
       </motion.div>
     </AnimatePresence>
   );

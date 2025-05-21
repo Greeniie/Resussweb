@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import HomeNav from "../../components/HomeNav";
 import Carousel from "../../components/Carousel";
 import ad from "../../assets/testimgs/ad.png";
@@ -189,21 +189,42 @@ const Home = () => {
     localStorage.removeItem("talentFilters");
   };
 
-  const categorizedTalents = {
-    performingTalent: [],
-    crew: [],
-    creativeManagement: [],
-  };
+  const categorizedTalents = useMemo(() => {
+    const categorized = {
+      performingTalent: [],
+      crew: [],
+      creativeManagement: [],
+    };
 
-  filteredTalents.forEach((user) => {
-    if (user.services?.[0]?.name === "Actor") {
-      categorizedTalents.performingTalent.push(user);
-    } else {
-      categorizedTalents.crew.push(user);
-      categorizedTalents.creativeManagement.push(user);
-      // or add logic to separate creativeManagement
-    }
-  });
+    const sortByProfilePhoto = (a, b) => {
+      const aHasPhoto =
+        a.profile_photo_url && a.profile_photo_url.trim() !== "";
+      const bHasPhoto =
+        b.profile_photo_url && b.profile_photo_url.trim() !== "";
+      if (aHasPhoto === bHasPhoto) return 0;
+      return aHasPhoto ? -1 : 1; // talents with photo first
+    };
+
+    filteredTalents.forEach((user) => {
+      if (user.services?.[0]?.name === "Actor") {
+        categorized.performingTalent.push(user);
+      } else if (
+        user.services?.[0]?.name === "Producer (Film)" ||
+        user.services?.[0]?.name === "Producer (TV commercial)" ||
+        user.services?.[0]?.name === "Producer [IM]"
+      ) {
+        categorized.creativeManagement.push(user);
+      } else {
+        categorized.crew.push(user);
+      }
+    });
+
+    categorized.performingTalent.sort(sortByProfilePhoto);
+    categorized.crew.sort(sortByProfilePhoto);
+    categorized.creativeManagement.sort(sortByProfilePhoto);
+
+    return categorized;
+  }, [filteredTalents]);
 
   const handleShowAll = (category) => {
     setExpandedList((prev) => (prev === category ? null : category));
@@ -299,81 +320,123 @@ const Home = () => {
                 </div>
               ) : (
                 <div>
-                  {!expandedList && (
+                  {/* Check if all categories are empty */}
+                  {categorizedTalents.performingTalent.length === 0 &&
+                  categorizedTalents.crew.length === 0 &&
+                  categorizedTalents.creativeManagement.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-20 text-center text-gray-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-24 w-24 mb-4 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <h2 className="text-2xl font-semibold mb-2">
+                        No Talents Found
+                      </h2>
+                      <p className="max-w-md mb-6">
+                        Sorry, we couldn't find any talents matching your
+                        filters. Try adjusting or clearing your filters to see
+                        more results.
+                      </p>
+                      <button
+                        onClick={clearFilters}
+                        className="px-5 py-2 bg-[#461378] text-white rounded-lg hover:bg-[#3a0f63] transition"
+                      >
+                        Clear Filters
+                      </button>
+                    </div>
+                  ) : (
                     <>
-                      {categorizedTalents.performingTalent.length > 0 && (
+                      {!expandedList && (
+                        <>
+                          {categorizedTalents.performingTalent.length > 0 && (
+                            <TalentList
+                              title="Performing Talent"
+                              talents={categorizedTalents.performingTalent.slice(
+                                0,
+                                8
+                              )}
+                              onShowAll={() =>
+                                handleShowAll("performingTalent")
+                              }
+                              onApplyFilters={setFilters}
+                              activeFilters={filters}
+                              handleClearFilters={clearFilters}
+                            />
+                          )}
+                          {categorizedTalents.crew.length > 0 && (
+                            <TalentList
+                              title="Crew"
+                              talents={categorizedTalents.crew.slice(0, 8)}
+                              onShowAll={() => handleShowAll("crew")}
+                              onApplyFilters={setFilters}
+                              activeFilters={filters}
+                              handleClearFilters={clearFilters}
+                            />
+                          )}
+                          {categorizedTalents.creativeManagement.length > 0 && (
+                            <TalentList
+                              title="Creative Management"
+                              talents={categorizedTalents.creativeManagement.slice(
+                                0,
+                                8
+                              )}
+                              onShowAll={() =>
+                                handleShowAll("creativeManagement")
+                              }
+                              onApplyFilters={setFilters}
+                              activeFilters={filters}
+                              handleClearFilters={clearFilters}
+                            />
+                          )}
+                        </>
+                      )}
+
+                      {expandedList === "performingTalent" && (
                         <TalentList
                           title="Performing Talent"
-                          talents={categorizedTalents.performingTalent.slice(
-                            0,
-                            8
-                          )}
-                          onShowAll={() => handleShowAll("performingTalent")}
+                          talents={categorizedTalents.performingTalent}
+                          onShowAll={() => handleShowAll(null)}
+                          showAll
                           onApplyFilters={setFilters}
                           activeFilters={filters}
                           handleClearFilters={clearFilters}
                         />
                       )}
-                      {categorizedTalents.crew.length > 0 && (
+
+                      {expandedList === "crew" && (
                         <TalentList
                           title="Crew"
-                          talents={categorizedTalents.crew.slice(0, 8)}
-                          onShowAll={() => handleShowAll("crew")}
+                          talents={categorizedTalents.crew}
+                          onShowAll={() => handleShowAll(null)}
+                          showAll
                           onApplyFilters={setFilters}
                           activeFilters={filters}
                           handleClearFilters={clearFilters}
                         />
                       )}
-                      {categorizedTalents.creativeManagement.length > 0 && (
+
+                      {expandedList === "creativeManagement" && (
                         <TalentList
                           title="Creative Management"
-                          talents={categorizedTalents.creativeManagement.slice(
-                            0,
-                            8
-                          )}
-                          onShowAll={() => handleShowAll("creativeManagement")}
+                          talents={categorizedTalents.creativeManagement}
+                          onShowAll={() => handleShowAll(null)}
+                          showAll
                           onApplyFilters={setFilters}
                           activeFilters={filters}
                           handleClearFilters={clearFilters}
                         />
                       )}
                     </>
-                  )}
-
-                  {expandedList === "performingTalent" && (
-                    <TalentList
-                      title="Performing Talent"
-                      talents={categorizedTalents.performingTalent}
-                      onShowAll={() => handleShowAll(null)}
-                      showAll
-                      onApplyFilters={setFilters}
-                      activeFilters={filters}
-                      handleClearFilters={clearFilters}
-                    />
-                  )}
-
-                  {expandedList === "crew" && (
-                    <TalentList
-                      title="Crew"
-                      talents={categorizedTalents.crew}
-                      onShowAll={() => handleShowAll(null)}
-                      showAll
-                      onApplyFilters={setFilters}
-                      activeFilters={filters}
-                      handleClearFilters={clearFilters}
-                    />
-                  )}
-
-                  {expandedList === "creativeManagement" && (
-                    <TalentList
-                      title="Creative Management"
-                      talents={categorizedTalents.creativeManagement}
-                      onShowAll={() => handleShowAll(null)}
-                      showAll
-                      onApplyFilters={setFilters}
-                      activeFilters={filters}
-                      handleClearFilters={clearFilters}
-                    />
                   )}
                 </div>
               )}
@@ -584,60 +647,135 @@ const Home = () => {
         )}
 
         {activeTab === "2" && (
-          <div className="">
-            <div>
-              {isTalentsLoading ? (
-                <div className="flex justify-center items-center py-10">
-                  <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
-                </div>
-              ) : clientsError ? (
-                <div className="text-red-500 text-center py-10">
-                  {clientsError}
-                </div>
-              ) : (
-                <div>
-                  {(expandedList === null || expandedList === "actors") && (
-                    <TalentList
-                      id="actors"
-                      talents={actors || []}
-                      title="Performing Talent"
-                      isExpanded={expandedList === "actors"}
-                      toggleExpanded={() =>
-                        setExpandedList(
-                          expandedList === "actors" ? null : "actors"
-                        )
-                      }
-                    />
-                  )}
+          <div>
+            {isTalentsLoading ? (
+              <div className="flex justify-center items-center py-10">
+                <LoadingOutlined className="text-[#461378] text-3xl animate-spin" />
+              </div>
+            ) : clientsError ? (
+              <div className="text-red-500 text-center py-10">
+                {clientsError}
+              </div>
+            ) : (
+              <div>
+                {/* Show no results if all categories empty */}
+                {categorizedTalents.performingTalent.length === 0 &&
+                categorizedTalents.crew.length === 0 &&
+                categorizedTalents.creativeManagement.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-20 text-center text-gray-600">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-24 w-24 mb-4 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <h2 className="text-2xl font-semibold mb-2">
+                      No Talents Found
+                    </h2>
+                    <p className="max-w-md mb-6">
+                      Sorry, we couldn't find any talents matching your filters.
+                      Try adjusting or clearing your filters to see more
+                      results.
+                    </p>
+                    <button
+                      onClick={clearFilters}
+                      className="px-5 py-2 bg-[#461378] text-white rounded-lg hover:bg-[#3a0f63] transition"
+                    >
+                      Clear Filters
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {!expandedList && (
+                      <>
+                        {categorizedTalents.performingTalent.length > 0 && (
+                          <TalentList
+                            title="Performing Talent"
+                            talents={categorizedTalents.performingTalent.slice(
+                              0,
+                              8
+                            )}
+                            onShowAll={() => handleShowAll("performingTalent")}
+                            onApplyFilters={setFilters}
+                            activeFilters={filters}
+                            handleClearFilters={clearFilters}
+                          />
+                        )}
+                        {categorizedTalents.crew.length > 0 && (
+                          <TalentList
+                            title="Crew"
+                            talents={categorizedTalents.crew.slice(0, 8)}
+                            onShowAll={() => handleShowAll("crew")}
+                            onApplyFilters={setFilters}
+                            activeFilters={filters}
+                            handleClearFilters={clearFilters}
+                          />
+                        )}
+                        {categorizedTalents.creativeManagement.length > 0 && (
+                          <TalentList
+                            title="Creative Management"
+                            talents={categorizedTalents.creativeManagement.slice(
+                              0,
+                              8
+                            )}
+                            onShowAll={() =>
+                              handleShowAll("creativeManagement")
+                            }
+                            onApplyFilters={setFilters}
+                            activeFilters={filters}
+                            handleClearFilters={clearFilters}
+                          />
+                        )}
+                      </>
+                    )}
 
-                  {(expandedList === null || expandedList === "crew") && (
-                    <TalentList
-                      id="crew"
-                      talents={others}
-                      title="Crew"
-                      isExpanded={expandedList === "crew"}
-                      toggleExpanded={() =>
-                        setExpandedList(expandedList === "crew" ? null : "crew")
-                      }
-                    />
-                  )}
+                    {expandedList === "performingTalent" && (
+                      <TalentList
+                        title="Performing Talent"
+                        talents={categorizedTalents.performingTalent}
+                        onShowAll={() => handleShowAll(null)}
+                        showAll
+                        onApplyFilters={setFilters}
+                        activeFilters={filters}
+                        handleClearFilters={clearFilters}
+                      />
+                    )}
 
-                  {(expandedList === null || expandedList === "creative") && (
-                    <TalentList
-                      id="creative"
-                      talents={others}
-                      title="Creative Management"
-                      isExpanded={expandedList === "creative"}
-                      toggleExpanded={() =>
-                        setExpandedList(
-                          expandedList === "creative" ? null : "creative"
-                        )
-                      }
-                    />
-                  )}
-                </div>
-              )}
-            </div>
+                    {expandedList === "crew" && (
+                      <TalentList
+                        title="Crew"
+                        talents={categorizedTalents.crew}
+                        onShowAll={() => handleShowAll(null)}
+                        showAll
+                        onApplyFilters={setFilters}
+                        activeFilters={filters}
+                        handleClearFilters={clearFilters}
+                      />
+                    )}
+
+                    {expandedList === "creativeManagement" && (
+                      <TalentList
+                        title="Creative Management"
+                        talents={categorizedTalents.creativeManagement}
+                        onShowAll={() => handleShowAll(null)}
+                        showAll
+                        onApplyFilters={setFilters}
+                        activeFilters={filters}
+                        handleClearFilters={clearFilters}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         )}
 
