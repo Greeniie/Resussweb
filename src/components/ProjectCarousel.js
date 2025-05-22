@@ -78,14 +78,14 @@ const ProjectCarousel = () => {
           transition={{ ease: "easeInOut", duration: 0.5 }}
           style={{ display: "flex", whiteSpace: "nowrap", cursor: "grab" }}
           drag="x"
-          dragConstraints={{ left: 0, right: 0 }} // allow free swiping
+          // dragConstraints={{ left: 0, right: 0 }} 
           onDragEnd={(event, info) => {
             const swipePower = Math.abs(info.offset.x) * info.velocity.x;
         
             // You can tweak this number based on the feel you want
-            if (swipePower < -200) {
+            if (swipePower < -100) {
               nextSlide(); // Swipe left, go next
-            } else if (swipePower > 200) {
+            } else if (swipePower > 100) {
               prevSlide(); // Swipe right, go back
             }
           }}

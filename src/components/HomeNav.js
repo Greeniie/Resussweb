@@ -514,14 +514,14 @@ const HomeNav = () => {
             >
               {profile?.singleData?.user?.profile_photo_url ? (
                 <div
-                  className="relative h-[40px] w-[40px] bg-cover overflow-hidden"
+                  className="relative h-[40px] w-[40px] bg-cover overflow-hidden rounded-[5px]"
                   style={{
                     backgroundImage: `url(${profile?.singleData?.user?.profile_photo_url})`,
                   }}
                 ></div>
               ) : (
                 <Avatar
-                  style={{ backgroundColor: "#3f8bcaa1" }}
+                  style={{ backgroundColor: "#3f8bcaa1", borderRadius: '5px' }}
                   icon={<UserOutlined />}
                   size={40}
                   shape="square"

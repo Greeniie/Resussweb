@@ -63,15 +63,13 @@ const FAQ = () => {
                 <span className="w-[90%] text-sm sm:text-base text-[#461378]">
                   {faq.question}
                 </span>
-                {openIndex === index ? (
-                  <div className="h-[30px] w-[30px] rounded-full bg-[#ABB0BA] text-[#FAF9FE] flex items-center justify-center">
-                    <UpOutlined className="text-[14px]" />
-                  </div>
-                ) : (
-                  <div className="h-[30px] w-[30px] rounded-full bg-[#ABB0BA] text-[#FAF9FE] flex items-center justify-center">
-                    <DownOutlined className="text-[14px]" />
-                  </div>
-                )}
+                <div className="p-1 md:p-2 rounded-full bg-[#ABB0BA] text-[#FAF9FE] flex items-center justify-center">
+                  {openIndex === index ? (
+                    <UpOutlined className="text-xs sm:text-sm md:text-[14px]" />
+                  ) : (
+                    <DownOutlined className="text-xs sm:text-sm md:text-[14px]" />
+                  )}
+                </div>
               </button>
               {openIndex === index && (
                 <div className="px-4 py-3 pb-4 text-sm sm:text-base text-gray-600 transition duration-300">

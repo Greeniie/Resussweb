@@ -11,14 +11,14 @@ import testimg3 from "../assets/testimgs/testimg3.png";
 import { Link } from "react-router-dom";
 
 const allImages = [
-  { src: testimg1, tag: "Sponsored job posts", link: "/job-posts" },
-  { src: testimg2, tag: "Trending", link: "/trending" },
-  { src: testimg3, tag: "Events", link: "/events" },
+  { src: testimg1, tag: "Sponsored job post", link: "/jobs", color: '#898A8D'},
+  { src: testimg2, tag: "Trending", link: "/trending", color:'#6633FF' },
+  { src: testimg3, tag: "Events", link: "/events", color: '#6633FF' },
 ];
 
 const smallScreenImages = [
-  { src: testimg2, tag: "Trending", link: "/trending" },
-  { src: testimg3, tag: "Events", link: "/events" },
+  { src: testimg2, tag: "Trending", link: "/trending", color: '#6633FF' },
+  { src: testimg3, tag: "Events", link: "/events", color: '#6633FF'},
 ];
 
 const Carousel = () => {
@@ -54,53 +54,52 @@ const Carousel = () => {
     <div className="relative flex flex-col items-center mt-8 w-full">
       {/* Carousel Container */}
       <div className="relative w-[90%] overflow-hidden">
-      <motion.div
-  className="flex"
-  drag="x"
-  dragConstraints={{ left: 0, right: 0 }} // allow free swiping
-  onDragEnd={(event, info) => {
-    const swipePower = Math.abs(info.offset.x) * info.velocity.x;
+        <motion.div
+          className="flex"
+          drag="x"
+          // dragConstraints={{ left: 0, right: 0 }} 
+          onDragEnd={(event, info) => {
+            const swipePower = Math.abs(info.offset.x) * info.velocity.x;
 
-    // You can tweak this number based on the feel you want
-    if (swipePower < -200) {
-      nextSlide(); // Swipe left, go next
-    } else if (swipePower > 200) {
-      prevSlide(); // Swipe right, go back
-    }
-  }}
-  animate={{ x: `-${index * stepSize}%` }}
-  transition={{ ease: "easeInOut", duration: 0.5 }}
-  style={{ display: "flex", whiteSpace: "nowrap", cursor: "grab" }}
->
-  {extendedImages.map((image, i) => (
-    <Link
-      to={image.link}
-      key={i}
-      className={`relative flex-shrink-0 ${imageWidth} mx-2`}
-    >
-      <div className="text-[#6633FF] py-1 text-[14px] font-bold">
-        {image.tag}
-      </div>
-
-      <img
-        src={image.src}
-        alt={`slide-${i}`}
-        className="w-full h-[100px] md:h-[250px] object-cover rounded-xl"
-      />
-
-      <button className="absolute top-2 p-2 right-[20px] mt-[20px] z-10">
-        <EllipsisOutlined
-          style={{
-            fontSize: "32px",
-            color: "white",
-            fontWeigh: "bold",
+            // You can tweak this number based on the feel you want
+            if (swipePower < -100) {
+              nextSlide(); // Swipe left, go next
+            } else if (swipePower > 100) {
+              prevSlide(); // Swipe right, go back
+            }
           }}
-        />
-      </button>
-    </Link>
-  ))}
-</motion.div>
+          animate={{ x: `-${index * stepSize}%` }}
+          transition={{ ease: "easeInOut", duration: 0.5 }}
+          style={{ display: "flex", whiteSpace: "nowrap", cursor: "grab" }}
+        >
+          {extendedImages.map((image, i) => (
+            <Link
+              to={image.link}
+              key={i}
+              className={`relative flex-shrink-0 ${imageWidth} mx-2`}
+            >
+              <div className={`text-[${image.color}] py-1 text-[14px] font-bold`}>
+                {image.tag}
+              </div>
 
+              <img
+                src={image.src}
+                alt={`slide-${i}`}
+                className="w-full h-[100px] md:h-[250px] object-cover rounded-xl"
+              />
+
+              <button className="absolute top-2 p-2 right-[20px] mt-[20px] z-10">
+                <EllipsisOutlined
+                  style={{
+                    fontSize: "32px",
+                    color: "white",
+                    fontWeigh: "bold",
+                  }}
+                />
+              </button>
+            </Link>
+          ))}
+        </motion.div>
       </div>
 
       {/* Left Arrow Button */}
@@ -155,7 +154,7 @@ const Carousel = () => {
       {/* Extra Image for Small Screens */}
       {isSmallScreen && (
         <Link to={allImages[0].link} className="relative my-4 w-[90%] mx-auto">
-          <div className="text-[#6633FF] py-1 text-sm">{allImages[0].tag}</div>
+          <div className="text-[#898A8D] py-1 text-sm">{allImages[0].tag}</div>
           <img
             src={allImages[0].src}
             alt="extra-img"

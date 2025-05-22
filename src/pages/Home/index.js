@@ -30,6 +30,19 @@ import JobFilters from "../../components/JobFilters";
 import filterimg from "../../assets/images/filtersmobile.png";
 
 const Home = () => {
+  const links = [
+    { tag: "About", url: "/about" },
+    { tag: "Accessibility", url: "/" },
+    { tag: "Help Center", url: "/" },
+    { tag: "Privacy & Terms", url: "/" },
+    { tag: "Advertising", url: "/" },
+    { tag: "Business Services", url: "/" },
+    { tag: "Get the Resuss app ", url: "/" },
+  ];
+
+  var today = new Date();
+  var date = today.getFullYear();
+
   const dispatch = useDispatch();
   const { articles, users, profile, jobs } = useSelector((state) => state);
   const [filters, setFilters] = useState(null);
@@ -184,9 +197,9 @@ const Home = () => {
     setFilters(null);
     setFilteredTalents(talentList);
     localStorage.removeItem("talentFilters");
-  
+
     // Trigger reset in TalentFilters
-    setFilterResetKey(prev => prev + 1);
+    setFilterResetKey((prev) => prev + 1);
   };
 
   const categorizedTalents = useMemo(() => {
@@ -303,7 +316,7 @@ const Home = () => {
             <div className="py-[30px]">
               <img src={ad} alt="ad" className="h-[100px] w-auto mx-auto" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-[90%] mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[50px] w-[90%] mx-auto">
               <div className="md:col-span-2">
                 <div className="text-[#4FD6FA] text-[16px]">Spotlight</div>
 
@@ -334,6 +347,24 @@ const Home = () => {
                 ) : (
                   <TalentSpotlight />
                 )}
+
+                <div className="pt-[50px]">
+                  <div className="flex flex-wrap gap-[10px] pb-[40px] w-[70%]">
+                    {links?.map((l, i) => (
+                      <Link
+                        key={i}
+                        to={l.url}
+                        className="text-[14px] font-[Inter] text-[#ABB0BA]"
+                      >
+                        {l.tag}
+                      </Link>
+                    ))}
+                  </div>
+
+                  <div className="text-[14px] font-[Inter] text-[#898A8D]">
+                    The Resuss Company © {date}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -351,7 +382,10 @@ const Home = () => {
                   {clientsError}
                 </div>
               ) : (
-                <TalentFilters onApplyFilters={applyFilters} filterResetKey={filterResetKey} />
+                <TalentFilters
+                  onApplyFilters={applyFilters}
+                  filterResetKey={filterResetKey}
+                />
               )}
             </div>
 
@@ -594,14 +628,17 @@ const Home = () => {
               >
                 {profile?.singleData?.user?.profile_photo_url ? (
                   <div
-                    className="relative h-[30px] w-[30px] bg-cover" // removed overflow-hidden
+                    className="relative h-[30px] w-[30px] bg-cover rounded-[5px]" // removed overflow-hidden
                     style={{
                       backgroundImage: `url(${profile?.singleData?.user?.profile_photo_url})`,
                     }}
                   ></div>
                 ) : (
                   <Avatar
-                    style={{ backgroundColor: "#3f8bcaa1" }}
+                    style={{
+                      backgroundColor: "#3f8bcaa1",
+                      borderRadius: "5px",
+                    }}
                     icon={<UserOutlined />}
                     size={30}
                     shape="square"
@@ -771,7 +808,10 @@ const Home = () => {
                         style={{ zIndex: 9999 }}
                         className={`fixed inset-0 backdrop-blur-sm bg-white/70 flex sm:justify-end justify-center transition-transform duration-700 ease-in-out`}
                       >
-                        <TalentFilters onApplyFilters={applyFilters} filterResetKey={filterResetKey} />
+                        <TalentFilters
+                          onApplyFilters={applyFilters}
+                          filterResetKey={filterResetKey}
+                        />
                         <button
                           onClick={() => setShowFilters(false)}
                           className="absolute top-4 right-4 text-gray-500"

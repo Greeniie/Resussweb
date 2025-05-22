@@ -46,7 +46,7 @@ const TalentSpotlight = () => {
       {talents.map((talent, index) => (
         <div
           key={index}
-          className="relative h-[310px] w-[50%] bg-contain bg-no-repeat rounded-[25px] overflow-hidden"
+          className="relative h-[330px] w-[60%] bg-cover bg-no-repeat rounded-[25px] overflow-hidden"
           style={{ backgroundImage: `url(${talent.image})` }}
         >
           <div className="flex flex-col gap-[5px] absolute right-[20px] mt-[20px]">
