@@ -10,7 +10,7 @@ import filters from "../assets/images/filters.png";
 import { getProfile } from "../redux/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const TalentFilters = ({ onApplyFilters }) => {
+const TalentFilters = ({ onApplyFilters, filterResetKey }) => {
   const { profile } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -30,6 +30,14 @@ const TalentFilters = ({ onApplyFilters }) => {
       setValue(saved.ageRange || [10, 55]);
     }
   }, []);
+
+  useEffect(() => {
+    // Reset local UI state when resetKey changes
+    setSelectedFilters([]);
+    setSelectedGenders([]);
+    setSelectedRoles([]);
+    setValue([10, 55]);
+  }, [filterResetKey]);
 
   const [isApplying, setIsApplying] = useState(false);
   const [filterApplied, setFilterApplied] = useState(false);

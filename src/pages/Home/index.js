@@ -178,10 +178,15 @@ const Home = () => {
     setFilteredTalents(filtered);
   };
 
+  const [filterResetKey, setFilterResetKey] = useState(0);
+
   const clearFilters = () => {
     setFilters(null);
-    setFilteredTalents(talentList); // reset to full list
+    setFilteredTalents(talentList);
     localStorage.removeItem("talentFilters");
+  
+    // Trigger reset in TalentFilters
+    setFilterResetKey(prev => prev + 1);
   };
 
   const categorizedTalents = useMemo(() => {
@@ -346,7 +351,7 @@ const Home = () => {
                   {clientsError}
                 </div>
               ) : (
-                <TalentFilters onApplyFilters={applyFilters} />
+                <TalentFilters onApplyFilters={applyFilters} filterResetKey={filterResetKey} />
               )}
             </div>
 
@@ -766,7 +771,7 @@ const Home = () => {
                         style={{ zIndex: 9999 }}
                         className={`fixed inset-0 backdrop-blur-sm bg-white/70 flex sm:justify-end justify-center transition-transform duration-700 ease-in-out`}
                       >
-                        <TalentFilters onApplyFilters={applyFilters} />
+                        <TalentFilters onApplyFilters={applyFilters} filterResetKey={filterResetKey} />
                         <button
                           onClick={() => setShowFilters(false)}
                           className="absolute top-4 right-4 text-gray-500"
