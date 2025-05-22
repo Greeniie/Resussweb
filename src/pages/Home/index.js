@@ -12,6 +12,8 @@ import {
   LoadingOutlined,
   EnvironmentOutlined,
   ClockCircleOutlined,
+  CaretDownOutlined,
+  CaretUpOutlined,
 } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { Link, useLocation } from "react-router-dom";
@@ -25,6 +27,7 @@ import { getProfile } from "../../redux/profileSlice";
 import MobileSidebar from "../../components/MobileSidebar";
 import JobList from "../../components/JobList";
 import JobFilters from "../../components/JobFilters";
+import filterimg from "../../assets/images/filtersmobile.png";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -90,14 +93,6 @@ const Home = () => {
   }, [activeTab]);
 
   const [expandedList, setExpandedList] = useState(null); // 'actors', 'crew', 'creative' or null
-
-  const actors = users?.data?.users?.filter(
-    (user) => user.services?.[0]?.name === "Actor"
-  );
-
-  const others = users?.data?.users?.filter(
-    (user) => user.services?.[0]?.name !== "Actor"
-  );
 
   const tabItems = [
     { key: "1", label: "Today" },
@@ -230,6 +225,52 @@ const Home = () => {
     setExpandedList((prev) => (prev === category ? null : category));
   };
 
+  const [showFilters, setShowFilters] = useState(false);
+
+  const renderActiveFilters = () => {
+    if (!filters || Object.keys(filters).length === 0) {
+      return <div className="text-gray-500 text-sm">No filters applied</div>;
+    }
+
+    return (
+      <div className="flex flex-wrap gap-[5px] mt-2">
+        {Object.entries(filters).map(([key, value]) => {
+          if (
+            value === null ||
+            value === undefined ||
+            (Array.isArray(value) && value.length === 0)
+          )
+            return null;
+
+          let displayValue = "";
+
+          if (
+            key === "ageRange" &&
+            Array.isArray(value) &&
+            value.length === 2
+          ) {
+            displayValue = `${value[0]} - ${value[1]}`;
+          } else if (Array.isArray(value)) {
+            displayValue = value.join(", ");
+          } else if (typeof value === "object") {
+            displayValue = JSON.stringify(value);
+          } else {
+            displayValue = value;
+          }
+
+          return (
+            <span
+              key={key}
+              className="text-[12px] mr-2 px-3 py-1 rounded-[30px] bg-[#461378] text-white w-fit"
+            >
+              {key.charAt(0).toUpperCase() + key.slice(1)}: {displayValue}
+            </span>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <div>
       <div className="bg-[#EDEBF4] min-h-screen hidden md:block">
@@ -356,6 +397,24 @@ const Home = () => {
                     </div>
                   ) : (
                     <>
+                      {filters && (
+                        <div className="flex justify-between items-start pb-[20px]">
+                          <div>{renderActiveFilters()}</div>
+                          <button
+                            onClick={clearFilters}
+                            disabled={
+                              !filters || Object.keys(filters).length === 0
+                            }
+                            className={`text-sm font-medium px-3 py-1 rounded-full transition-colors ${
+                              filters && Object.keys(filters).length > 0
+                                ? "bg-[#461378] text-white hover:bg-[#3a0f5d]"
+                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            }`}
+                          >
+                            Clear Filters
+                          </button>
+                        </div>
+                      )}
                       {!expandedList && (
                         <>
                           {categorizedTalents.performingTalent.length > 0 && (
@@ -368,9 +427,6 @@ const Home = () => {
                               onShowAll={() =>
                                 handleShowAll("performingTalent")
                               }
-                              onApplyFilters={setFilters}
-                              activeFilters={filters}
-                              handleClearFilters={clearFilters}
                             />
                           )}
                           {categorizedTalents.crew.length > 0 && (
@@ -378,9 +434,6 @@ const Home = () => {
                               title="Crew"
                               talents={categorizedTalents.crew.slice(0, 8)}
                               onShowAll={() => handleShowAll("crew")}
-                              onApplyFilters={setFilters}
-                              activeFilters={filters}
-                              handleClearFilters={clearFilters}
                             />
                           )}
                           {categorizedTalents.creativeManagement.length > 0 && (
@@ -393,9 +446,6 @@ const Home = () => {
                               onShowAll={() =>
                                 handleShowAll("creativeManagement")
                               }
-                              onApplyFilters={setFilters}
-                              activeFilters={filters}
-                              handleClearFilters={clearFilters}
                             />
                           )}
                         </>
@@ -407,9 +457,6 @@ const Home = () => {
                           talents={categorizedTalents.performingTalent}
                           onShowAll={() => handleShowAll(null)}
                           showAll
-                          onApplyFilters={setFilters}
-                          activeFilters={filters}
-                          handleClearFilters={clearFilters}
                         />
                       )}
 
@@ -419,9 +466,6 @@ const Home = () => {
                           talents={categorizedTalents.crew}
                           onShowAll={() => handleShowAll(null)}
                           showAll
-                          onApplyFilters={setFilters}
-                          activeFilters={filters}
-                          handleClearFilters={clearFilters}
                         />
                       )}
 
@@ -431,9 +475,6 @@ const Home = () => {
                           talents={categorizedTalents.creativeManagement}
                           onShowAll={() => handleShowAll(null)}
                           showAll
-                          onApplyFilters={setFilters}
-                          activeFilters={filters}
-                          handleClearFilters={clearFilters}
                         />
                       )}
                     </>
@@ -694,6 +735,86 @@ const Home = () => {
                   </div>
                 ) : (
                   <>
+                    {/* Mobile Filters Button */}
+                    <div className="pt-[30px] pl-[30px]">
+                      <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="flex gap-[10px] items-center pb-[20px]"
+                      >
+                        <img
+                          src={filterimg}
+                          alt="filter"
+                          className="h-[16px] w-auto"
+                        />
+                        <div className="text-[#898A8D] text-[14px]">
+                          Show filters
+                        </div>
+                        <CaretDownOutlined
+                          style={{
+                            fontSize: "14px",
+                            color: "#898A8D",
+                            transform: showFilters
+                              ? "rotate(180deg)"
+                              : "rotate(0deg)",
+                          }}
+                        />
+                      </button>
+                    </div>
+                    {/* Filters Sidebar */}
+                    {showFilters && (
+                      <div
+                        style={{ zIndex: 9999 }}
+                        className={`fixed inset-0 backdrop-blur-sm bg-white/70 flex sm:justify-end justify-center transition-transform duration-700 ease-in-out`}
+                      >
+                        <TalentFilters onApplyFilters={applyFilters} />
+                        <button
+                          onClick={() => setShowFilters(false)}
+                          className="absolute top-4 right-4 text-gray-500"
+                        >
+                          <div className="block md:hidden">
+                            <div className="flex gap-[10px] items-center">
+                              {/* <img
+                                src={filterimg}
+                                alt="filter"
+                                className="h-[16px] w-auto"
+                              /> */}
+                              <div className="text-[#ff0000] text-[14px]">
+                                Hide filters
+                              </div>
+                              <CaretUpOutlined
+                                style={{
+                                  fontSize: "14px",
+                                  color: "#ff0000",
+                                  transform: showFilters
+                                    ? "rotate(180deg)"
+                                    : "rotate(0deg)",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+                    )}
+
+                    {filters && (
+                      <div className="flex justify-between items-start pb-[20px]">
+                        <div>{renderActiveFilters()}</div>
+                        <button
+                          onClick={clearFilters}
+                          disabled={
+                            !filters || Object.keys(filters).length === 0
+                          }
+                          className={`text-sm font-medium px-3 py-1 rounded-full transition-colors ${
+                            filters && Object.keys(filters).length > 0
+                              ? "bg-[#461378] text-white hover:bg-[#3a0f5d]"
+                              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                          }`}
+                        >
+                          Clear Filters
+                        </button>
+                      </div>
+                    )}
+
                     {!expandedList && (
                       <>
                         {categorizedTalents.performingTalent.length > 0 && (
@@ -704,9 +825,6 @@ const Home = () => {
                               8
                             )}
                             onShowAll={() => handleShowAll("performingTalent")}
-                            onApplyFilters={setFilters}
-                            activeFilters={filters}
-                            handleClearFilters={clearFilters}
                           />
                         )}
                         {categorizedTalents.crew.length > 0 && (
@@ -714,9 +832,6 @@ const Home = () => {
                             title="Crew"
                             talents={categorizedTalents.crew.slice(0, 8)}
                             onShowAll={() => handleShowAll("crew")}
-                            onApplyFilters={setFilters}
-                            activeFilters={filters}
-                            handleClearFilters={clearFilters}
                           />
                         )}
                         {categorizedTalents.creativeManagement.length > 0 && (
@@ -729,9 +844,6 @@ const Home = () => {
                             onShowAll={() =>
                               handleShowAll("creativeManagement")
                             }
-                            onApplyFilters={setFilters}
-                            activeFilters={filters}
-                            handleClearFilters={clearFilters}
                           />
                         )}
                       </>
@@ -743,9 +855,6 @@ const Home = () => {
                         talents={categorizedTalents.performingTalent}
                         onShowAll={() => handleShowAll(null)}
                         showAll
-                        onApplyFilters={setFilters}
-                        activeFilters={filters}
-                        handleClearFilters={clearFilters}
                       />
                     )}
 
@@ -755,9 +864,6 @@ const Home = () => {
                         talents={categorizedTalents.crew}
                         onShowAll={() => handleShowAll(null)}
                         showAll
-                        onApplyFilters={setFilters}
-                        activeFilters={filters}
-                        handleClearFilters={clearFilters}
                       />
                     )}
 
@@ -767,9 +873,6 @@ const Home = () => {
                         talents={categorizedTalents.creativeManagement}
                         onShowAll={() => handleShowAll(null)}
                         showAll
-                        onApplyFilters={setFilters}
-                        activeFilters={filters}
-                        handleClearFilters={clearFilters}
                       />
                     )}
                   </>

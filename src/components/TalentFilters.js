@@ -31,6 +31,9 @@ const TalentFilters = ({ onApplyFilters }) => {
     }
   }, []);
 
+  const [isApplying, setIsApplying] = useState(false);
+  const [filterApplied, setFilterApplied] = useState(false);
+
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedGenders, setSelectedGenders] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState([]);
@@ -96,6 +99,9 @@ const TalentFilters = ({ onApplyFilters }) => {
   };
 
   const handleApplyFilters = () => {
+    setIsApplying(true);
+    setFilterApplied(false);
+
     const filtersToApply = {
       selectedFilters,
       selectedGenders: selectedGenders.includes("All")
@@ -110,7 +116,20 @@ const TalentFilters = ({ onApplyFilters }) => {
     }
 
     localStorage.setItem("talentFilters", JSON.stringify(filtersToApply));
-    onApplyFilters(filtersToApply);
+
+    setTimeout(() => {
+      onApplyFilters(filtersToApply);
+      setIsApplying(false);
+      setFilterApplied(true);
+
+      // Optional: Auto-scroll or close on mobile
+      if (window.innerWidth < 768) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Remove success indicator after a few seconds
+      setTimeout(() => setFilterApplied(false), 2000);
+    }, 800); // Simulate a small delay
   };
 
   return (
@@ -313,11 +332,20 @@ const TalentFilters = ({ onApplyFilters }) => {
           {/* Apply Button */}
           <div className="pt-[20px]">
             <button
+              className={`w-full mt-4 py-2 rounded-lg font-semibold text-white ${
+                isApplying ? "bg-gray-400" : "bg-[#4FD6FA] hover:bg-[#32c3e7]"
+              }`}
+              disabled={isApplying}
               onClick={handleApplyFilters}
-              className="bg-[#4FD6FA] w-full text-white py-[10px] rounded-[8px] text-[14px]"
             >
-              Apply Filters
+              {isApplying ? "Applying..." : "Apply Filters"}
             </button>
+
+            {filterApplied && (
+              <div className="text-center mt-2 text-green-600 text-sm font-medium">
+                ✅ Filters applied successfully!
+              </div>
+            )}
           </div>
         </>
       )}
