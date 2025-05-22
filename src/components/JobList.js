@@ -37,7 +37,7 @@ const JobList = ({ jobs }) => {
             <div className="text-[#898A8D] text-[14px]">Show filters</div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 pt-[20px]">
+        <div className="flex flex-col gap-4 pt-[20px] md:pt-0">
           {jobs.map((job, index) => (
             <React.Fragment>
               {index === 2 && ( // Display the ad after the third article
