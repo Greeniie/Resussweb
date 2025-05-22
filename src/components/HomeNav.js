@@ -532,7 +532,6 @@ const HomeNav = () => {
             </div>
           </Dropdown>
         </div>
-
         {/* Search Modal (Like LinkedIn) */}
         <Modal
           size="lg"
@@ -566,7 +565,7 @@ const HomeNav = () => {
             </div>
           </Modal.Header>
 
-          <Modal.Body className="p-4 md:p-6">
+          <Modal.Body className="p-3 md:p-6">
             <div className="max-h-[70vh] overflow-y-auto pr-2">
               {loadingResults ? (
                 <div className="flex justify-center items-center py-10">
