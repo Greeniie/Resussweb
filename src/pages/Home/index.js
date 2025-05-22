@@ -266,7 +266,7 @@ const Home = () => {
           return (
             <span
               key={key}
-              className="text-[12px] mr-2 px-3 py-1 rounded-[30px] bg-[#461378] text-white w-fit"
+              className="text-[12px] mr-2 px-3 py-1 rounded-[48px] border border-[#ABB0BA] text-[#545454] w-fit"
             >
               {key.charAt(0).toUpperCase() + key.slice(1)}: {displayValue}
             </span>

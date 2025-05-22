@@ -202,7 +202,7 @@ const TalentFilters = ({ onApplyFilters, filterResetKey }) => {
                     key={index}
                     className={`text-[14px] px-[20px] py-[5px] border rounded-[50px] cursor-pointer ${
                       selectedFilters.includes(filter)
-                        ? "bg-[#DFD1E7] text-[#461378] border-[#A388EE]"
+                        ? "bg-[#9900FF] text-[#fff] border-[#9900FF]"
                         : "text-[#545454] border-[#dedede]"
                     } ${
                       filter === "My Location" && !location
@@ -240,13 +240,16 @@ const TalentFilters = ({ onApplyFilters, filterResetKey }) => {
             {showGender && (
               <Form.Group className="flex flex-col gap-3 pb-[20px]">
                 {["All", "Male", "Female"].map((gender) => (
-                  <div key={gender} className="flex items-center gap-2">
+                  <div
+                    key={gender}
+                    className="flex items-center gap-2 text-[#9900FF]"
+                  >
                     <input
                       type="checkbox"
                       id={gender}
                       checked={selectedGenders.includes(gender)}
                       onChange={() => handleGenderChange(gender)}
-                      className="w-5 h-5"
+                      className="w-5 h-5 accent-[#9900FF]"
                     />
                     <label htmlFor={gender} className="text-sm text-[#ABB0BA]">
                       {gender}
@@ -275,7 +278,7 @@ const TalentFilters = ({ onApplyFilters, filterResetKey }) => {
             </div>
             {showAge && (
               <>
-                <div className="flex justify-end my-[10px] text-[#9900ff] text-[12px] font-bold">
+                <div className="flex justify-end my-[10px] text-[#9900FF] text-[12px] font-bold">
                   {value[0]}-{value[1]} yrs
                 </div>
                 <RangeSlider
@@ -317,7 +320,7 @@ const TalentFilters = ({ onApplyFilters, filterResetKey }) => {
                       id={role}
                       checked={selectedRoles.includes(role)}
                       onChange={() => handleRoleChange(role)}
-                      className="w-5 h-5"
+                      className="w-5 h-5 accent-[#9900FF]"
                     />
                     <label htmlFor={role} className="text-sm">
                       {role}
