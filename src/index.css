@@ -246,5 +246,46 @@ code {
 }
 
 
+/* Wrapper container */
+.PhoneInput {
+  width: 100%;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 4px !important;
+  padding: 8px !important;
+}
+
+/* Input field */
+.PhoneInput input {
+  width: 100% !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 16px !important;
+  color: #000 !important;
+  background: transparent !important;
+}
+
+/* Button with country flag */
+.my-phone-button {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 10px !important;
+  cursor: pointer;
+}
+
+/* Dropdown menu */
+.my-phone-container .flag-dropdown {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove default focus outlines if needed */
+.my-phone-input:focus,
+.my-phone-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+
 
 

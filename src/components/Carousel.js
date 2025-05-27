@@ -11,8 +11,8 @@ import testimg3 from "../assets/testimgs/testimg3.jpg";
 import { Link } from "react-router-dom";
 
 const allImages = [
-  { src: testimg1, tag: "Sponsored job post", link: "/jobs", color: "#898A8D" },
-  { src: testimg2, tag: "Trending", link: "/trending", color: "#6633FF" },
+  { src: testimg1, tag: "Sponsored job post", link: "/", color: "#898A8D" },
+  { src: testimg2, tag: "Trending", link: "/", color: "#6633FF" },
   { src: testimg3, tag: "Events", link: "/events", color: "#6633FF" },
 ];
 

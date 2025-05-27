@@ -6,8 +6,8 @@ import {
   EyeOutlined,
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/bootstrap.css";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import NavBar from "../NavBar";
 import { Spinner } from "react-bootstrap";
 
@@ -61,7 +61,6 @@ const Signup4 = ({ nextStep, prevStep, formData, handleInputChange }) => {
 
     return newErrors;
   };
-
 
   useEffect(() => {
     if (formData.referral === undefined || formData.referral === null) {
@@ -129,11 +128,11 @@ const Signup4 = ({ nextStep, prevStep, formData, handleInputChange }) => {
       <Form.Group className="mb-3">
         <Form.Label>Phone Number</Form.Label>
         <PhoneInput
-          country={"ng"}
+          defaultCountry="NG"
           value={formData.phone_number || ""}
           onChange={handlePhoneChange}
-          inputClass="border-[#abb0ba] custom-placeholder"
-          buttonClass="border-[#abb0ba]"
+          placeholder="Enter phone number"
+          countryCallingCodeEditable={false}
         />
         {renderError("phone_number")}
       </Form.Group>
