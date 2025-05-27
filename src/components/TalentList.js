@@ -22,27 +22,33 @@ const TalentList = ({
     if (!filters || Object.keys(filters).length === 0) {
       return <div className="text-gray-500 text-sm">No filters applied</div>;
     }
-  
+
     const { selectedGenders, location, selectedRoles, ageRange } = filters;
-  
+
     const filterChips = [];
-  
-    if (selectedGenders && selectedGenders.length > 0 && !selectedGenders.includes("All")) {
-      filterChips.push(...selectedGenders.map(g => g.charAt(0).toUpperCase() + g.slice(1)));
+
+    if (
+      selectedGenders &&
+      selectedGenders.length > 0 &&
+      !selectedGenders.includes("All")
+    ) {
+      filterChips.push(
+        ...selectedGenders.map((g) => g.charAt(0).toUpperCase() + g.slice(1))
+      );
     }
-  
+
     if (ageRange && ageRange.length === 2) {
       filterChips.push(`${ageRange[0]} - ${ageRange[1]} yrs`);
     }
-  
+
     if (location) {
       filterChips.push(location.charAt(0).toUpperCase() + location.slice(1));
     }
-  
+
     if (selectedRoles && selectedRoles.length > 0) {
       filterChips.push(...selectedRoles);
     }
-  
+
     return (
       <div className="flex flex-wrap gap-[5px] mt-2">
         {filterChips.map((chip, idx) => (
@@ -56,7 +62,6 @@ const TalentList = ({
       </div>
     );
   };
-  
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -195,8 +200,11 @@ const TalentList = ({
                       {fullName || "Unnamed"}
                     </div>
                     <div className="text-[12px] my-[5px] px-3 py-1 rounded-[30px] bg-[#461378] text-white w-fit">
-                      {primaryRole}
+                      <div className="overflow-x-auto whitespace-nowrap">
+                        {primaryRole}
+                      </div>
                     </div>
+
                     <div className="flex items-center gap-1 text-sm">
                       <EnvironmentFilled />
                       {location || "No location"}
