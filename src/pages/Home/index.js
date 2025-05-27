@@ -3,7 +3,7 @@ import HomeNav from "../../components/HomeNav";
 import Carousel from "../../components/Carousel";
 import ad from "../../assets/testimgs/ad.png";
 import adjobpage from "../../assets/testimgs/adjobpage.png";
-import testimg3 from "../../assets/testimgs/testimg3.png";
+import testimg3 from "../../assets/testimgs/testimg3.jpg";
 import messages from "../../assets/menu-icons/messages.png";
 import Articles from "../../components/Articles";
 import TalentSpotlight from "../../components/TalentSpotlight";
@@ -791,15 +791,6 @@ const Home = () => {
                         <div className="text-[#898A8D] text-[14px]">
                           Show filters
                         </div>
-                        <CaretDownOutlined
-                          style={{
-                            fontSize: "14px",
-                            color: "#898A8D",
-                            transform: showFilters
-                              ? "rotate(180deg)"
-                              : "rotate(0deg)",
-                          }}
-                        />
                       </button>
                     </div>
                     {/* Filters Sidebar */}
@@ -826,15 +817,6 @@ const Home = () => {
                               <div className="text-[#ff0000] text-[14px]">
                                 Hide filters
                               </div>
-                              <CaretUpOutlined
-                                style={{
-                                  fontSize: "14px",
-                                  color: "#ff0000",
-                                  transform: showFilters
-                                    ? "rotate(180deg)"
-                                    : "rotate(0deg)",
-                                }}
-                              />
                             </div>
                           </div>
                         </button>

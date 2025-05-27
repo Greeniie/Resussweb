@@ -9,7 +9,7 @@ const Learnmore = () => {
   const learnmore = [
     {
       img: l1,
-      title: "Waner Bros Lands a picture deal with Resuss tool",
+      title: "Warner Bros Lands a picture deal with Resuss tool",
       info: "Championing unity and recognizing the strength it brings to a diverse community.",
     },
     {

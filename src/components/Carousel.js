@@ -7,18 +7,18 @@ import {
 } from "@ant-design/icons";
 import testimg1 from "../assets/testimgs/testimg1.png";
 import testimg2 from "../assets/testimgs/testimg2.png";
-import testimg3 from "../assets/testimgs/testimg3.png";
+import testimg3 from "../assets/testimgs/testimg3.jpg";
 import { Link } from "react-router-dom";
 
 const allImages = [
-  { src: testimg1, tag: "Sponsored job post", link: "/jobs", color: '#898A8D'},
-  { src: testimg2, tag: "Trending", link: "/trending", color:'#6633FF' },
-  { src: testimg3, tag: "Events", link: "/events", color: '#6633FF' },
+  { src: testimg1, tag: "Sponsored job post", link: "/jobs", color: "#898A8D" },
+  { src: testimg2, tag: "Trending", link: "/trending", color: "#6633FF" },
+  { src: testimg3, tag: "Events", link: "/events", color: "#6633FF" },
 ];
 
 const smallScreenImages = [
-  { src: testimg2, tag: "Trending", link: "/trending", color: '#6633FF' },
-  { src: testimg3, tag: "Events", link: "/events", color: '#6633FF'},
+  { src: testimg2, tag: "Trending", link: "/trending", color: "#6633FF" },
+  { src: testimg3, tag: "Events", link: "/events", color: "#6633FF" },
 ];
 
 const Carousel = () => {
@@ -57,7 +57,7 @@ const Carousel = () => {
         <motion.div
           className="flex"
           drag="x"
-          // dragConstraints={{ left: 0, right: 0 }} 
+          // dragConstraints={{ left: 0, right: 0 }}
           onDragEnd={(event, info) => {
             const swipePower = Math.abs(info.offset.x) * info.velocity.x;
 
@@ -78,7 +78,9 @@ const Carousel = () => {
               key={i}
               className={`relative flex-shrink-0 ${imageWidth} mx-2`}
             >
-              <div className={`text-[${image.color}] py-1 text-[14px] font-bold`}>
+              <div
+                className={`text-[${image.color}] py-1 text-[14px] font-bold`}
+              >
                 {image.tag}
               </div>
 
