@@ -52,11 +52,6 @@ const Home = () => {
   const [articlesError, setArticlesError] = useState(null);
   const [clientsError, setClientsError] = useState(null);
   const [jobsError, setJobsError] = useState(null);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleExpanded = () => {
-    setIsExpanded((prev) => !prev);
-  };
 
   const [activeTab, setActiveTab] = useState(() => {
     return localStorage.getItem("homeActiveTab") || "1";
@@ -105,22 +100,11 @@ const Home = () => {
     localStorage.setItem("homeActiveTab", activeTab);
   }, [activeTab]);
 
-  const [expandedList, setExpandedList] = useState(null); // 'actors', 'crew', 'creative' or null
-
   const tabItems = [
     { key: "1", label: "Today" },
     { key: "2", label: "Talent" },
     { key: "3", label: "Jobs" },
   ];
-
-  const talentList = users?.data?.users;
-  const [filteredTalents, setFilteredTalents] = useState(talentList || []);
-
-  useEffect(() => {
-    if (!filters) {
-      setFilteredTalents(talentList || []);
-    }
-  }, [talentList, filters]);
 
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const sidebarRef = useRef(null);
@@ -146,6 +130,17 @@ const Home = () => {
     { name: "Series", color: "#31AAEA" },
     { name: "Other", color: "#3AAB5F" },
   ];
+
+  const [expandedList, setExpandedList] = useState(null); // 'actors', 'crew', 'creative' or null
+
+  const talentList = users?.data?.users;
+  const [filteredTalents, setFilteredTalents] = useState(talentList || []);
+
+  useEffect(() => {
+    if (!filters) {
+      setFilteredTalents(talentList || []);
+    }
+  }, [talentList, filters]);
 
   const applyFilters = (newFilters) => {
     setFilters(newFilters); // update filters state
@@ -245,49 +240,8 @@ const Home = () => {
 
   const [showFilters, setShowFilters] = useState(false);
 
-  const renderActiveFilters = () => {
-    if (!filters || Object.keys(filters).length === 0) {
-      return <div className="text-gray-500 text-sm">No filters applied</div>;
-    }
 
-    return (
-      <div className="flex flex-wrap gap-[5px] mt-2">
-        {Object.entries(filters).map(([key, value]) => {
-          if (
-            value === null ||
-            value === undefined ||
-            (Array.isArray(value) && value.length === 0)
-          )
-            return null;
-
-          let displayValue = "";
-
-          if (
-            key === "ageRange" &&
-            Array.isArray(value) &&
-            value.length === 2
-          ) {
-            displayValue = `${value[0]} - ${value[1]}`;
-          } else if (Array.isArray(value)) {
-            displayValue = value.join(", ");
-          } else if (typeof value === "object") {
-            displayValue = JSON.stringify(value);
-          } else {
-            displayValue = value;
-          }
-
-          return (
-            <span
-              key={key}
-              className="text-[12px] mr-2 px-3 py-1 rounded-[48px] border border-[#ABB0BA] text-[#545454] w-fit"
-            >
-              {key.charAt(0).toUpperCase() + key.slice(1)}: {displayValue}
-            </span>
-          );
-        })}
-      </div>
-    );
-  };
+  console.log(filters)
 
   return (
     <div>
@@ -400,10 +354,12 @@ const Home = () => {
                 </div>
               ) : (
                 <div>
-                  {/* Check if all categories are empty */}
-                  {categorizedTalents.performingTalent.length === 0 &&
-                  categorizedTalents.crew.length === 0 &&
-                  categorizedTalents.creativeManagement.length === 0 ? (
+                  {/* Show no results if all categories empty */}
+                  {(filters && filteredTalents.length === 0) ||
+                  (!filters &&
+                    categorizedTalents.performingTalent.length === 0 &&
+                    categorizedTalents.crew.length === 0 &&
+                    categorizedTalents.creativeManagement.length === 0) ? (
                     <div className="flex flex-col items-center justify-center py-20 text-center text-gray-600">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -436,84 +392,79 @@ const Home = () => {
                     </div>
                   ) : (
                     <>
-                      {filters && (
-                        <div className="flex justify-between items-start pb-[20px]">
-                          <div>{renderActiveFilters()}</div>
-                          <button
-                            onClick={clearFilters}
-                            disabled={
-                              !filters || Object.keys(filters).length === 0
-                            }
-                            className={`text-sm font-medium px-3 py-1 rounded-full transition-colors ${
-                              filters && Object.keys(filters).length > 0
-                                ? "bg-[#461378] text-white hover:bg-[#3a0f5d]"
-                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            }`}
-                          >
-                            Clear Filters
-                          </button>
-                        </div>
-                      )}
-                      {!expandedList && (
+                      {filters === null ? (
                         <>
-                          {categorizedTalents.performingTalent.length > 0 && (
+                          {!expandedList && (
+                            <>
+                              {categorizedTalents.performingTalent.length >
+                                0 && (
+                                <TalentList
+                                  title="Performing Talent"
+                                  talents={categorizedTalents.performingTalent.slice(
+                                    0,
+                                    8
+                                  )}
+                                  onShowAll={() =>
+                                    handleShowAll("performingTalent")
+                                  }
+                                />
+                              )}
+                              {categorizedTalents.crew.length > 0 && (
+                                <TalentList
+                                  title="Crew"
+                                  talents={categorizedTalents.crew.slice(0, 8)}
+                                  onShowAll={() => handleShowAll("crew")}
+                                />
+                              )}
+                              {categorizedTalents.creativeManagement.length >
+                                0 && (
+                                <TalentList
+                                  title="Creative Management"
+                                  talents={categorizedTalents.creativeManagement.slice(
+                                    0,
+                                    8
+                                  )}
+                                  onShowAll={() =>
+                                    handleShowAll("creativeManagement")
+                                  }
+                                />
+                              )}
+                            </>
+                          )}
+
+                          {expandedList === "performingTalent" && (
                             <TalentList
                               title="Performing Talent"
-                              talents={categorizedTalents.performingTalent.slice(
-                                0,
-                                8
-                              )}
-                              onShowAll={() =>
-                                handleShowAll("performingTalent")
-                              }
+                              talents={categorizedTalents.performingTalent}
+                              onShowAll={() => handleShowAll(null)}
+                              showAll
                             />
                           )}
-                          {categorizedTalents.crew.length > 0 && (
+
+                          {expandedList === "crew" && (
                             <TalentList
                               title="Crew"
-                              talents={categorizedTalents.crew.slice(0, 8)}
-                              onShowAll={() => handleShowAll("crew")}
+                              talents={categorizedTalents.crew}
+                              onShowAll={() => handleShowAll(null)}
+                              showAll
                             />
                           )}
-                          {categorizedTalents.creativeManagement.length > 0 && (
+
+                          {expandedList === "creativeManagement" && (
                             <TalentList
                               title="Creative Management"
-                              talents={categorizedTalents.creativeManagement.slice(
-                                0,
-                                8
-                              )}
-                              onShowAll={() =>
-                                handleShowAll("creativeManagement")
-                              }
+                              talents={categorizedTalents.creativeManagement}
+                              onShowAll={() => handleShowAll(null)}
+                              showAll
                             />
                           )}
                         </>
-                      )}
-
-                      {expandedList === "performingTalent" && (
+                      ) : (
                         <TalentList
-                          title="Performing Talent"
-                          talents={categorizedTalents.performingTalent}
-                          onShowAll={() => handleShowAll(null)}
-                          showAll
-                        />
-                      )}
-
-                      {expandedList === "crew" && (
-                        <TalentList
-                          title="Crew"
-                          talents={categorizedTalents.crew}
-                          onShowAll={() => handleShowAll(null)}
-                          showAll
-                        />
-                      )}
-
-                      {expandedList === "creativeManagement" && (
-                        <TalentList
-                          title="Creative Management"
-                          talents={categorizedTalents.creativeManagement}
-                          onShowAll={() => handleShowAll(null)}
-                          showAll
+                          talents={filteredTalents}
+                          title="results"
+                          filters={filters}
+                          clearFilters={clearFilters}
                         />
                       )}
                     </>
@@ -741,44 +692,45 @@ const Home = () => {
               </div>
             ) : (
               <div>
-                {/* Show no results if all categories empty */}
-                {categorizedTalents.performingTalent.length === 0 &&
-                categorizedTalents.crew.length === 0 &&
-                categorizedTalents.creativeManagement.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-20 text-center text-gray-600">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-24 w-24 mb-4 text-gray-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <h2 className="text-2xl font-semibold mb-2">
-                      No Talents Found
-                    </h2>
-                    <p className="max-w-md mb-6">
-                      Sorry, we couldn't find any talents matching your filters.
-                      Try adjusting or clearing your filters to see more
-                      results.
-                    </p>
-                    <button
-                      onClick={clearFilters}
-                      className="px-5 py-2 bg-[#461378] text-white rounded-lg hover:bg-[#3a0f63] transition"
-                    >
-                      Clear Filters
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    {/* Mobile Filters Button */}
-                    <div className="pt-[30px] pl-[30px]">
+                  {/* Show no results if all categories empty */}
+                  {(filters && filteredTalents.length === 0) ||
+                  (!filters &&
+                    categorizedTalents.performingTalent.length === 0 &&
+                    categorizedTalents.crew.length === 0 &&
+                    categorizedTalents.creativeManagement.length === 0) ? (
+                    <div className="flex flex-col items-center justify-center py-20 text-center text-gray-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-24 w-24 mb-4 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <h2 className="text-2xl font-semibold mb-2">
+                        No Talents Found
+                      </h2>
+                      <p className="max-w-md mb-6">
+                        Sorry, we couldn't find any talents matching your
+                        filters. Try adjusting or clearing your filters to see
+                        more results.
+                      </p>
+                      <button
+                        onClick={clearFilters}
+                        className="px-5 py-2 bg-[#461378] text-white rounded-lg hover:bg-[#3a0f63] transition"
+                      >
+                        Clear Filters
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="pt-[30px] pl-[30px]">
                       <button
                         onClick={() => setShowFilters(!showFilters)}
                         className="flex gap-[10px] items-center pb-[20px]"
@@ -822,89 +774,84 @@ const Home = () => {
                         </button>
                       </div>
                     )}
+                      {filters === null ? (
+                        <>
+                          {!expandedList && (
+                            <>
+                              {categorizedTalents.performingTalent.length >
+                                0 && (
+                                <TalentList
+                                  title="Performing Talent"
+                                  talents={categorizedTalents.performingTalent.slice(
+                                    0,
+                                    4
+                                  )}
+                                  onShowAll={() =>
+                                    handleShowAll("performingTalent")
+                                  }
+                                />
+                              )}
+                              {categorizedTalents.crew.length > 0 && (
+                                <TalentList
+                                  title="Crew"
+                                  talents={categorizedTalents.crew.slice(0, 4)}
+                                  onShowAll={() => handleShowAll("crew")}
+                                />
+                              )}
+                              {categorizedTalents.creativeManagement.length >
+                                0 && (
+                                <TalentList
+                                  title="Creative Management"
+                                  talents={categorizedTalents.creativeManagement.slice(
+                                    0,
+                                    4
+                                  )}
+                                  onShowAll={() =>
+                                    handleShowAll("creativeManagement")
+                                  }
+                                />
+                              )}
+                            </>
+                          )}
 
-                    {filters && (
-                      <div className="flex justify-between items-start pb-[20px]">
-                        <div>{renderActiveFilters()}</div>
-                        <button
-                          onClick={clearFilters}
-                          disabled={
-                            !filters || Object.keys(filters).length === 0
-                          }
-                          className={`text-sm font-medium px-3 py-1 rounded-full transition-colors ${
-                            filters && Object.keys(filters).length > 0
-                              ? "bg-[#461378] text-white hover:bg-[#3a0f5d]"
-                              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                          }`}
-                        >
-                          Clear Filters
-                        </button>
-                      </div>
-                    )}
+                          {expandedList === "performingTalent" && (
+                            <TalentList
+                              title="Performing Talent"
+                              talents={categorizedTalents.performingTalent}
+                              onShowAll={() => handleShowAll(null)}
+                              showAll
+                            />
+                          )}
 
-                    {!expandedList && (
-                      <>
-                        {categorizedTalents.performingTalent.length > 0 && (
-                          <TalentList
-                            title="Performing Talent"
-                            talents={categorizedTalents.performingTalent.slice(
-                              0,
-                              8
-                            )}
-                            onShowAll={() => handleShowAll("performingTalent")}
-                          />
-                        )}
-                        {categorizedTalents.crew.length > 0 && (
-                          <TalentList
-                            title="Crew"
-                            talents={categorizedTalents.crew.slice(0, 8)}
-                            onShowAll={() => handleShowAll("crew")}
-                          />
-                        )}
-                        {categorizedTalents.creativeManagement.length > 0 && (
-                          <TalentList
-                            title="Creative Management"
-                            talents={categorizedTalents.creativeManagement.slice(
-                              0,
-                              8
-                            )}
-                            onShowAll={() =>
-                              handleShowAll("creativeManagement")
-                            }
-                          />
-                        )}
-                      </>
-                    )}
+                          {expandedList === "crew" && (
+                            <TalentList
+                              title="Crew"
+                              talents={categorizedTalents.crew}
+                              onShowAll={() => handleShowAll(null)}
+                              showAll
+                            />
+                          )}
 
-                    {expandedList === "performingTalent" && (
-                      <TalentList
-                        title="Performing Talent"
-                        talents={categorizedTalents.performingTalent}
-                        onShowAll={() => handleShowAll(null)}
-                        showAll
-                      />
-                    )}
-
-                    {expandedList === "crew" && (
-                      <TalentList
-                        title="Crew"
-                        talents={categorizedTalents.crew}
-                        onShowAll={() => handleShowAll(null)}
-                        showAll
-                      />
-                    )}
-
-                    {expandedList === "creativeManagement" && (
-                      <TalentList
-                        title="Creative Management"
-                        talents={categorizedTalents.creativeManagement}
-                        onShowAll={() => handleShowAll(null)}
-                        showAll
-                      />
-                    )}
-                  </>
-                )}
-              </div>
+                          {expandedList === "creativeManagement" && (
+                            <TalentList
+                              title="Creative Management"
+                              talents={categorizedTalents.creativeManagement}
+                              onShowAll={() => handleShowAll(null)}
+                              showAll
+                            />
+                          )}
+                        </>
+                      ) : (
+                        <TalentList
+                          talents={filteredTalents}
+                          title="results"
+                          filters={filters}
+                          clearFilters={clearFilters}
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
             )}
           </div>
         )}

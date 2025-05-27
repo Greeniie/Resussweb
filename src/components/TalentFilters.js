@@ -54,6 +54,7 @@ const TalentFilters = ({ onApplyFilters, filterResetKey }) => {
   const [showTalents, setShowTalents] = useState(true);
 
   const [value, setValue] = useState([10, 55]);
+  const [ageTouched, setAgeTouched] = useState(false);
 
   const filterCategories = [
     "My Location",
