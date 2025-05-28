@@ -289,6 +289,8 @@ const HomeNav = () => {
     return () => clearTimeout(delayDebounce);
   }, [searchValue]);
 
+  const [hovered, setHovered] = useState(null);
+
   return (
     <nav className="homenavbar">
       <div className="md:hidden">
@@ -476,28 +478,37 @@ const HomeNav = () => {
                 icon: messages,
                 activeIcon: messagesactive,
               },
-            ].map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex flex-col items-center w-[50px] hover:text-[#9900FF] ${
-                  location.pathname === item.path
-                    ? "text-[#9900FF]"
-                    : "text-[#ABB0BA]"
-                }`}
-              >
-                <img
-                  src={
-                    location.pathname === item.path
-                      ? item.activeIcon
-                      : item.icon
-                  }
-                  alt={item.name}
-                  className="h-[20px] w-auto object-cover object-center"
-                />
-                <div className="text-[10px]">{item.name}</div>
-              </Link>
-            ))}
+            ].map((item) => {
+              const isActive = location.pathname === item.path;
+              const isHovered = hovered === item.path;
+
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onMouseEnter={() => setHovered(item.path)}
+                  onMouseLeave={() => setHovered(null)}
+                  className={`flex flex-col items-center w-[50px] ${
+                    isActive || isHovered ? "text-[#9900FF]" : "text-[#ABB0BA]"
+                  }`}
+                >
+                  <img
+                    src={isActive || isHovered ? item.activeIcon : item.icon}
+                    alt={item.name}
+                    className="h-[20px] w-auto object-cover object-center"
+                  />
+                  <div
+                    className={`text-[10px]  ${
+                      isActive || isHovered
+                        ? "text-[#9900ff]"
+                        : "text-[#ABB0BA]"
+                    }`}
+                  >
+                    {item.name}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Avatar */}
@@ -521,7 +532,7 @@ const HomeNav = () => {
                 ></div>
               ) : (
                 <Avatar
-                  style={{ backgroundColor: "#3f8bcaa1", borderRadius: '5px' }}
+                  style={{ backgroundColor: "#3f8bcaa1", borderRadius: "5px" }}
                   icon={<UserOutlined />}
                   size={40}
                   shape="square"

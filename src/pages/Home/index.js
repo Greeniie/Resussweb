@@ -240,9 +240,6 @@ const Home = () => {
 
   const [showFilters, setShowFilters] = useState(false);
 
-
-  console.log(filters)
-
   return (
     <div>
       <div className="bg-[#EDEBF4] min-h-screen hidden md:block">
@@ -303,7 +300,7 @@ const Home = () => {
                 )}
 
                 <div className="pt-[50px]">
-                  <div className="flex flex-wrap gap-[10px] pb-[40px] w-[70%]">
+                  <div className="flex flex-wrap gap-[10px] pb-[20px] w-[70%]">
                     {links?.map((l, i) => (
                       <Link
                         key={i}
